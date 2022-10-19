@@ -1,0 +1,4 @@
+ROS_SETUP="/home/uwarl/UWARL_catkin_ws/devel/setup.bash"
+ROS_IP="192.168.1.11"
+SUMMIT_PARAMS_ENV="/home/uwarl/uwarl-robot_configs/summit/summitxl_params.env"
+

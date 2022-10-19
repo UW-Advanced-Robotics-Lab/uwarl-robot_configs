@@ -1,0 +1,23 @@
+[Unit]
+Description=ROS Master
+After=network-online.target
+Wants=network-online.target
+AssertPathExists=/opt/ros
+
+[Service]
+Type=simple
+SyslogIdentifier=ros_core
+TasksMax=infinity
+KillSignal=SIGINT
+Environment=ROS_PORT=11311
+Environment=ROS_DISTRO=melodic
+EnvironmentFile=-/etc/ros/environment
+EnvironmentFile=-%h/.ros/environment
+ExecStart=/bin/bash -c ' \
+  source $${SUMMIT_PARAMS_ENV} && \
+  source $${ROS_SETUP:=/opt/ros/$$ROS_DISTRO/setup.bash} && \
+  exec /opt/ros/$$ROS_DISTRO/bin/roscore -p $$ROS_PORT \
+'
+
+[Install]
+WantedBy=default.target
