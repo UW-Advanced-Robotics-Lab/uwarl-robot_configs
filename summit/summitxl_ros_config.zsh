@@ -22,5 +22,5 @@ echo "[UWARL-ROS-Config] ROS MASTER @ " $ROS_IP
 ## kill processor:
 alias kill-ros="ps aux  | grep -e ros | awk '{print $2}' | xargs -i -exec kill -9 {}"
 alias source_ws="source $ROS_CATKIN_WS/devel/setup.zsh"
-
+alias git-status-all="find . -maxdepth 1 -type d -execdir sh -c 'cd {}; pwd ;git status; git remote -v; echo \"----------\n\"' \;"
 
