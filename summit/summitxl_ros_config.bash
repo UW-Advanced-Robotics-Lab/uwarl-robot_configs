@@ -7,7 +7,7 @@ export UWARL_CONFIGS="$HOME/uwarl-robot_configs/summit"
 
 ## ROS Env ##
 echo "[UWARL-ROS-Config] Sourcing ros ws @ $ROS_CATKIN_WS"
-source /opt/ros/melodic/setup.bash
+source /opt/ros/$ROS_DISTRO/setup.bash
 source $ROS_CATKIN_WS/devel/setup.bash
 source $UWARL_CONFIGS/summitxl_params.env
 
