@@ -99,6 +99,8 @@ else
     if [[ $USER = "uwarl" ]]; then
         ic " Adlink MXE211 Summit PC detected!" 
         ic " ==================================================="
+        create_catkin_ws
+        load_submodules "${SUBMODULES_FOR_SUMMIT[@]}"
         load_robot_env
 
     elif [[ $USER = "uwarl-orin" ]]; then
