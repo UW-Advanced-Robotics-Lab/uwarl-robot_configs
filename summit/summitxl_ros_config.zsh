@@ -2,6 +2,7 @@
 
 ### ROS RELATED ###
 ## VAR ##
+export DISPLAY=:0 # make sure it only display on the default screen
 export ROS_CATKIN_WS="$HOME/UWARL_catkin_ws"
 export UWARL_CONFIGS="$HOME/uwarl-robot_configs/summit"
 

@@ -1,0 +1,1 @@
+alias catkin_build="catkin build -DPYTHON_EXECUTABLE=/usr/bin/python3" # for noetic on u20
