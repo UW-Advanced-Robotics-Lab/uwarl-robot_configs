@@ -28,7 +28,7 @@ ic " ROS MASTER @ $ROS_IP"
 
 ## Alias Commnads ##
 ## ROS src:
-alias source_ws="source $ROS_CATKIN_WS/$ROS_DISTRO/setup.zsh"
+alias source_ws="source $ROS_CATKIN_WS/$ROS_DISTRO/devel/setup.zsh"
 
 ## Custom Shortcuts:
 ic " Sourcing shortcuts @ $UWARL_CONFIGS/scripts/shortcuts.sh"
