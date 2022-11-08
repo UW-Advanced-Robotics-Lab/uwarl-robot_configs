@@ -1,31 +1,40 @@
 #!/usr/bin/env zsh
-
+#################################################################
 ### ROS RELATED ###
 ## VAR ##
 export DISPLAY=:0 # make sure it only display on the default screen
 export ROS_CATKIN_WS="$HOME/UWARL_catkin_ws"
-export UWARL_CONFIGS="$HOME/uwarl-robot_configs/summit"
+export UWARL_CONFIGS="$HOME/uwarl-robot_configs"
+export UWARL_SUMMIT_CONFIGS="$HOME/uwarl-robot_configs/summit"
+ic () {
+    echo "[UWARL-ROS-Config] $1"
+}
 
+#################################################################
+ic " === BEGIN ==="
 ## ROS Env ##
-echo "[UWARL-ROS-Config] Sourcing ros ws @ $ROS_CATKIN_WS"
-source /opt/ros/melodic/setup.zsh
+ic " Sourcing ros ws @ $ROS_CATKIN_WS"
+source /opt/ros/$ROS_DISTRO/setup.zsh
 source $ROS_CATKIN_WS/devel/setup.zsh
-source $UWARL_CONFIGS/summitxl_params.env
+ic " Sourcing robot params @ $UWARL_SUMMIT_CONFIGS"
+source $UWARL_SUMMIT_CONFIGS/summitxl_params.env
 
 ## ROS Networks ##
 #export ROS_MASTER_URI=http://192.168.1.11:11311/
 #export ROS_IP=192.168.1.11
 
-echo "[UWARL-ROS-Config] ROS MASTER @ " $ROS_MASTER_URI
-echo "[UWARL-ROS-Config] ROS MASTER @ " $ROS_IP
+ic " ROS MASTER @ $ROS_MASTER_URI"
+ic " ROS MASTER @ $ROS_IP"
 
 ## Alias Commnads ##
-## kill processor:
-alias kill-ros="ps aux  | grep -e ros | awk '{print $2}' | xargs -i -exec kill -9 {}"
 ## ROS src:
-alias source_ws="source $ROS_CATKIN_WS/devel/setup.zsh"
-## Git Batch Shortcuts:
-alias git-status-all="find . -maxdepth 1 -type d -execdir sh -c 'cd {}; echo \"[Git {}]\"; git status; git remote -v; echo \"----------\n\"' \;"
-alias git-push-all="find . -maxdepth 1 -type d -execdir sh -c 'cd {}; echo \"[Pushing {}]\"; git push; echo \"----------\n\"' \;"
-alias git-fetch-all="find . -maxdepth 1 -type d -execdir sh -c 'cd {}; echo \"[Fetching {}]\"; git fetch; echo \"----------\n\"' \;"
-alias git-pull-all="find . -maxdepth 1 -type d -execdir sh -c 'cd {}; echo \"[Fetching {}]\"; git pull; echo \"----------\n\"' \;"
+alias source_ws="source $ROS_CATKIN_WS/$ROS_DISTRO/setup.zsh"
+
+## Custom Shortcuts:
+ic " Sourcing shortcuts @ $UWARL_CONFIGS/scripts/shortcuts.sh"
+source "$UWARL_CONFIGS/scripts/shortcuts.sh"
+
+ic " Sourcing \`\$ git_status_ws\` command @ $UWARL_CONFIGS/scripts/git_status_ws.sh"
+alias git_status_ws="zsh $UWARL_CONFIGS/scripts/git_status_ws.sh"
+
+ic " === COMPLETE ==="
