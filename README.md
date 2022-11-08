@@ -5,6 +5,19 @@ This repo will keep track of the configuration files
 [TODO]
 
 ## SUMMIT:
+### ⭐ Local Build (Off-robot PCs):
+
+1. Clone configurations: 
+    ```bash
+    $ cd ~ && git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-robot_configs.git
+    ```
+
+2. add to `~/zshrc/bashrc` for terminals:
+    ```bash
+    ### >>> Custom entries:
+    source /home/{user}/uwarl-robot_configs/summit/summitxl_ros_config.zsh
+    ### <<<< EOF .
+    ```
 
 ### [⭐ A better version] RC Config for ROS and devices
 
