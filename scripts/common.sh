@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-# export UWARL_catkin_ws_branch="waterloo_steel/adlink-mxe211-melodic/dev/v1.0.0"
-export UWARL_catkin_ws_branch="waterloo_steel/universal/local-pc/develop/jx"
+export UWARL_catkin_ws_branch="waterloo_steel/adlink-mxe211-melodic/dev/v1.0.0"
+# export UWARL_catkin_ws_branch="waterloo_steel/universal/local-pc/develop/jx"
 SUBMODULES_FOR_PC=(
     "multimap_server_msgs"
     "system_monitor"
