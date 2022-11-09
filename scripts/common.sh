@@ -68,3 +68,21 @@ function ic_wrn () {
     echo -e "${CYAN}[UWARL-Robot_Config]${NC} ${YELLOW} $1 ${NC}"
 }
 
+
+function cat_summit_env() {
+    ic_wrn " [SUMMIT ENV CONFIG]: "
+    ic     "    - ROBOT_ID                : $ROBOT_ID"
+    ic     "    - ROBOT_XACRO             : $ROBOT_XACRO"
+    ic     "    - ROBOT_XACRO_PACKAGE     : $ROBOT_XACRO_PACKAGE"
+    ic     "    - ROBOT_GEARBOX           : $ROBOT_GEARBOX"
+    ic     "    - ROBOT_KINEMATICS        : $ROBOT_KINEMATICS"
+    ic     "    - ROBOT_WHEEL_DIAMETER    : $ROBOT_WHEEL_DIAMETER"
+    ic     "    - ROBOT_TRACK_WIDTH       : $ROBOT_TRACK_WIDTH"
+    ic     "    - ROBOT_WHEEL_BASE        : $ROBOT_WHEEL_BASE"
+    ic     "    - ROBOT_HAS_ENCODER       : $ROBOT_HAS_ENCODER"
+    ic     "    - ROBOT_HAS_FRONT_LASER   : $ROBOT_HAS_FRONT_LASER"
+    ic     "    - ROBOT_FRONT_LASER_MODEL : $ROBOT_FRONT_LASER_MODEL"
+    ic     "    - ROBOT_FRONT_LASER_PORT  : $ROBOT_FRONT_LASER_PORT"
+    ic     "    - ROBOT_FRONT_LASER_IP    : $ROBOT_FRONT_LASER_IP"
+    ic     "    - ROBOT_PAD_MODEL         : $ROBOT_PAD_MODEL"
+}

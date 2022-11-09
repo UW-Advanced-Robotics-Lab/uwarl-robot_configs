@@ -20,6 +20,12 @@ else
     alias build_ws="cd $ROS_CATKIN_WS && catkin build -DPYTHON_EXECUTABLE=/usr/bin/python3" # for noetic on u20
 fi
 
+## ROS src:
+alias source_ws="source $ROS_CATKIN_WS/devel/setup.zsh"
+alias source_zsh="source $HOME/.zshrc"
+alias cd_ws="cd $ROS_CATKIN_WS/src"
+alias cd_config="cd $UWARL_CONFIGS"
+
 
 
 

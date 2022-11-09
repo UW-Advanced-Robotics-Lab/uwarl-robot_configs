@@ -24,13 +24,11 @@ ic " ROS MASTER @ $ROS_MASTER_URI"
 ic " ROS MASTER @ $ROS_IP"
 
 ## Alias Commnads ##
-## ROS src:
-alias source_ws="source $ROS_CATKIN_WS/devel/setup.zsh"
-alias source_zsh="source $HOME/.zshrc"
-alias cd_ws="cd $ROS_CATKIN_WS/src"
-
 ## Custom Shortcuts:
 ic " Sourcing shortcuts @ $UWARL_CONFIGS/scripts/shortcuts.sh"
 source "$UWARL_CONFIGS/scripts/shortcuts.sh"
+
+## Check Status:
+cat_summit_env
 
 ic " === COMPLETE ==="
