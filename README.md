@@ -1,21 +1,26 @@
 # uwarl-robot_configs
-This repo will keep track of the configuration files
+This repo will keep track of the configuration files.
+This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws`
 
-
-## ⭐ Local Build (non-robot PCs):
-
+## ⭐ Common Instruction on `UWARL_catkin_ws` [Local PC / Summit / WAM] (Melodic/Noetic):
 1. Clone configurations: 
     ```zsh
     $ cd ~ && git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-robot_configs.git
     ```
 2. Install the repo with auto-script:
     ```zsh
-    $ cd ~ && ./uwarl-robot_configs/install_config.zsh
+    $ cd ~ && ./uwarl-robot_configs/scripts/auto-config_UWARL_catkin_ws.zsh
     ```
 3. setup python env for ROS Noetic `$ conda create -n ros-env python=3.8`
 4. Activate env: `$ source activate ros-env`
 5. Cd workspace: `$ cd $HOME/UWARL_catkin_ws`
 6. Build with: `$ catkin_build_noetic` 
+
+### Shortcuts:
+1. To build workspace `$ build_ws`
+2. To update workspace `$ update_ws` to auto-update necessary submodules (depending on PC) under `UWARL_catkin_ws`
+3. To check workspace status: `$ check_ws_status` to overview the submodule status
+
 ## WAM:
 [TODO]
 
@@ -86,19 +91,7 @@ This repo will keep track of the configuration files
     $ journalctl --user --user-unit=roscorelaunch@summit_xl_bringup:summit_xl_complete.launch.service
     # live:
     $ journalctl --follow --user --user-unit=roscorelaunch@summit_xl_bringup:summit_xl_complete.launch.service
-    ```
-
-- source the configuration:
-    - [Auto]: `$ cd ~ && ./uwarl-robot_configs/install_config.zsh`
-    - [Manually] add to `~/zshrc/bashrc` for terminals:
-        ```zsh
-        ### >>> Custom entries:
-        source /home/uwarl/uwarl-robot_configs/summit/summitxl_ros_config.zsh
-        # source /home/uwarl/uwarl-robot_configs/summit/summitxl_ros_config.bash # bash
-        ### <<<< EOF .
-        ```
-
-    
+    ```    
 
 #### summitxl_params.env
 
