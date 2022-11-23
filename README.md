@@ -1,8 +1,9 @@
 # uwarl-robot_configs
 This repo will keep track of the configuration files.
-This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws`
+This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` from repo: https://github.com/UW-Advanced-Robotics-Lab/UWARL_catkin_ws and load necessary submodules needed per hardware configuration automatically.
 
 ## ⭐ Common Instruction on `UWARL_catkin_ws` [Local PC / Summit / WAM] (Melodic/Noetic):
+0. Make sure your computer is registered with SSH certification from GitHub, as some of the dependencies are private.
 1. Clone configurations: 
     ```zsh
     $ cd ~ && git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-robot_configs.git

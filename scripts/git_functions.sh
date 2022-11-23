@@ -23,7 +23,7 @@ function create_catkin_ws(){
     mkdir -p $ROS_CATKIN_WS/src
     # clone --> to the src/
     ic_wrn ">-- Cloning uwarl-robot_configs @ $ROS_CATKIN_WS/src"
-    git clone git@github.com:UW-Advanced-Robotics-Lab/SUMMIT-catkin_ws.git $ROS_CATKIN_WS/src
+    git clone git@github.com:UW-Advanced-Robotics-Lab/UWARL_catkin_ws.git $ROS_CATKIN_WS/src
     # checkout branch:
     ic_wrn ">-- Checking out branch $UWARL_catkin_ws_branch @ $ROS_CATKIN_WS/src"
     cd $ROS_CATKIN_WS/src && git checkout $UWARL_catkin_ws_branch
@@ -80,4 +80,48 @@ function check_submodule_status(){
     done
     
     ic "x- Done indexing submodules."
+}
+
+
+function install_ros_noetic(){
+    ic_wrn "[Installing ROS Noetic] ..."
+
+    ic "> Appending the ROS Noetic package list to sources.list"
+    sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu ${version} main\" > /etc/apt/sources.list.d/ros-latest.list"
+
+    #Checking file added or not
+    if [ ! -e /etc/apt/sources.list.d/ros-latest.list ]; then
+        ic_err ">>> {Error: Unable to add sources.list, exiting}"
+        exit 0
+    else
+        ic_wrn ">>> ROS Noetic Package is now in the list!"
+    fi
+
+    ic "> Install Curl"
+    sudo apt install curl
+
+    ic "> Curling ROS Keys ..."
+    ret=$(curl -sSL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' | sudo apt-key add -)
+
+    case $ret in
+        "OK" )
+            echo ">>> [x] Done!"
+        ;;
+        *)
+            echo ">>> {ERROR: Unable to add ROS keys}"
+            exit 0
+    esac
+
+    ic "> Updating ..."
+    sudo apt update
+    ic "> Installing ROS ... (might take a while)"
+    sudo apt install -y ros-noetic-desktop-full
+    source /opt/ros/noetic/setup.zsh
+    ic_wrn "x- Done ROS installation."
+
+    ic "> install Catkin Build tools ... "
+    sudo apt-get install python3-pip
+    sudo pip3 install -U catkin_tools
+    catkin config --extend /opt/ros/noetic
+    ic_wrn "x- Done Catkin Tools"
 }
