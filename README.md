@@ -22,6 +22,32 @@ This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` f
 2. To update workspace `$ update_ws` to auto-update necessary submodules (depending on PC) under `UWARL_catkin_ws`
 3. To check workspace status: `$ check_ws_status` to overview the submodule status
 
+## File Tree:
+```bash
+# lastly modified by Jack [Nov. 25, 2022] @[#6c20a3]
+.
+├── README.md                                              # : instructions
+├── scripts                                           # [bash scripts]
+│   ├── auto-config_UWARL_catkin_ws.zsh                    # : auto-install `UWARL_catkin_ws`
+│   ├── common.sh                                          # : common configurations
+│   ├── git_functions.sh                                   # : some bash functions
+│   └── shortcuts.sh                                       # : aliased shortcuts
+├── summit                                            # [summit specific]
+│   ├── install_geographiclib_datasets.sh                  # : a necessary script to config summit
+│   ├── rgbd_summit.rviz                                   # : rviz [ARCHIVED]
+│   ├── ros-melodic-robotnik-msgs_2.2.0-0bionic_amd64.deb  # : a custom built deb package for melodic summit hardware
+│   ├── summitxl_params.env                                # : summit parameters
+│   ├── summitxl_ros_config.bash                           # : ros configuration bash for auto-launching services in the backend
+│   ├── summitxl_ros_config.zsh                            # : ros configuration zsh
+│   └── user_services                                      # [user system services]
+│       ├── environment                                         # : `./ros/environment` to configure ros namespace at the boot (for auto-launching services)
+│       ├── roscorelaunch@.service                              # : create `roscore + launch` systemctl service
+│       ├── roscore.service                                     # : create `roscore` systemctl service
+│       └── roslaunch@.service                                  # : create `roslaunch` systemctl service
+└── wam                                               # [wam specific]
+    └── barrett.zip                                        # : a zip copy of barrett config       
+```
+
 ## WAM:
 [TODO]
 

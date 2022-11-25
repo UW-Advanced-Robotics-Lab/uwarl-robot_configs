@@ -44,9 +44,9 @@ function load_robot_env() {
 }
 
 function check_submodule_status(){
+    # start a new log:
     echo "[Git Status Lastly Updated on $(date)]" > $OUTPUT_STATUS_LOG_DIR
     # update submodules:
-    submodule_status_log=""
     ic "Indexing Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src >>--log-->> $OUTPUT_STATUS_LOG_DIR"
     echo "------------------------------------------------------------------------------------------------" >> $OUTPUT_STATUS_LOG_DIR
     echo "------------------------------------------------------------------------------------------------"
@@ -57,16 +57,20 @@ function check_submodule_status(){
         i=$(( i + 1 ))
         if [ "$(ls -A $dir)" ]; then
             ic "[$i] $dir is loaded: "
+            ic_log "[$i] $dir is loaded: "
             cd "$ROS_CATKIN_WS/src/$dir"
             # now check changes
             git_stats=$(git status --porcelain)
             git_remote=$(git remote -v)
 
             ic "   > $dir remote version: \n$git_remote"
+            ic_log "   > $dir remote version: \n$git_remote"
             if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
                 ic_err "   > [!] $dir has changes: \n $git_stats"
+                ic_log "   > [!] $dir has changes: \n $git_stats"
             else   
                 ic "   > [OK] $dir is up-to-date"
+                ic_log "   > [OK] $dir is up-to-date"
             fi 
 
             # git status
@@ -74,6 +78,7 @@ function check_submodule_status(){
             cd "$ROS_CATKIN_WS/src"
         else
             ic_wrn "[$i] $dir submodule is not loaded! "
+            ic_log "[$i] $dir submodule is not loaded! "
         fi
         echo "------------------------------------------------------------------------------------------------" >> $OUTPUT_STATUS_LOG_DIR
         echo "------------------------------------------------------------------------------------------------"

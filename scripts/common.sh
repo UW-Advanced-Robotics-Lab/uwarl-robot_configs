@@ -67,7 +67,9 @@ function ic_err () {
 function ic_wrn () {
     echo -e "${CYAN}[UWARL-Robot_Config]${NC} ${YELLOW} $1 ${NC}"
 }
-
+function ic_log () {
+    echo "[UWARL-Robot_Config] $1" >> $OUTPUT_STATUS_LOG_DIR
+}
 
 function cat_summit_env() {
     ic_wrn " [SUMMIT ENV CONFIG]: "
