@@ -31,6 +31,7 @@ SUBMODULES_FOR_SUMMIT=(
 )
 SUBMODULES_FOR_WAM=(
     "uwarl-barrett-ros-pkg"
+    "uwarl-zed_ros_wrapper"
     # "waterloo_steel" not needed for summit?
 )
 

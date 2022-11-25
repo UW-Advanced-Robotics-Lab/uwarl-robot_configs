@@ -12,8 +12,13 @@ function load_submodules(){
     for module in "${list_of_modules[@]}"; do
         i=$(( i + 1 ))
         ic_wrn "    > [$i/$total] - Loading submodule @ $module"
-        git submodule update --init $module
+        git submodule update --init --recursive $module
     done
+
+    # install dependencies:
+    ic_wrn ">-- Install ros dependencies @ $ROS_CATKIN_WS"
+    cd $ROS_CATKIN_WS && rosdep update
+    cd $ROS_CATKIN_WS && rosdep install --from-paths src --ignore-src -r -y
     ic "x--- Done loading submodules."
 }
 
@@ -29,7 +34,6 @@ function create_catkin_ws(){
     # checkout branch:
     ic_wrn ">-- Checking out branch $UWARL_catkin_ws_branch @ $ROS_CATKIN_WS/src"
     cd $ROS_CATKIN_WS/src && git checkout $UWARL_catkin_ws_branch
-    
     ic "x--- Done creating catkin workspace."
 }
 
@@ -134,4 +138,8 @@ function install_ros_noetic(){
     sudo pip3 install -U catkin_tools
     catkin config --extend /opt/ros/noetic
     ic_wrn "x- Done Catkin Tools"
+
+    ic "> install python3-rosdep2"
+    sudo apt install python3-rosdep2
+    ic_wrn "x- Done python3 rosdep2"
 }
