@@ -4,9 +4,7 @@ source "$HOME/uwarl-robot_configs/scripts/git_functions.sh"
 
 #################################################################
 ## Pre-req Check ##
-ic  " ==================================================="
-ic  " [Checking ROS Pre-requisite] ..."
-ic  " ==================================================="
+ic_title  "Checking ROS Pre-requisite ..."
 ic  " >>> {Checking your Ubuntu version} "
 version=`lsb_release -sc`
 relesenum=`grep DISTRIB_DESCRIPTION /etc/*-release | awk -F 'Ubuntu ' '{print $2}' | awk -F ' LTS' '{print $1}'`
@@ -31,12 +29,10 @@ fi
 
 #################################################################
 ## Config Check ##
-ic  " ==================================================="
-ic  " [Auto-Configuration Begin] ..."
-ic  " ==================================================="
+ic_title  "Auto-Configuration Begin ..."
 
 if [[ -d "$ROS_CATKIN_WS" ]]; then
-    ic " x- $ROS_CATKIN_WS Already Configured"
+    ic_err " x- $ROS_CATKIN_WS Already Configured"
 else
     ic_wrn " [x] $ROS_CATKIN_WS has been created"
     create_catkin_ws
@@ -44,36 +40,26 @@ fi
 
 #################################################################
 ## Auto-Install ##
-ic  " ==================================================="
 if [[ $USER = "uwarl" ]]; then
-    ic_wrn " Adlink MXE211 Summit PC detected!" 
-    ic " ==================================================="
-    ic_wrn " [Auto-Configuration] Updating Submodules."
+    ic " - Adlink MXE211 Summit PC detected!" 
     load_submodules "${SUBMODULES_FOR_SUMMIT[@]}"
-    ic_wrn " [Auto-Configuration] Loading Env."
-    load_robot_env # load robot env if not loaded
+    load_common 
 
 elif [[ $USER = "uwarl-orin" ]]; then
-    ic_wrn " Jetson Orin WAM PC detected!"
-    ic " ==================================================="
-    ic_wrn " [Auto-Configuration] Updating Submodules."
+    ic " - Jetson Orin WAM PC detected!"
     load_submodules "${SUBMODULES_FOR_WAM[@]}"
-    ic_wrn " [Auto-Configuration] Loading Env."
-    load_robot_env # load robot env if not loaded
+    load_common 
 
 else
-    ic_wrn " NON-Robot PC User detected! Begin local build:"
-    ic " ==================================================="
-    ic_wrn " [Auto-Configuration] Updating Submodules."
+    ic " - NON-Robot PC User detected! Begin local build:"
     load_submodules "${SUBMODULES_FOR_PC[@]}"
-    ic_wrn " [Auto-Configuration] Loading Env."
-    load_robot_env # load robot env if not loaded
-
+    load_common 
 fi
-ic " [Auto-Configuration End] ..."
+
+ic_wrn " Done Auto-Configuration !"
 
 #################################################################
 ## Auto-Source ##
-ic  " Source ~/.zshrc"
+ic_title  "Source ~/.zshrc"
 source $HOME/.zshrc
-ic  "<<< EOF"
+ic  "\n\n<<< EOF"

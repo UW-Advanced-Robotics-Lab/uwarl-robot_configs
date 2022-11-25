@@ -29,6 +29,7 @@ This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` f
 ├── README.md                                              # : instructions
 ├── scripts                                           # [bash scripts]
 │   ├── auto-config_UWARL_catkin_ws.zsh                    # : auto-install `UWARL_catkin_ws`
+│   ├── auto-install_xrdp_screen.sh                        # : install xrdp screen
 │   ├── common.sh                                          # : common configurations
 │   ├── git_functions.sh                                   # : some bash functions
 │   └── shortcuts.sh                                       # : aliased shortcuts
@@ -37,10 +38,9 @@ This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` f
 │   ├── rgbd_summit.rviz                                   # : rviz [ARCHIVED]
 │   ├── ros-melodic-robotnik-msgs_2.2.0-0bionic_amd64.deb  # : a custom built deb package for melodic summit hardware
 │   ├── summitxl_params.env                                # : summit parameters
-│   ├── summitxl_ros_config.bash                           # : ros configuration bash for auto-launching services in the backend
-│   ├── summitxl_ros_config.zsh                            # : ros configuration zsh
 │   └── user_services                                      # [user system services]
 │       ├── environment                                         # : `./ros/environment` to configure ros namespace at the boot (for auto-launching services)
+│       ├── README.md                                           # : Guide
 │       ├── roscorelaunch@.service                              # : create `roscore + launch` systemctl service
 │       ├── roscore.service                                     # : create `roscore` systemctl service
 │       └── roslaunch@.service                                  # : create `roslaunch` systemctl service

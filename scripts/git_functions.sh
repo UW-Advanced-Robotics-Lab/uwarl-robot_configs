@@ -2,6 +2,7 @@
 source "$HOME/uwarl-robot_configs/scripts/common.sh"
 
 function load_submodules(){
+    ic_title "Loading Submodules ..."
     # update submodules:
     ic_wrn ">-- Loading Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src"
 
@@ -17,6 +18,7 @@ function load_submodules(){
 }
 
 function create_catkin_ws(){
+    ic_title "Creating Catkin Workspace ..."
     # Create catkin workspace
     ic_wrn ">-- Creating catkin workspace @ $ROS_CATKIN_WS"
     cd $HOME
@@ -31,19 +33,22 @@ function create_catkin_ws(){
     ic "x--- Done creating catkin workspace."
 }
 
-function load_robot_env() {
-    ic ">-- Loading the sourcing robot params @ $UWARL_SUMMIT_ROS_CONFIGS ---> $HOME/.zshrc"
-    if grep -Fxq "source $UWARL_SUMMIT_ROS_CONFIGS" "$HOME/.zshrc"; then
-        ic_err "[!] $UWARL_SUMMIT_ROS_CONFIGS Already loaded in $HOME/.zshrc"
+function load_common() {
+    ic_title "Loading Common Environment Parameters ..."
+    ic ">-- Loading the sourcing robot params @ $COMMON_ROBOT_CONFIGS ---> $HOME/.zshrc"
+    if grep -Fxq "source $COMMON_ROBOT_CONFIGS" "$HOME/.zshrc"; then
+        ic_err "   [!] $COMMON_ROBOT_CONFIGS Already loaded in $HOME/.zshrc"
     else
         # scripts did not exist in the file, then add it to the end of the file
-        echo "source $UWARL_SUMMIT_ROS_CONFIGS" >> "$HOME/.zshrc"
-        ic_wrn "[x] $UWARL_SUMMIT_ROS_CONFIGS is now being loaded in $HOME/.zshrc"
+        echo "source $COMMON_ROBOT_CONFIGS" >> "$HOME/.zshrc"
+        echo "source_all_common_configs # sourcing all configs" >> "$HOME/.zshrc"
+        ic_wrn "   [x] $COMMON_ROBOT_CONFIGS is now being loaded in $HOME/.zshrc"
     fi
-    ic "x--- Done loading robot params."
+    ic "x--- Done loading common params."
 }
 
 function check_submodule_status(){
+    ic_title "Checking Submodule Status ..."
     # start a new log:
     echo "[Git Status Lastly Updated on $(date)]" > $OUTPUT_STATUS_LOG_DIR
     # update submodules:
@@ -89,7 +94,7 @@ function check_submodule_status(){
 
 
 function install_ros_noetic(){
-    ic_wrn "[Installing ROS Noetic] ..."
+    ic_title "Installing ROS Noetic ..."
 
     ic "> Appending the ROS Noetic package list to sources.list"
     sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu ${version} main\" > /etc/apt/sources.list.d/ros-latest.list"

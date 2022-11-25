@@ -35,11 +35,31 @@ SUBMODULES_FOR_WAM=(
 )
 
 #################################################################
+## NETWORK PARAM: ##
+export ROS_SUMMIT_IP=192.168.1.11
+export ROS_SUMMIT_URI=http://$ROS_SUMMIT_IP:11311/
+export ROS_SUMMIT_DISTRO=melodic
+
+export ROS_WAM_IP=192.168.1.10
+export ROS_WAM_URI=http://$ROS_WAM_IP:11311/
+export ROS_WAM_DISTRO=noetic
+
+export ROS_CORE_URI=$ROS_SUMMIT_URI # <------------ You may define this
+
+#################################################################
 ## VAR ##
+export DISPLAY=:0 # make sure it only display on the default screen
+
+## FILE PATH ##
+export COMMON_ROBOT_CONFIGS="$HOME/uwarl-robot_configs/scripts/common.sh"
+export OUTPUT_STATUS_LOG_DIR="$ROS_CATKIN_WS/src/git_status_ws.log"
+
+## FILE DIRECTORY ##
 export ROS_CATKIN_WS="$HOME/UWARL_catkin_ws"
 export UWARL_CONFIGS="$HOME/uwarl-robot_configs"
-export UWARL_SUMMIT_ROS_CONFIGS="$HOME/uwarl-robot_configs/summit/summitxl_ros_config.zsh"
-export OUTPUT_STATUS_LOG_DIR="$ROS_CATKIN_WS/src/git_status_ws.log"
+
+export UWARL_SUMMIT_SPECIFIC="$HOME/uwarl-robot_configs/summit"
+export UWARL_WAM_SPECIFIC="$HOME/uwarl-robot_configs/wam"
 
 ## CONST ##
 #### TABLE OF COLORS #### #### #### #### #### #### ####
@@ -61,6 +81,12 @@ NC='\033[0m' # No Color
 function ic () {
     echo -e "${CYAN}[UWARL-Robot_Config]${NC} ${BLUE} $1 ${NC}"
 }
+function ic_title () {
+    echo " "
+    ic " ==================================================="
+    ic " [ $1 ]"
+    ic " ==================================================="
+}
 function ic_err () {
     echo -e "${CYAN}[UWARL-Robot_Config]${NC} ${RED} $1 ${NC}"
 }
@@ -69,6 +95,10 @@ function ic_wrn () {
 }
 function ic_log () {
     echo "[UWARL-Robot_Config] $1" >> $OUTPUT_STATUS_LOG_DIR
+}
+function ic_bind_cmd () {
+    echo -e "${CYAN}[UWARL-Robot_Config]   Aliasing \`${NC}${YELLOW}\$ $1${NC}\` command @ $UWARL_CONFIGS/scripts/shortcuts.sh"
+    alias $1=$2
 }
 
 function cat_summit_env() {
@@ -87,4 +117,51 @@ function cat_summit_env() {
     ic     "    - ROBOT_FRONT_LASER_PORT  : $ROBOT_FRONT_LASER_PORT"
     ic     "    - ROBOT_FRONT_LASER_IP    : $ROBOT_FRONT_LASER_IP"
     ic     "    - ROBOT_PAD_MODEL         : $ROBOT_PAD_MODEL"
+}
+function cat_ros_env() {
+    ic_wrn " [ROS CONFIG]: "
+    ic     "    - ROS MASTER : $ROS_MASTER_URI"
+    ic     "    - ROS IP     : $ROS_IP"
+}
+
+function source_ros() {
+    ic_title "ROS" "Setting up ROS Master IP:"
+    if [[ $USER = "uwarl" ]]; then
+        ic " - Adlink MXE211 Summit PC detected!" 
+        export ROS_MASTER_URI=$ROS_CORE_URI
+        export ROS_IP=$ROS_SUMMIT_IP
+        export ROS_DISTRO=$ROS_SUMMIT_DISTRO
+    elif [[ $USER = "uwarl-orin" ]]; then
+        ic " - Jetson Orin WAM PC detected!"
+        export ROS_IP=$ROS_WAM_IP
+        export ROS_DISTRO=$ROS_WAM_DISTRO
+        export ROS_MASTER_URI=$ROS_CORE_URI
+    else
+        ic " - NON-Robot PC User detected!"
+    fi
+
+    ic_title "Sourcing $ROS_DISTRO + $ROS_CATKIN_WS:"
+    source /opt/ros/$ROS_DISTRO/setup.zsh
+    source $ROS_CATKIN_WS/devel/setup.zsh
+}
+
+function source_shortcuts() {
+    ic_title " Sourcing shortcuts @ $UWARL_CONFIGS/scripts/shortcuts.sh"
+    source "$UWARL_CONFIGS/scripts/shortcuts.sh"
+}
+
+function source_robot_env() {
+    ic_title "Sourcing env @ $UWARL_SUMMIT_SPECIFIC/summitxl_params.env"
+    source $UWARL_SUMMIT_SPECIFIC/summitxl_params.env
+}
+
+function source_all_common_configs() {
+    # action:
+    source_robot_env
+    source_ros
+    source_shortcuts
+    # report:
+    ic_title "Print Environment Variables: "
+    cat_summit_env
+    cat_ros_env
 }
