@@ -46,6 +46,7 @@ export ROS_WAM_URI=http://$ROS_WAM_IP:11311/
 export ROS_WAM_DISTRO=noetic
 
 export ROS_CORE_URI=$ROS_SUMMIT_URI # <------------ You may define this
+export ROS_CORE_IP=$ROS_SUMMIT_IP # <------------ You may define this
 
 #################################################################
 ## VAR ##
@@ -121,6 +122,7 @@ function cat_summit_env() {
 }
 function cat_ros_env() {
     ic_wrn " [ROS CONFIG]: "
+    ic     "    - ROS HOST   : $ROS_HOSTNAME"
     ic     "    - ROS MASTER : $ROS_MASTER_URI"
     ic     "    - ROS IP     : $ROS_IP"
 }
@@ -129,16 +131,25 @@ function source_ros() {
     ic_title "ROS" "Setting up ROS Master IP:"
     if [[ $USER = "uwarl" ]]; then
         ic " - Adlink MXE211 Summit PC detected!" 
-        export ROS_MASTER_URI=$ROS_CORE_URI
         export ROS_IP=$ROS_SUMMIT_IP
         export ROS_DISTRO=$ROS_SUMMIT_DISTRO
+        export ROS_HOSTNAME=$ROS_CORE_IP
+        export ROS_MASTER_URI=$ROS_CORE_URI
     elif [[ $USER = "uwarl-orin" ]]; then
         ic " - Jetson Orin WAM PC detected!"
         export ROS_IP=$ROS_WAM_IP
         export ROS_DISTRO=$ROS_WAM_DISTRO
+        export ROS_HOSTNAME=$ROS_CORE_IP
         export ROS_MASTER_URI=$ROS_CORE_URI
     else
         ic " - NON-Robot PC User detected!"
+        export ROS_IP=localhost
+        # - connect to summit:
+        export ROS_HOSTNAME=$ROS_CORE_IP
+        export ROS_MASTER_URI=$ROS_CORE_URI
+        # - connect to local host:
+        # export ROS_HOSTNAME=localhost
+        # export ROS_MASTER_URI=http://localhost:11311/
     fi
 
     ic_title "Sourcing $ROS_DISTRO + $ROS_CATKIN_WS:"
