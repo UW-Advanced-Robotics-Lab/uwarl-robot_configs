@@ -1,162 +1,236 @@
-# uwarl-robot_configs
+<toc>
+
+# Table of Contents
+
+[*Last generated: Tue 29 Nov 2022 15:21:56 EST*]
+
+- [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
+- [**2. ⭐ Unified Development :construction:  [Local PC / Summit / WAM] (Melodic/Noetic):**](#2-Unified-Development-construction-Local-PC-Summit-WAM-MelodicNoetic)
+  - [2.1 How to commit:](#21-How-to-commit)
+  - [2.2 How to Add a new modules under workspace/src:](#22-How-to-Add-a-new-modules-under-workspacesrc)
+- [**3. ROS UWARL_catkin_ws Usage Guide:**](#3-ROS-UWARL_catkin_ws-Usage-Guide)
+  - [3.1 Modifications:](#31-Modifications)
+  - [3.2 Commit and Push:](#32-Commit-and-Push)
+  - [3.3 Shortcuts:](#33-Shortcuts)
+- [**A. Appendix:**](#A-Appendix)
+  - [A.1 File Tree:](#A1-File-Tree)
+  - [A.2 Environment Configurations:](#A2-Environment-Configurations)
+    - [A.2.1 summitxl_params.env](#A21-summitxl_paramsenv)
+
+
+</toc>
+
+# 1. A brief about `uwarl-robot_configs`
+
 This repo will keep track of the configuration files.
 This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` from repo: https://github.com/UW-Advanced-Robotics-Lab/UWARL_catkin_ws and load necessary submodules needed per hardware configuration automatically.
 
-## ⭐ Common Instruction on `UWARL_catkin_ws` [Local PC / Summit / WAM] (Melodic/Noetic):
-0. Make sure your computer is registered with SSH certification from GitHub, as some of the dependencies are private.
-1. Clone configurations: 
-    ```zsh
-    $ cd ~ && git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-robot_configs.git
-    ```
-2. Install the repo with auto-script:
-    ```zsh
-    $ cd ~ && ./uwarl-robot_configs/scripts/auto-config_UWARL_catkin_ws.zsh
-    ```
-3. setup python env for ROS Noetic `$ conda create -n ros-env python=3.8`
-4. Activate env: `$ source activate ros-env`
-5. Cd workspace: `$ cd $HOME/UWARL_catkin_ws`
-6. Build with: `$ catkin_build_noetic` 
+> :warning: For more/latest setup tips, please refer to the [Lab Wiki Guide](https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Instructions) for details.
 
-### Shortcuts:
-1. To build workspace `$ build_ws`
-2. To update workspace `$ update_ws` to auto-update necessary submodules (depending on PC) under `UWARL_catkin_ws`
-3. To check workspace status: `$ check_ws_status` to overview the submodule status
+# 2. ⭐ Unified Development :construction:  [Local PC / Summit / WAM] (Melodic/Noetic):
 
-## File Tree:
+> 🔥 (hot-takes) on **[Hardware v2]** : A unified multi-platform configuration
+>
+> - `UWARL_catkin_ws/src`:  A single common catkin workspace that can be deployed dynamically across multiple platforms. This repository will track other ROS components as submodules on particular commit hask token (without tracking physical files and changes).
+> - `uwarl-robot_configs`: An all-star installation toolkit that will configure any hardware automatically with simple bash scripts.
+> - Supported OS: **Ubuntu 18.04** and **Ubuntu 20.04** (includes auto-install for ROS-Noetic)
+
+1. Install Git and configure the environment necessary from previous section, and SSH authenticated with Github, see instruction @ [0.2 SSH Keys & Github](#02-SSH-Keys-Github)
+
+2. Clone configurations: 
+
+   ```zsh
+   $ cd ~ && git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-robot_configs.git
+   ```
+
+3. Install the repo with auto-script:
+
+   ```zsh
+   $ cd ~ && ./uwarl-robot_configs/scripts/auto-config_UWARL_catkin_ws.zsh
+   ```
+
+   > :notebook: this script will install automatically based on the **user name** (e.g. uwarl-orin) to identify the PC space
+   >
+   > :hot_pepper: It will install ROS Noetic for Ubuntu 20.04 automatically if your system does not have yet!
+
+4. Build: 
+
+   ```bash
+   # update (pull recursively in a batch) of the entire workspace with all required submodules (as noted in common.sh) from anywhere
+   $ update_ws
+   # build ws from anywhere
+   $ build_ws
+   # source ws from anywhere
+   $ src_ws
+   ```
+
+5. (*) For hardware platform setup, please refer to [ [Waterloo-Steel:Platform-Setup.md](./Waterloo-Steel:Platform-Setup.md) ]
+
+## 2.1 How to commit:
+
+1. check every status of subdirectories of the Catkin Workspace:
+
+   ```bash
+   $ check_ws_status 
+   ```
+
+2. commit changes for every sub-directory (submodule)
+
+   ```bash
+   $ cd uwarl-barrrett-ros-pkg 
+   $ git status 
+   $ git commit -a 
+   $ git push
+   ```
+
+3. Once you are satisfied with the current version of the workspace, you may commit this specific combination of submodules
+
+   ```bash
+   $ check_ws_status # let's update local log file that automatically track workspace status upon checking the status, so we will know if the commit for workspace has any local commits that have not yet been tracked.
+   $ cd_ws
+   $ git status
+   $ git commit -a 
+   $ git push
+   ```
+
+## 2.2 How to Add a new modules under workspace/src:
+
+1. Add module into workspace
+
+   ```bash
+   $ cd_ws
+   $ git submodule add git@github.com:UW-Advanced-Robotics-Lab/uwarl-zed_ros_wrapper.git
+   $ git commit ### commit: [New Submodule] : zed ros wrapper
+   $ git push
+   ```
+
+2. Add module name into `uwarl-robot_configs/scripts/common.sh`
+
+   ```bash
+   $ cd_config
+   $ vim scripts/common.sh
+   ## Ex: add zed ros wrapper to wam module
+   SUBMODULES_FOR_WAM=(
+       "uwarl-barrett-ros-pkg" 
+       "uwarl-zed_ros_wrapper" # <----- just added
+   )
+   ```
+
+3. Update workspace and install ros dependencies:
+
+   ```bash
+   $ update_ws
+   ```
+
+4. Build:
+
+   ```bash
+   $ build_ws
+   ```
+
+# 3. ROS UWARL_catkin_ws Usage Guide:
+
+## 3.1 Modifications:
+
+1. switch workspace : `git checkout {branch-name}`
+2. add modules: `$ git submodule add {git-repo}`
+3. remove submodules: `$ git submodule deinit {git-repo}` and you may need delete the submodules in `.gitmodules` file
+4. Create a new branch of workspace: `git checkout -b waterloo_steel/adlink-mxe211-melodic/{node}/{feature}`
+
+## 3.2 Commit and Push:
+
+1. Commit all changes under submodules
+2. Make sure you run this: `$ ./git-status-all.sh` to log all status into `git-status-all.log`
+3. commit all current workspace changes: `$ git add . && git commit -a`
+4. Push workspace `$ git push` or upload a branch `$ git push -u {your-branch-name}`
+
+## 3.3 Shortcuts:
+
+```bash
+# update (pull recursively in a batch) of the entire workspace with all required submodules (as noted in common.sh) from anywhere
+$ update_ws
+# build ws from anywhere
+$ build_ws
+# source ws from anywhere
+$ src_ws
+# source ~/.zshrc from anywhere
+$ src_zsh
+# cd into workspace from anywhere
+$ cd_ws
+# check wworkspace status from anywhere
+$ check_ws_status
+# cd into robot_configs from anywhere
+$ cd_config
+```
+
+# A. Appendix:
+
+## A.1 File Tree:
+
 ```bash
 # lastly modified by Jack [Nov. 25, 2022] @[#6c20a3]
 .
 ├── README.md                                              # : instructions
 ├── scripts                                           # [bash scripts]
-│   ├── auto-config_UWARL_catkin_ws.zsh                    # : auto-install `UWARL_catkin_ws`
-│   ├── auto-install_xrdp_screen.sh                        # : install xrdp screen
-│   ├── common.sh                                          # : common configurations
-│   ├── git_functions.sh                                   # : some bash functions
-│   └── shortcuts.sh                                       # : aliased shortcuts
+│   ├── auto-config_UWARL_catkin_ws.zsh                    # : auto-install `UWARL_catkin_ws`
+│   ├── auto-install_xrdp_screen.sh                        # : install xrdp screen
+│   ├── common.sh                                          # : common configurations
+│   ├── git_functions.sh                                   # : some bash functions
+│   └── shortcuts.sh                                       # : aliased shortcuts
 ├── summit                                            # [summit specific]
-│   ├── install_geographiclib_datasets.sh                  # : a necessary script to config summit
-│   ├── rgbd_summit.rviz                                   # : rviz [ARCHIVED]
-│   ├── ros-melodic-robotnik-msgs_2.2.0-0bionic_amd64.deb  # : a custom built deb package for melodic summit hardware
-│   ├── summitxl_params.env                                # : summit parameters
-│   └── user_services                                      # [user system services]
-│       ├── environment                                         # : `./ros/environment` to configure ros namespace at the boot (for auto-launching services)
-│       ├── README.md                                           # : Guide
-│       ├── roscorelaunch@.service                              # : create `roscore + launch` systemctl service
-│       ├── roscore.service                                     # : create `roscore` systemctl service
-│       └── roslaunch@.service                                  # : create `roslaunch` systemctl service
+│   ├── install_geographiclib_datasets.sh                  # : a necessary script to config summit
+│   ├── rgbd_summit.rviz                                   # : rviz [ARCHIVED]
+│   ├── ros-melodic-robotnik-msgs_2.2.0-0bionic_amd64.deb  # : a custom built deb package for melodic summit hardware
+│   ├── summitxl_params.env                                # : summit parameters
+│   └── user_services                                      # [user system services]
+│       ├── environment                                         # : `./ros/environment` to configure ros namespace at the boot (for auto-launching services)
+│       ├── README.md                                           # : Guide
+│       ├── roscorelaunch@.service                              # : create `roscore + launch` systemctl service
+│       ├── roscore.service                                     # : create `roscore` systemctl service
+│       └── roslaunch@.service                                  # : create `roslaunch` systemctl service
 └── wam                                               # [wam specific]
     └── barrett.zip                                        # : a zip copy of barrett config       
 ```
 
-## WAM:
-[TODO]
+## A.2 Environment Configurations:
 
-## SUMMIT:
-
-### [⭐ A better version] RC Config for ROS and devices
-
-- Lets use system boot as a method to auto boot services, as they can be restarted easily with status logs without hosting virtual terminals
-
-- User system Permissions:
-
-    ```
-    sudo usermod -a -G dialout $USER 
-    sudo usermod -a -G root $USER
-    ```
-
-- Just modify the file from `uwarl-robot_configs` repository as needed
-
-- Configuration:
-
-    1. Clone configurations: 
-
-        ```zsh
-        $ cd ~ && git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-robot_configs.git
-        ```
-
-    2. Make sure directories and ip are right in `~/uwarl-robot_configs/summit/user_services/environment`
-
-    3. Add custom ros environment to `~/.zshrc`:
-
-        ```zsh
-        sudo cp ~/uwarl-robot_configs/summit/user_services/environment ~/.ros/
-        ```
-
-- Create auto roslaunch:
-
-    ```zsh
-    $ cd ~
-    # load system services:
-    #[OPTIONAL] roscore only:
-    $ sudo cp uwarl-robot_configs/summit/user_services/roscore.service /usr/lib/systemd/user
-    #[this one] roscore and roslaunch:
-    $ sudo cp uwarl-robot_configs/summit/user_services/roscorelaunch@.service /usr/lib/systemd/user
-    #[OPTIONAL] depends on remote roscore:
-    $ sudo cp uwarl-robot_configs/summit/user_services/roslaunch@.service /usr/lib/systemd/user 
-    
-    # create launch for summit:
-    $ systemctl --user daemon-reload
-    $ systemctl --user enable roscorelaunch@summit_xl_bringup:summit_xl_complete.launch
-    
-    # Start at bootup instead of graphical login
-    sudo loginctl enable-linger $USER
-    ```
-
-- Check:
-
-    ```zsh
-    # check system:
-    $ systemctl --user status roscorelaunch@summit_xl_bringup:summit_xl_complete.launch.service
-    
-    # restart:
-    $ systemctl --user restart roscorelaunch@summit_xl_bringup:summit_xl_complete.launch.service
-    
-    # stop:
-    $ systemctl --user stop roscorelaunch@summit_xl_bringup:summit_xl_complete.launch.service
-    
-    # check log:
-    $ journalctl --user --user-unit=roscorelaunch@summit_xl_bringup:summit_xl_complete.launch.service
-    # live:
-    $ journalctl --follow --user --user-unit=roscorelaunch@summit_xl_bringup:summit_xl_complete.launch.service
-    ```    
-
-#### summitxl_params.env
+### A.2.1 summitxl_params.env
 
 Robot Configuration Description:
     ```
         - ROBOT_ID indicates the name of the robot. This is the name of the namespace under all the nodes will be working. This is also used as the prefix of all the subcomponents.(*summit_xl*)
 
         - ROBOT_XACRO indicates the path where the xacro file is. (inside the robot folder in robot_description)(*summit_xl.urdf.xacro*)
-
+    
         - ROBOT_FRONT_LASER_MODEL indicates the model of the laser that the robot is using. The model is the name of the launch file.(*sick_tim561/hokuyo_ug01/hokuyo_ust*)
-
+    
         - ROBOT_REAR_LASER_MODEL indicates the model of the laser that the robot is using. The model is the name of the launch file.(*sick_tim561/hokuyo_ug01/hokuyo_ust*)
-
+    
         - ROBOT_HAS_FRONT_LASER indicates if the robot has a laser in front. (*true/false*)
-
+    
         - ROBOT_HAS_REAR_LASER indicates if the robot has a laser in rear. (*true/false*)
-
+    
         - ROBOT_HAS_FRONT_PTZ_CAMERA indicates if the robot has the ptz camera in front. (*true/false*)
-
+    
         - ROBOT_HAS_REAR_PTZ_CAMERA indicates if the robot has the ptz camera in front. (*true/false*)
-
+    
         - ROBOT_HAS_GPS indicates if the robot has gps. (*true/false*)
-
+    
         - ROBOT_HAS_FRONT_RGBD_CAMERA indicates if the robot has a front rgbd camera. (*true/false*)
-
+    
         - ROBOT_FRONT_RGBD_CAMERA_ID camera id to identify in the bus
-
+    
         - ROBOT_HAS_REAR_RGBD_CAMERA indicates if the robot has a front rgbd camera. (*true/false*)
-
+    
         - ROBOT_REAR_RGBD_CAMERA_ID camera id to identify in the bus
-
+    
         - ROBOT_PAD_MODEL pad model used. (*ps4/ps3/logitechf710/xbox360*)
-
+    
         - ROBOT_GEARBOX establishes the motor gearbox value. (*24V: 12.52 | 48V: 9.56*)
-
+    
         - ROBOT_HAS_ENCODER indicates if the robot has encoders. (*true/false*)
-
+    
         - ROBOT_KINEMATICS kinematic configuration of the robot. (*skid/omni/steel_skid/steel_omni*)
-
+    
         - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
     ```
