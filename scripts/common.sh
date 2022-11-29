@@ -38,15 +38,19 @@ SUBMODULES_FOR_WAM=(
 #################################################################
 ## NETWORK PARAM: ##
 export ROS_SUMMIT_IP=192.168.1.11
-export ROS_SUMMIT_URI=http://$ROS_SUMMIT_IP:11311/
+export ROS_SUMMIT_HOSTNAME=192.168.1.11
+export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
 export ROS_SUMMIT_DISTRO=melodic
 
 export ROS_WAM_IP=192.168.1.10
-export ROS_WAM_URI=http://$ROS_WAM_IP:11311/
+export ROS_WAM_HOSTNAME=192.168.1.10
+export ROS_WAM_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
 export ROS_WAM_DISTRO=noetic
 
-export ROS_CORE_URI=$ROS_SUMMIT_URI # <------------ You may define this
-export ROS_CORE_HOSTNAME=uwarl # <------------ You may define this
+export ROS_PC_IP=192.168.1.101
+export ROS_PC_HOSTNAME=192.168.1.101
+export ROS_PC_MASTER_URI=http://$ROS_SUMMIT_IP:11311/ # <--- change it to localhost for local roscore
+export ROS_PC_DISTRO=noetic
 
 #################################################################
 ## VAR ##
@@ -132,24 +136,21 @@ function source_ros() {
     if [[ $USER = "uwarl" ]]; then
         ic " - Adlink MXE211 Summit PC detected!" 
         export ROS_IP=$ROS_SUMMIT_IP
+        export ROS_HOSTNAME=$ROS_SUMMIT_HOSTNAME
+        export ROS_MASTER_URI=$ROS_SUMMIT_MASTER_URI
         export ROS_DISTRO=$ROS_SUMMIT_DISTRO
-        export ROS_HOSTNAME=$ROS_CORE_HOSTNAME
-        export ROS_MASTER_URI=$ROS_CORE_URI
     elif [[ $USER = "uwarl-orin" ]]; then
         ic " - Jetson Orin WAM PC detected!"
         export ROS_IP=$ROS_WAM_IP
+        export ROS_HOSTNAME=$ROS_WAM_HOSTNAME
+        export ROS_MASTER_URI=$ROS_WAM_MASTER_URI
         export ROS_DISTRO=$ROS_WAM_DISTRO
-        export ROS_HOSTNAME=$ROS_CORE_HOSTNAME
-        export ROS_MASTER_URI=$ROS_CORE_URI
     else
         ic " - NON-Robot PC User detected!"
-        export ROS_IP=localhost
-        # - connect to summit:
-        export ROS_HOSTNAME=$ROS_CORE_HOSTNAME
-        export ROS_MASTER_URI=$ROS_CORE_URI
-        # - connect to local host:
-        # export ROS_HOSTNAME=localhost
-        # export ROS_MASTER_URI=http://localhost:11311/
+        export ROS_IP=$ROS_PC_IP
+        export ROS_HOSTNAME=$ROS_PC_HOSTNAME
+        export ROS_MASTER_URI=$ROS_PC_MASTER_URI
+        export ROS_DISTRO=$ROS_PC_DISTRO
     fi
 
     ic_title "Sourcing $ROS_DISTRO + $ROS_CATKIN_WS:"
