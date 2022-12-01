@@ -12,10 +12,30 @@ function load_submodules(){
     for module in "${list_of_modules[@]}"; do
         i=$(( i + 1 ))
         ic_wrn "    > [$i/$total] - Loading submodule @ $module"
+        cd $ROS_CATKIN_WS/src
         git submodule update --init --recursive $module
     done
 
     # install dependencies:
+    if [[ $ROS_DISTRO == "noetic" ]]; then
+        ic  "ROS: [Noetic]"
+        ic_err "[ERR] Missing Ros Dep Tooling"
+        ic "> install python3-rosdep2"
+        sudo apt install python3-rosdep2
+        sudo rosdep init
+        ic_wrn "x- Done python3 rosdep2"
+    else
+        if [ "$(dpkg -l | awk '/rosdep/ {print }'|wc -l)" -ge 1 ]; then
+            ic "rosdep exists!"
+        else
+            ic  "ROS: [Melodic]"
+            ic_err "[ERR] Missing Ros Dep Tooling"
+            ic "> install python-rosdep"
+            sudo apt install python-rosdep
+            sudo rosdep init
+            ic_wrn "x- Done python rosdep"
+        fi
+    fi
     ic_wrn ">-- Install ros dependencies @ $ROS_CATKIN_WS"
     cd $ROS_CATKIN_WS && rosdep update
     cd $ROS_CATKIN_WS && rosdep install --from-paths src --ignore-src -r -y
