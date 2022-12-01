@@ -144,7 +144,27 @@ This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` f
 3. commit all current workspace changes: `$ git add . && git commit -a`
 4. Push workspace `$ git push` or upload a branch `$ git push -u {your-branch-name}`
 
-## 3.3 Shortcuts:
+## 3.3 Pull latest repo:
+
+```bash
+$ cd_ws/src && git status # make sure no local changes
+$ update_ws
+```
+
+## 3.4 Restart over the catkin workspace:
+
+```bash
+# delete current workspace
+$ cd $HOME
+$ rm -rf UWARL_catkin_ws 
+# reinstall everything and build:
+$ cd_config
+$ ./scripts/auto-config_UWARL_catkin_ws.zsh
+$ build_ws
+$ source_ws
+```
+
+## 3.5 Shortcuts:
 
 ```bash
 # update (pull recursively in a batch) of the entire workspace with all required submodules (as noted in common.sh) from anywhere
@@ -152,9 +172,9 @@ $ update_ws
 # build ws from anywhere
 $ build_ws
 # source ws from anywhere
-$ src_ws
+$ source_ws
 # source ~/.zshrc from anywhere
-$ src_zsh
+$ source_zsh
 # cd into workspace from anywhere
 $ cd_ws
 # check wworkspace status from anywhere
