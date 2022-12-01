@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-# export UWARL_catkin_ws_branch="waterloo_steel/adlink-mxe211-melodic/dev/v1.0.0" # old stable for summit
 export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
 SUBMODULES_FOR_PC=(
     "multimap_server_msgs"
@@ -9,7 +8,7 @@ SUBMODULES_FOR_PC=(
     "uwarl-barrett-ros-pkg"
     "uwarl-multimap_server"
     "uwarl-robot_localization_utils"
-    # "uwarl-robotnik_base_hw" # not needed for simulation
+    # "uwarl-robotnik_base_hw" # not needed for simulation !
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
     "uwarl-summit_xl_common"
@@ -22,12 +21,12 @@ SUBMODULES_FOR_SUMMIT=(
     # "uwarl-barrett-ros-pkg" # not needed for summit?
     "uwarl-multimap_server"
     "uwarl-robot_localization_utils"
-    "uwarl-robotnik_base_hw"
+    "uwarl-robotnik_base_hw" # [waterloo_steel/adlink-mxe211-melodic/main]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    "uwarl-summit_xl_common"
-    "uwarl-summit_xl_robot"
-    # "waterloo_steel" not needed for summit?
+    "uwarl-summit_xl_common" # [waterloo_steel/adlink-mxe211-melodic/main]
+    "uwarl-summit_xl_robot"  # [waterloo_steel/adlink-mxe211-melodic/main]
+    "waterloo_steel"         # [universal/ros1/main]
 )
 SUBMODULES_FOR_WAM=(
     "uwarl-barrett-ros-pkg"

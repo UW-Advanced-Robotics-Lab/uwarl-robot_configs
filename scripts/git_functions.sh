@@ -91,7 +91,9 @@ function check_submodule_status(){
             # now check changes
             git_stats=$(git status --porcelain)
             git_remote=$(git remote -v)
-
+            git_head=$(git rev-parse --abbrev-ref HEAD)
+            git_head_ver=$(git rev-parse --short HEAD)
+            ic "   > $dir on branch @ [$git_head_ver] $git_head"
             ic "   > $dir remote version: \n$git_remote"
             ic_log "   > $dir remote version: \n$git_remote"
             if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
