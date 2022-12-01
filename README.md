@@ -170,6 +170,10 @@ $ cd_config
 ```bash
 # lastly modified by Jack [Nov. 25, 2022] @[#6c20a3]
 .
+.
+├── docs                                              # [documents]
+│   └── media                                              # : media folders
+│       └── zshrc_terminal_output_dec_01_2022.png
 ├── README.md                                              # : instructions
 ├── scripts                                           # [bash scripts]
 │   ├── auto-config_UWARL_catkin_ws.zsh                    # : auto-install `UWARL_catkin_ws`
@@ -192,9 +196,12 @@ $ cd_config
     └── barrett.zip                                        # : a zip copy of barrett config       
 ```
 
-## A.2 Environment Configurations:
+## A.2 ZSHRC Terminal Output After Installing:
+![Terminal Output Figure](./docs/media/zshrc_terminal_output_dec_01_2022.png)
 
-### A.2.1 summitxl_params.env
+## A.3 Environment Configurations:
+
+### A.3.1 summitxl_params.env
 
 Robot Configuration Description:
     ```
