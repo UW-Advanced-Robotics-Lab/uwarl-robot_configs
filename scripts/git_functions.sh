@@ -109,7 +109,8 @@ function install_libbarrett_if_not(){
         git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-libbarrett.git
         
         ic_wrn ">-- Installing dependencies from uwarl-libbarrett"
-        bash $JX_LINUX/uwarl-libbarrett/scripts/install_dependencies.sh
+        cd $JX_LINUX/uwarl-libbarrett/scripts
+        bash install_dependencies.sh # <-- this script is local reference only
 
         ic_wrn ">-- Build uwarl-libbarrett"
         cd $JX_LINUX/uwarl-libbarrett
