@@ -75,6 +75,7 @@ export OUTPUT_STATUS_LOG_DIR="$ROS_CATKIN_WS/src/git_status_ws.log"
 ## FILE DIRECTORY ##
 export ROS_CATKIN_WS="$HOME/UWARL_catkin_ws"
 export UWARL_CONFIGS="$HOME/uwarl-robot_configs"
+export JX_LINUX="$HOME/JX_Linux"
 
 export UWARL_SUMMIT_SPECIFIC="$HOME/uwarl-robot_configs/summit"
 export UWARL_WAM_SPECIFIC="$HOME/uwarl-robot_configs/wam"

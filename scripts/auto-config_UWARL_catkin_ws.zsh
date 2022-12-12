@@ -34,19 +34,28 @@ ic_title  "Auto-Configuration Begin ..."
 if [[ -d "$ROS_CATKIN_WS" ]]; then
     ic_err " x- $ROS_CATKIN_WS Already Configured"
 else
-    ic_wrn " [x] $ROS_CATKIN_WS has been created"
     create_catkin_ws
+    ic_wrn " [x] $ROS_CATKIN_WS has been created"
+fi
+
+if [[ -d "$JX_LINUX" ]]; then
+    ic_err " x- $JX_LINUX Already Configured"
+else
+    create_JX_Linux
+    ic_wrn " [x] $JX_LINUX has been created"
 fi
 
 #################################################################
 ## Auto-Install ##
 if [[ $USER = "uwarl" ]]; then
     ic " - Adlink MXE211 Summit PC detected!" 
+    install_pcan
     load_submodules "${SUBMODULES_FOR_SUMMIT[@]}"
     load_common 
 
 elif [[ $USER = "uwarl-orin" ]]; then
     ic " - Jetson Orin WAM PC detected!"
+    install_pcan NETDEV_SUPPORT
     load_submodules "${SUBMODULES_FOR_WAM[@]}"
     load_common 
 

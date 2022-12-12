@@ -57,6 +57,46 @@ function create_catkin_ws(){
     ic "x--- Done creating catkin workspace."
 }
 
+function create_JX_Linux(){
+    ic_title "Creating `JX_Linux` Third Party Pkg Directory ..."
+    # Create catkin workspace
+    ic_wrn ">-- Creating `JX_Linux` @ $JX_LINUX"
+    cd $HOME
+    mkdir -p $JX_LINUX
+    ic "x--- Done creating `JX_Linux` Third Party Pkg Dir."
+}
+
+function install_pcan(){
+    ic_title "Installing `pcan_linux_driver` into $JX_LINUX ..."
+    ic_wrn ">-- Please note that this installation may not support custom kernel-header"
+    
+    ic_wrn ">-- Download `pcan_linux_driver`"
+    cd $JX_LINUX
+    # download driver:
+    wget https://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-8.15.2.tar.gz
+    # unzip:
+    tar -xzf peak-linux-driver-8.15.2.tar.gz
+    cd peak-linux-driver-8.15.2
+
+    if [[ $1 = "NETDEV_SUPPORT" ]]; then
+        ic_wrn ">-- Make PCAN with NETDEV:"
+        sudo make -C driver NET=NETDEV_SUPPORT 
+    else
+        ic_wrn ">-- Make PCAN without ~NETDEV:"
+        sudo make -C driver 
+    fi
+
+    ic_wrn ">-- Install `pcan_linux_driver`"
+    sudo make install
+    ic_wrn ">-- Probing `pcan_linux_driver`"
+    sudo modprobe pcan
+    ic_wrn ">-- Checking `pcan_linux_driver`"
+    sudo dmesg | grep pcan
+
+    ic "x--- Done installling `pcan_linux_driver`! "
+}
+
+
 function load_common() {
     ic_title "Loading Common Environment Parameters ..."
     ic ">-- Loading the sourcing robot params @ $COMMON_ROBOT_CONFIGS ---> $HOME/.zshrc"
