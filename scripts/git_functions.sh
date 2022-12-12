@@ -20,10 +20,10 @@ function load_submodules(){
     if [[ $ROS_DISTRO == "noetic" ]]; then
         ic  "ROS: [Noetic]"
         ic_err "[ERR] Missing Ros Dep Tooling"
-        ic "> install python3-rosdep2"
-        sudo apt install python3-rosdep2
+        ic "> install python3-rosdep"
+        sudo apt install python3-rosdep
         sudo rosdep init
-        ic_wrn "x- Done python3 rosdep2"
+        ic_wrn "x- Done python3 rosdep"
     else
         if [ "$(dpkg -l | awk '/rosdep/ {print }'|wc -l)" -ge 1 ]; then
             ic "rosdep exists!"

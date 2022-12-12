@@ -3,35 +3,48 @@
 ## USER PARAM: ##
 export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
 SUBMODULES_FOR_PC=(
+    ## SUMMIT Side:
     "multimap_server_msgs"
     "system_monitor"
-    "uwarl-barrett-ros-pkg"
     "uwarl-multimap_server"
     "uwarl-robot_localization_utils"
-    # "uwarl-robotnik_base_hw" # not needed for simulation !
+    # "uwarl-robotnik_base_hw" # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
     "uwarl-summit_xl_common"
     "uwarl-summit_xl_robot"
     "waterloo_steel"
+    ## WAM Side:
+    "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    # "uwarl-barrett-ros-pkg" : [DEPRECATED]
+    # "uwarl-zed_ros_wrapper"
 )
 SUBMODULES_FOR_SUMMIT=(
+    ## SUMMIT Side:
     "multimap_server_msgs"
     "system_monitor"
-    # "uwarl-barrett-ros-pkg" # not needed for summit?
     "uwarl-multimap_server"
     "uwarl-robot_localization_utils"
-    "uwarl-robotnik_base_hw" # [waterloo_steel/adlink-mxe211-melodic/main]
+    "uwarl-robotnik_base_hw" # [waterloo_steel/adlink-mxe211-melodic/main] # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
     "uwarl-summit_xl_common" # [waterloo_steel/adlink-mxe211-melodic/main]
     "uwarl-summit_xl_robot"  # [waterloo_steel/adlink-mxe211-melodic/main]
     "waterloo_steel"         # [universal/ros1/main]
+    ## WAM Side:
+    # "uwarl-barrett_wam_hw"  : NOT NEEDED
+    "uwarl-barrett_wam_msgs"
+    # "uwarl-barrett-ros-pkg" : [DEPRECATED]
 )
 SUBMODULES_FOR_WAM=(
-    "uwarl-barrett-ros-pkg"
+    ## SUMMIT Side:
+    # "waterloo_steel" not needed for WAM?
+    ## WAM Side:
+    "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    # "uwarl-barrett-ros-pkg" : [DEPRECATED]
     "uwarl-zed_ros_wrapper"
-    # "waterloo_steel" not needed for summit?
 )
 
 #################################################################
