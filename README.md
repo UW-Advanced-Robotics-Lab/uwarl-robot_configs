@@ -52,6 +52,8 @@ This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` f
    > :notebook: this script will install automatically based on the **user name** (e.g. uwarl-orin) to identify the PC space
    >
    > :hot_pepper: It will install ROS Noetic for Ubuntu 20.04 automatically if your system does not have yet!
+   > It will install peak can for Jetson and adlink
+   > It will install libbarrett for Jetson
 
 4. Build: 
 

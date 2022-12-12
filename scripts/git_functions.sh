@@ -66,36 +66,68 @@ function create_JX_Linux(){
     ic "x--- Done creating `JX_Linux` Third Party Pkg Dir."
 }
 
-function install_pcan(){
+function install_pcan_if_not(){
     ic_title "Installing `pcan_linux_driver` into $JX_LINUX ..."
     ic_wrn ">-- Please note that this installation may not support custom kernel-header"
-    
-    ic_wrn ">-- Download `pcan_linux_driver`"
-    cd $JX_LINUX
-    # download driver:
-    wget https://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-8.15.2.tar.gz
-    # unzip:
-    tar -xzf peak-linux-driver-8.15.2.tar.gz
-    cd peak-linux-driver-8.15.2
-
-    if [[ $1 = "NETDEV_SUPPORT" ]]; then
-        ic_wrn ">-- Make PCAN with NETDEV:"
-        sudo make -C driver NET=NETDEV_SUPPORT 
+    if [[ -d "$JX_LINUX/peak-linux-driver-8.15.2" ]]; then
+        ic_err " [!] Peak Linux Driver Areadly Installed!"
     else
-        ic_wrn ">-- Make PCAN without ~NETDEV:"
-        sudo make -C driver 
+        ic_wrn ">-- Download `pcan_linux_driver`"
+        cd $JX_LINUX
+        # download driver:
+        wget https://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-8.15.2.tar.gz
+        # unzip:
+        tar -xzf peak-linux-driver-8.15.2.tar.gz
+        cd peak-linux-driver-8.15.2
+
+        if [[ $1 = "NETDEV_SUPPORT" ]]; then
+            ic_wrn ">-- Make PCAN with NETDEV:"
+            sudo make -C driver NET=NETDEV_SUPPORT 
+        else
+            ic_wrn ">-- Make PCAN without ~NETDEV:"
+            sudo make -C driver 
+        fi
+
+        ic_wrn ">-- Install `pcan_linux_driver`"
+        sudo make install
+        ic_wrn ">-- Probing `pcan_linux_driver`"
+        sudo modprobe pcan
+        ic_wrn ">-- Checking `pcan_linux_driver`"
+        sudo dmesg | grep pcan
+
+        ic "x--- Done installling `pcan_linux_driver`! "
     fi
-
-    ic_wrn ">-- Install `pcan_linux_driver`"
-    sudo make install
-    ic_wrn ">-- Probing `pcan_linux_driver`"
-    sudo modprobe pcan
-    ic_wrn ">-- Checking `pcan_linux_driver`"
-    sudo dmesg | grep pcan
-
-    ic "x--- Done installling `pcan_linux_driver`! "
 }
 
+function install_libbarrett_if_not(){
+    ic_title "Installing `libbarrett` into $JX_LINUX ..."
+    if [[ -d "$JX_LINUX/uwarl-libbarrett" ]]; then
+        ic_err " [!] Peak Linux Driver Areadly Installed!"
+    else
+        ic_wrn ">-- Cloning `uwarl-libbarrett`"
+        cd $JX_LINUX
+        git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-libbarrett.git
+        
+        ic_wrn ">-- Installing dependencies from `uwarl-libbarrett`"
+        bash $JX_LINUX/uwarl-libbarrett/scripts/install_dependencies.sh
+
+        ic_wrn ">-- Build `uwarl-libbarrett`"
+        cd $JX_LINUX/uwarl-libbarrett
+        export CC=/usr/bin/clang
+        export CXX=/usr/bin/clang++
+        cd $JX_LINUX/uwarl-libbarrett && cmake .
+        make -j$(nproc)
+
+        ic_wrn ">-- Install `uwarl-libbarrett`"
+        sudo make install
+
+        ic_wrn ">-- Build `uwarl-libbarrett/examples`"
+        cd $JX_LINUX/uwarl-libbarrett/examples && cmake .
+        make -j$(nproc)
+        ic "x--- Done installling `libbarrett`! "
+        ic_err "[Reboot Required] Please reboot!"
+    fi
+}
 
 function load_common() {
     ic_title "Loading Common Environment Parameters ..."

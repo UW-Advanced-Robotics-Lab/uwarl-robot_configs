@@ -9,7 +9,7 @@ ic  " >>> {Checking your Ubuntu version} "
 version=`lsb_release -sc`
 relesenum=`grep DISTRIB_DESCRIPTION /etc/*-release | awk -F 'Ubuntu ' '{print $2}' | awk -F ' LTS' '{print $1}'`
 ic  " >>> {Your Ubuntu version is: [Ubuntu $version $relesenum]}"
-if [ -x "$(command -v rosversion)" ] ; then
+if [[ -x "$(command -v rosversion)" ]] ; then
     rosversion='rosversion -d'
     ic_wrn " ROS exists!! [ROS version: $rosversion] Pre-requisite met! Continue ..."
 else
@@ -42,30 +42,30 @@ if [[ -d "$JX_LINUX" ]]; then
     ic_err " x- $JX_LINUX Already Configured"
 else
     create_JX_Linux
-    ic_wrn " [x] $JX_LINUX has been created"
 fi
 
 #################################################################
 ## Auto-Install ##
 if [[ $USER = "uwarl" ]]; then
     ic " - Adlink MXE211 Summit PC detected!" 
-    install_pcan
     load_submodules "${SUBMODULES_FOR_SUMMIT[@]}"
     load_common 
+    # install drivers :
+    install_pcan_if_not
 
 elif [[ $USER = "uwarl-orin" ]]; then
     ic " - Jetson Orin WAM PC detected!"
-    install_pcan NETDEV_SUPPORT
     load_submodules "${SUBMODULES_FOR_WAM[@]}"
     load_common 
-
+    # install drivers :
+    install_pcan_if_not NETDEV_SUPPORT
+    install_libbarrett_if_not
+    
 else
     ic " - NON-Robot PC User detected! Begin local build:"
     load_submodules "${SUBMODULES_FOR_PC[@]}"
     load_common 
 fi
-
-ic_wrn " Done Auto-Configuration !"
 
 #################################################################
 ## Auto-Source ##
