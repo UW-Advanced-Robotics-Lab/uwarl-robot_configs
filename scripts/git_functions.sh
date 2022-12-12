@@ -100,32 +100,32 @@ function install_pcan_if_not(){
 }
 
 function install_libbarrett_if_not(){
-    ic_title "Installing `libbarrett` into $JX_LINUX ..."
+    ic_title "Installing libbarrett into $JX_LINUX ..."
     if [[ -d "$JX_LINUX/uwarl-libbarrett" ]]; then
-        ic_err " [!] Peak Linux Driver Areadly Installed!"
+        ic_err " [!] Libbarrett Areadly Installed!"
     else
-        ic_wrn ">-- Cloning `uwarl-libbarrett`"
+        ic_wrn ">-- Cloning uwarl-libbarrett"
         cd $JX_LINUX
         git clone git@github.com:UW-Advanced-Robotics-Lab/uwarl-libbarrett.git
         
-        ic_wrn ">-- Installing dependencies from `uwarl-libbarrett`"
+        ic_wrn ">-- Installing dependencies from uwarl-libbarrett"
         bash $JX_LINUX/uwarl-libbarrett/scripts/install_dependencies.sh
 
-        ic_wrn ">-- Build `uwarl-libbarrett`"
+        ic_wrn ">-- Build uwarl-libbarrett"
         cd $JX_LINUX/uwarl-libbarrett
         export CC=/usr/bin/clang
         export CXX=/usr/bin/clang++
         cd $JX_LINUX/uwarl-libbarrett && cmake .
         make -j$(nproc)
 
-        ic_wrn ">-- Install `uwarl-libbarrett`"
+        ic_wrn ">-- Install uwarl-libbarrett"
         sudo make install
 
-        ic_wrn ">-- Build `uwarl-libbarrett/examples`"
+        ic_wrn ">-- Build uwarl-libbarrett/examples"
         cd $JX_LINUX/uwarl-libbarrett/examples && cmake .
         make -j$(nproc)
-        ic "x--- Done installling `libbarrett`! "
-        ic_err "[Reboot Required] Please reboot!"
+        ic "x--- Done installling libbarrett! "
+        ic_err "[Reboot Required] Please reboot !"
     fi
 }
 
@@ -146,7 +146,8 @@ function load_common() {
 function check_submodule_status(){
     ic_title "Checking Submodule Status ..."
     # start a new log:
-    echo "[Git Status Lastly Updated on $(date)]" > $OUTPUT_STATUS_LOG_DIR
+    ic_wrn "[Git Status Lastly Updated on $(date) by $USER]"
+    echo "[Git Status Lastly Updated on $(date) by $USER]" > $OUTPUT_STATUS_LOG_DIR
     # update submodules:
     ic "Indexing Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src >>--log-->> $OUTPUT_STATUS_LOG_DIR"
     echo "------------------------------------------------------------------------------------------------" >> $OUTPUT_STATUS_LOG_DIR

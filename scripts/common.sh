@@ -2,7 +2,7 @@
 #################################################################
 ## USER PARAM: ##
 export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
-# export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/feature/wam_node"
+export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/feature/wam_node"
 
 SUBMODULES_FOR_PC=(
     ## SUMMIT Side:
@@ -17,9 +17,9 @@ SUBMODULES_FOR_PC=(
     "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
-    # "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
-    # "uwarl-barrett_wam_msgs"
-    "uwarl-barrett-ros-pkg" # [DEPRECATED]
+    "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
     # "uwarl-zed_ros_wrapper"
 )
 SUBMODULES_FOR_SUMMIT=(
@@ -36,16 +36,16 @@ SUBMODULES_FOR_SUMMIT=(
     "waterloo_steel"         # [universal/ros1/main]
     ## WAM Side:
     # "uwarl-barrett_wam_hw"  # [NOT NEEDED]
-    # "uwarl-barrett_wam_msgs"
+    "uwarl-barrett_wam_msgs"
     # "uwarl-barrett-ros-pkg" # [DEPRECATED]
 )
 SUBMODULES_FOR_WAM=(
     ## SUMMIT Side:
     # "waterloo_steel" not needed for WAM?
     ## WAM Side:
-    # "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
-    # "uwarl-barrett_wam_msgs"
-    "uwarl-barrett-ros-pkg" # [DEPRECATED]
+    "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
     "uwarl-zed_ros_wrapper"
 )
 
