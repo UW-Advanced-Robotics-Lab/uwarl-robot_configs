@@ -1,5 +1,6 @@
 source "$HOME/uwarl-robot_configs/scripts/common.sh"
 
+ic " > Path of ROS Catkin Workspace: $ROS_CATKIN_WS"
 ## kill processor:
 ic_bind_cmd kill-ros "ps aux  | grep -e ros | awk '{print $2}' | xargs -i -exec kill -9 {}"
 
@@ -21,3 +22,5 @@ ic_bind_cmd source_zsh   "source $HOME/.zshrc"
 ic_bind_cmd cd_ws        "cd $ROS_CATKIN_WS/src"
 ic_bind_cmd cd_config    "cd $UWARL_CONFIGS"
 
+## Host VNC: `$ host_vnc {display_id:0,1,2}`
+ic_bind_cmd host_vnc     "/usr/bin/x11vnc -forever -bg -usepw -httpdir /usr/share/vnc-java/ -httpport 5901 -display :$1"

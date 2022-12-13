@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
+# export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
 export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/feature/wam_node"
 
 SUBMODULES_FOR_PC=(
@@ -46,25 +46,58 @@ SUBMODULES_FOR_WAM=(
     "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
     # "uwarl-barrett-ros-pkg" # [DEPRECATED]
-    "uwarl-zed_ros_wrapper"
+    # "uwarl-zed_ros_wrapper" # [No longer used]
 )
 
 #################################################################
 ## NETWORK PARAM: ##
+# export ROS_CORE_HOSTER="SUMMIT-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+export ROS_CORE_HOSTER="LOCAL-HOSTS"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+
 export ROS_SUMMIT_IP=192.168.1.11
 export ROS_SUMMIT_HOSTNAME=192.168.1.11
-export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
 export ROS_SUMMIT_DISTRO=melodic
 
 export ROS_WAM_IP=192.168.1.10
 export ROS_WAM_HOSTNAME=192.168.1.10
-export ROS_WAM_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
 export ROS_WAM_DISTRO=noetic
 
 export ROS_PC_IP=192.168.1.101
 export ROS_PC_HOSTNAME=192.168.1.101
-export ROS_PC_MASTER_URI=http://$ROS_SUMMIT_IP:11311/ # <--- change it to localhost for local roscore
 export ROS_PC_DISTRO=noetic
+
+## Auto-Assign: ##
+ic_wrn "ROS CORE is currently hosted by [$ROS_CORE_HOSTER]!"
+case $ROS_CORE_HOSTER in
+
+    "SUMMIT-PC")
+        export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
+        export ROS_WAM_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
+        export ROS_PC_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
+        ;;
+
+    "WAM-PC")
+        export ROS_SUMMIT_MASTER_URI=http://$ROS_WAM_IP:11311/
+        export ROS_WAM_MASTER_URI=http://localhost:11311/
+        export ROS_PC_MASTER_URI=http://$ROS_WAM_IP:11311/
+        ;;
+
+    "REMOTE-PC")
+        export ROS_SUMMIT_MASTER_URI=http://$ROS_PC_IP:11311/
+        export ROS_WAM_MASTER_URI=http://$ROS_PC_IP:11311/
+        export ROS_PC_MASTER_URI=http://localhost:11311/
+        ;;
+    "LOCAL-HOSTS")
+        export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
+        export ROS_WAM_MASTER_URI=http://localhost:11311/
+        export ROS_PC_MASTER_URI=http://localhost:11311/
+        ;;
+
+    *)
+        exit "Please configure HOSTER from [SUMMIT-PC, WAM-PC, REMOTE-PC, LOCALHOST]!"
+        ;;
+esac
+
 
 #################################################################
 ## VAR ##

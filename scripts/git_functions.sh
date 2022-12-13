@@ -1,6 +1,12 @@
 #!/usr/bin/env zsh
 source "$HOME/uwarl-robot_configs/scripts/common.sh"
 
+function apt_install(){
+    ic "> install [$1] "
+    sudo apt install $1
+    ic "    x- Installation Complete!"
+}
+
 function load_submodules(){
     ic_title "Loading Submodules ..."
     # update submodules:
@@ -20,20 +26,16 @@ function load_submodules(){
     if [[ $ROS_DISTRO == "noetic" ]]; then
         ic  "ROS: [Noetic]"
         ic_err "[ERR] Missing Ros Dep Tooling"
-        ic "> install python3-rosdep"
-        sudo apt install python3-rosdep
+        apt_install python3-rosdep
         sudo rosdep init
-        ic_wrn "x- Done python3 rosdep"
     else
         if [ "$(dpkg -l | awk '/rosdep/ {print }'|wc -l)" -ge 1 ]; then
             ic "rosdep exists!"
         else
             ic  "ROS: [Melodic]"
             ic_err "[ERR] Missing Ros Dep Tooling"
-            ic "> install python-rosdep"
-            sudo apt install python-rosdep
+            apt_install python-rosdep
             sudo rosdep init
-            ic_wrn "x- Done python rosdep"
         fi
     fi
     ic_wrn ">-- Install ros dependencies @ $ROS_CATKIN_WS"
@@ -207,8 +209,7 @@ function install_ros_noetic(){
         ic_wrn ">>> ROS Noetic Package is now in the list!"
     fi
 
-    ic "> Install Curl"
-    sudo apt install curl
+    apt_install curl
 
     ic "> Curling ROS Keys ..."
     ret=$(curl -sSL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' | sudo apt-key add -)
@@ -225,17 +226,17 @@ function install_ros_noetic(){
     ic "> Updating ..."
     sudo apt update
     ic "> Installing ROS ... (might take a while)"
-    sudo apt install -y ros-noetic-desktop-full
+    apt_install -y ros-noetic-desktop-full
     source /opt/ros/noetic/setup.zsh
     ic_wrn "x- Done ROS installation."
 
     ic "> install Catkin Build tools ... "
-    sudo apt-get install python3-pip
+    apt_install python3-pip
     sudo pip3 install -U catkin_tools
     catkin config --extend /opt/ros/noetic
     ic_wrn "x- Done Catkin Tools"
 
-    ic "> install python3-rosdep2"
-    sudo apt install python3-rosdep2
-    ic_wrn "x- Done python3 rosdep2"
+    # additional toolsets:
+    apt_install ros-noetic-rosbash
+    apt_install ros-noetic-rviz
 }
