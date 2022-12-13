@@ -19,6 +19,7 @@ SUBMODULES_FOR_PC=(
     ## WAM Side:
     "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
+    "uwarl-realsense_ros"    # [L515 Support]
     # "uwarl-barrett-ros-pkg" # [DEPRECATED]
     # "uwarl-zed_ros_wrapper"
 )
@@ -36,7 +37,7 @@ SUBMODULES_FOR_SUMMIT=(
     "waterloo_steel"         # [universal/ros1/main]
     ## WAM Side:
     # "uwarl-barrett_wam_hw"  # [NOT NEEDED]
-    "uwarl-barrett_wam_msgs"
+    "uwarl-barrett_wam_msgs"  # [NOT USED]
     # "uwarl-barrett-ros-pkg" # [DEPRECATED]
 )
 SUBMODULES_FOR_WAM=(
@@ -45,6 +46,7 @@ SUBMODULES_FOR_WAM=(
     ## WAM Side:
     "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
+    "uwarl-realsense_ros"    # [L515 Support]
     # "uwarl-barrett-ros-pkg" # [DEPRECATED]
     # "uwarl-zed_ros_wrapper" # [No longer used]
 )
