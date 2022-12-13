@@ -52,7 +52,7 @@ SUBMODULES_FOR_WAM=(
 #################################################################
 ## NETWORK PARAM: ##
 # export ROS_CORE_HOSTER="SUMMIT-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
-export ROS_CORE_HOSTER="LOCAL-HOSTS"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+export ROS_CORE_HOSTER="WAM-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
 
 export ROS_SUMMIT_IP=192.168.1.11
 export ROS_SUMMIT_HOSTNAME=192.168.1.11
