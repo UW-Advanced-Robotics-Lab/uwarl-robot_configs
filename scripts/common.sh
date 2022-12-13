@@ -51,8 +51,8 @@ SUBMODULES_FOR_WAM=(
 
 #################################################################
 ## NETWORK PARAM: ##
-# export ROS_CORE_HOSTER="SUMMIT-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
-export ROS_CORE_HOSTER="WAM-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+export ROS_CORE_HOSTER="SUMMIT-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+# export ROS_CORE_HOSTER="WAM-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
 
 export ROS_SUMMIT_IP=192.168.1.11
 export ROS_SUMMIT_HOSTNAME=192.168.1.11
@@ -101,7 +101,9 @@ esac
 
 #################################################################
 ## VAR ##
-export DISPLAY=:0 # make sure it only display on the default screen
+# assign to DISPLAY param:
+export DISPLAY_WAM=:1
+export DISPLAY_DEFAULT=:0
 
 ## FILE PATH ##
 export COMMON_ROBOT_CONFIGS="$HOME/uwarl-robot_configs/scripts/common.sh"
@@ -173,10 +175,14 @@ function cat_summit_env() {
     ic     "    - ROBOT_PAD_MODEL         : $ROBOT_PAD_MODEL"
 }
 function cat_ros_env() {
-    ic_wrn " [ROS CONFIG]: "
-    ic     "    - ROS HOST   : $ROS_HOSTNAME"
-    ic     "    - ROS MASTER : $ROS_MASTER_URI"
-    ic     "    - ROS IP     : $ROS_IP"
+    ic_wrn " [ROS CONFIG ($USER)]: "
+    ic     "    - ROS ROS_DISTRO          : $ROS_DISTRO"
+    ic     "    - ROS HOST                : $ROS_HOSTNAME"
+    ic     "    - ROS MASTER              : $ROS_MASTER_URI"
+    ic     "    - ROS IP                  : $ROS_IP"
+    ic_wrn " [LINUX ENV CONFIG ($USER)]: "
+    ic     "    - DISPLAY                 : $DISPLAY"
+    ic     "    - KERNEL                  : $(uname -a)"
 }
 
 function source_ros() {
@@ -187,18 +193,21 @@ function source_ros() {
         export ROS_HOSTNAME=$ROS_SUMMIT_HOSTNAME
         export ROS_MASTER_URI=$ROS_SUMMIT_MASTER_URI
         export ROS_DISTRO=$ROS_SUMMIT_DISTRO
+        export DISPLAY=$DISPLAY_DEFAULT
     elif [[ $USER = "uwarl-orin" ]]; then
         ic " - Jetson Orin WAM PC detected!"
         export ROS_IP=$ROS_WAM_IP
         export ROS_HOSTNAME=$ROS_WAM_HOSTNAME
         export ROS_MASTER_URI=$ROS_WAM_MASTER_URI
         export ROS_DISTRO=$ROS_WAM_DISTRO
+        export DISPLAY=$DISPLAY_WAM
     else
         ic " - NON-Robot PC User detected!"
         export ROS_IP=$ROS_PC_IP
         export ROS_HOSTNAME=$ROS_PC_HOSTNAME
         export ROS_MASTER_URI=$ROS_PC_MASTER_URI
         export ROS_DISTRO=$ROS_PC_DISTRO
+        export DISPLAY=$DISPLAY_DEFAULT
     fi
 
     ic_title "Sourcing $ROS_DISTRO + $ROS_CATKIN_WS:"
