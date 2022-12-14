@@ -19,6 +19,7 @@ fi
 ## ROS src:
 ic_bind_cmd source_ws    "source $ROS_CATKIN_WS/devel/setup.zsh"
 ic_bind_cmd source_zsh   "source $HOME/.zshrc"
+ic_bind_cmd source_all   "source $HOME/.zshrc & source $ROS_CATKIN_WS/devel/setup.zsh"
 ic_bind_cmd cd_ws        "cd $ROS_CATKIN_WS/src"
 ic_bind_cmd cd_config    "cd $UWARL_CONFIGS"
 
