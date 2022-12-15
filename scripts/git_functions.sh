@@ -9,6 +9,11 @@ function apt_install(){
 
 function load_submodules(){
     ic_title "Loading Submodules ..."
+    
+    # checkout branch:
+    ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
+    cd $ROS_CATKIN_WS/src && git checkout $UWARL_catkin_ws_branch
+
     # update submodules:
     ic_wrn ">-- Loading Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src"
 
@@ -53,9 +58,6 @@ function create_catkin_ws(){
     # clone --> to the src/
     ic_wrn ">-- Cloning uwarl-robot_configs @ $ROS_CATKIN_WS/src"
     git clone git@github.com:UW-Advanced-Robotics-Lab/UWARL_catkin_ws.git $ROS_CATKIN_WS/src
-    # checkout branch:
-    ic_wrn ">-- Checking out branch $UWARL_catkin_ws_branch @ $ROS_CATKIN_WS/src"
-    cd $ROS_CATKIN_WS/src && git checkout $UWARL_catkin_ws_branch
     ic "x--- Done creating catkin workspace."
 }
 
