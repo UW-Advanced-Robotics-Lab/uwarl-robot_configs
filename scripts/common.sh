@@ -42,7 +42,9 @@ SUBMODULES_FOR_SUMMIT=(
 )
 SUBMODULES_FOR_WAM=(
     ## SUMMIT Side:
-    # "waterloo_steel" not needed for WAM?
+    "uwarl-robotnik_msgs"    # to talk to base
+    "uwarl-robotnik_sensors"
+    "waterloo_steel"         # [universal/ros1/main]
     ## WAM Side:
     "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
