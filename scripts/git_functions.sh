@@ -9,7 +9,15 @@ function apt_install(){
 
 function load_submodules(){
     ic_title "Loading Submodules ..."
-    
+    # check current branch on git configs:
+    cd $UWARL_CONFIGS 
+    config_tooling_branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+    if [[ $config_tooling_branch = $UWARL_catkin_ws_branch ]]; then
+        ic_wrn ">-- Both Workspace and Configs are targeting the same branch name [$UWARL_catkin_ws_branch]"
+    else
+        ic_err ">-- Workspace and Configs do not share the same branch name [$UWARL_catkin_ws_branch != $config_tooling_branch]"
+        ic_wrn ">-- Continuing checking out workspace with [$UWARL_catkin_ws_branch], please make sure this is intentional! "
+    fi
     # checkout branch:
     ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
     cd $ROS_CATKIN_WS/src && git checkout $UWARL_catkin_ws_branch
