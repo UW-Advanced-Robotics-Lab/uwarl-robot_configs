@@ -67,8 +67,8 @@ export ROS_WAM_IP=192.168.1.10
 export ROS_WAM_HOSTNAME=192.168.1.10
 export ROS_WAM_DISTRO=noetic
 
-export ROS_PC_IP=192.168.1.101
-export ROS_PC_HOSTNAME=192.168.1.101
+export ROS_PC_IP=192.168.1.100
+export ROS_PC_HOSTNAME=192.168.1.100
 export ROS_PC_DISTRO=noetic
 
 ## Auto-Assign: ##
@@ -188,6 +188,7 @@ function cat_ros_env() {
     ic_wrn " [LINUX ENV CONFIG ($USER)]: "
     ic     "    - DISPLAY                 : $DISPLAY"
     ic     "    - KERNEL                  : $(uname -a)"
+    ic     "    - PYTHONPATH              : $PYTHONPATH"
 }
 
 function source_ros() {
@@ -206,6 +207,7 @@ function source_ros() {
         export ROS_MASTER_URI=$ROS_WAM_MASTER_URI
         export ROS_DISTRO=$ROS_WAM_DISTRO
         export DISPLAY=$DISPLAY_WAM
+        export PYTHONPATH=/usr/bin/python3
     else
         ic " - NON-Robot PC User detected!"
         export ROS_IP=$ROS_PC_IP
@@ -213,6 +215,7 @@ function source_ros() {
         export ROS_MASTER_URI=$ROS_PC_MASTER_URI
         export ROS_DISTRO=$ROS_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH=/usr/bin/python3
     fi
 
     ic_title "Sourcing $ROS_DISTRO + $ROS_CATKIN_WS:"
