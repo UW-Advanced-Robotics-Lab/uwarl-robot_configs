@@ -60,7 +60,7 @@ elif [[ $USER = "uwarl-orin" ]]; then
     # install drivers :
     install_pcan_if_not NETDEV_SUPPORT
     install_libbarrett_if_not
-    
+    install_librealsense_if_not # for Intel Sensors
 else
     ic " - NON-Robot PC User detected! Begin local build:"
     load_submodules "${SUBMODULES_FOR_PC[@]}"
