@@ -256,12 +256,13 @@ function install_librealsense_if_not(){
         ic_wrn ">-- Cloning librealsense"
         cd $JX_LINUX
         git clone https://github.com/IntelRealSense/librealsense.git
-        
+        cd $candidate_path
+
         ic_wrn ">-- Setup Udev:"
         ./scripts/setup_udev_rules.sh  
         
         ic_wrn ">-- Install libuvc:"
-        ./libuvc_installation.sh
+        ./scripts/libuvc_installation.sh
 
         ic_wrn ">-- Prepare librealsense cmake files:"
         mkdir $candidate_path/build && cd $candidate_path/build
@@ -269,6 +270,27 @@ function install_librealsense_if_not(){
         
         ic_wrn ">-- Build librealsense"
         make -j$(($(nproc)-1)) 
+
+        ic_wrn ">-- Install librealsense"
+        sudo make install
+
+        ic "x--- Done installling librealsense! "
+        ic_err "[Reboot Required] Please reboot !"
+    fi
+}
+function install_dlink_dongle(){
+    ic_title "Installing DLink Wifi Dongle into $JX_LINUX ..."
+    local candidate_path="$JX_LINUX/rtl88x2bu"
+    if [[ -d "$candidate_path" ]]; then
+        ic_err " [!] rtl88x2bu Areadly Installed!"
+    else
+        ic_wrn ">-- Cloning rtl88x2bu"
+        cd $JX_LINUX
+        git clone https://github.com/cilynx/rtl88x2bu.git
+        cd $candidate_path
+        
+        ic_wrn ">-- Build librealsense"
+        make -j$(($(nproc)-1)) ARCH=arm64
 
         ic_wrn ">-- Install librealsense"
         sudo make install
