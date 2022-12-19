@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 source "$HOME/uwarl-robot_configs/scripts/common.sh"
+local_change_counter=0
+
 # checks if branch has something pending
 function parse_git_dirty() {
     git diff --quiet --ignore-submodules HEAD 2>/dev/null; [ $? -eq 1 ] && echo "*"
@@ -15,6 +17,22 @@ function parse_git_hash() {
     git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/@\1/"
 }
 
+function commit_ws() {
+    check_submodule_status
+    
+    ic_title "Package Workspace and Commit to Git"
+    cd $ROS_CATKIN_WS/src
+    if [[ $local_change_counter == 0 ]]; then
+        ic_wrn " - Looking good! Committing Workspace ..."
+        git add .
+        git commit 
+        ic_wrn " - All done! You may now push the changes to remote!"
+    else
+        ic_err " - There are ${local_change_counter} submodule changes to commit before saving the workspace!"
+        ic_wrn " - Please cd into submodule && commit submodule changes first!"
+        ic_wrn " - Abort!"
+    fi
+}
 
 function apt_install(){
     if dpkg --get-selections | grep -q "^$1[[:space:]]*install$" >/dev/null; then
@@ -247,8 +265,9 @@ function check_submodule_status(){
     echo "------------------------------------------------------------------------------------------------" >> $OUTPUT_STATUS_LOG_DIR
     echo "------------------------------------------------------------------------------------------------"
     
-    i=0
     cd "$ROS_CATKIN_WS/src"
+    local i=0
+    local_change_counter=0
     for dir in */ ; do
         i=$(( i + 1 ))
         if [ "$(ls -A $dir)" ]; then
@@ -256,16 +275,17 @@ function check_submodule_status(){
             ic_log "[$i] $dir is loaded: "
             cd "$ROS_CATKIN_WS/src/$dir"
             # now check changes
-            git_stats=$(git status --porcelain)
-            git_remote=$(git remote -v)
-            git_head=$(git rev-parse --abbrev-ref HEAD)
-            git_head_ver=$(git rev-parse --short HEAD)
+            local git_stats=$(git status --porcelain)
+            local git_remote=$(git remote -v)
+            local git_head=$(git rev-parse --abbrev-ref HEAD)
+            local git_head_ver=$(git rev-parse --short HEAD)
             ic "   > $dir on branch @ [$git_head_ver] $git_head"
             ic "   > $dir remote version: \n$git_remote"
             ic_log "   > $dir remote version: \n$git_remote"
             if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
                 ic_err "   > [!] $dir has changes: \n $git_stats"
                 ic_log "   > [!] $dir has changes: \n $git_stats"
+                local_change_counter=$(( local_change_counter + 1 ))
             else   
                 ic "   > [OK] $dir is up-to-date"
                 ic_log "   > [OK] $dir is up-to-date"
