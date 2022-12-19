@@ -52,6 +52,8 @@ SUBMODULES_FOR_WAM=(
     "uwarl-realsense_ros"    # [L515 Support]
     # "uwarl-barrett-ros-pkg" # [DEPRECATED]
     # "uwarl-zed_ros_wrapper" # [No longer used]
+    ## Vicon Tracker:
+    "uwarl-vicon_bridge"
 )
 
 #################################################################
