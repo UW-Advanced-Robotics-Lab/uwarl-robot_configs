@@ -254,7 +254,8 @@ function install_librealsense_if_not(){
     else
         ic_wrn ">-- Pre-req:"
         sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade
-        sudo apt-get install -y git libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev
+        echo Installing Librealsense-required dev packages
+        sudo apt-get install git cmake libssl-dev freeglut3-dev libusb-1.0-0-dev pkg-config libgtk-3-dev unzip -y
 
         ic_wrn ">-- Cloning librealsense"
         cd $JX_LINUX
@@ -264,12 +265,20 @@ function install_librealsense_if_not(){
         ic_wrn ">-- Setup Udev:"
         ./scripts/setup_udev_rules.sh  
         
-        ic_wrn ">-- Install libuvc:"
-        ./scripts/libuvc_installation.sh
+        ic_wrn ">-- Check Swapon:"
+        if [ $(sudo swapon --show | wc -l) -eq 0 ];
+        then
+            ic_wrn "No swapon - setting up 1Gb swap file"
+            sudo fallocate -l 2G /swapfile
+            sudo chmod 600 /swapfile
+            sudo mkswap /swapfile
+            sudo swapon /swapfile
+            sudo swapon --show
+        fi
 
         ic_wrn ">-- Prepare librealsense cmake files:"
         mkdir $candidate_path/build && cd $candidate_path/build
-        cmake ../ -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
+        cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
         
         ic_wrn ">-- Build librealsense"
         make -j$(($(nproc)-1)) 
