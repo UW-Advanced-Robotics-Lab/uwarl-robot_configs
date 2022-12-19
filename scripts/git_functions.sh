@@ -52,6 +52,7 @@ function load_submodules(){
     local config_tooling_branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
     local config_tooling_existed_in_remote=$(git ls-remote --heads origin ${config_tooling_branch})
     cd $ROS_CATKIN_WS/src
+    git fetch
     local catkin_ws_existed_in_remote=$(git ls-remote --heads origin ${UWARL_catkin_ws_branch})
     ## Check if both branches are the same: 
     if [[ $config_tooling_branch = $UWARL_catkin_ws_branch ]]; then
@@ -74,6 +75,7 @@ function load_submodules(){
     else
         # checkout branch:
         ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
+        git pull origin $UWARL_catkin_ws_branch
         git checkout $UWARL_catkin_ws_branch
     fi
 
