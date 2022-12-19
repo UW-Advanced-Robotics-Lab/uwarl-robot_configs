@@ -1,58 +1,139 @@
 #!/usr/bin/env zsh
 source "$HOME/uwarl-robot_configs/scripts/common.sh"
+# checks if branch has something pending
+function parse_git_dirty() {
+    git diff --quiet --ignore-submodules HEAD 2>/dev/null; [ $? -eq 1 ] && echo "*"
+}
+
+# gets the current git branch
+function parse_git_branch() {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+}
+
+# get last commit hash prepended with @ (i.e. @8a323d0)
+function parse_git_hash() {
+    git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/@\1/"
+}
+
 
 function apt_install(){
-    ic "> install [$1] "
-    sudo apt install $1
-    ic "    x- Installation Complete!"
+    if dpkg --get-selections | grep -q "^$1[[:space:]]*install$" >/dev/null; then
+        ic_wrn "> Already installed [$1] "
+    else
+        ic_err "> Missing [$1] "
+        ic "    > install [$1] "
+        sudo apt install $1
+        ic "    x- Installation Complete!"
+    fi
 }
 
 function load_submodules(){
     ic_title "Loading Submodules ..."
     # check current branch on git configs:
     cd $UWARL_CONFIGS 
-    config_tooling_branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+    local config_tooling_branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+    local config_tooling_existed_in_remote=$(git ls-remote --heads origin ${config_tooling_branch})
+    cd $ROS_CATKIN_WS/src
+    local catkin_ws_existed_in_remote=$(git ls-remote --heads origin ${UWARL_catkin_ws_branch})
+    ## Check if both branches are the same: 
     if [[ $config_tooling_branch = $UWARL_catkin_ws_branch ]]; then
         ic_wrn ">-- Both Workspace and Configs are targeting the same branch name [$UWARL_catkin_ws_branch]"
     else
         ic_err ">-- Workspace and Configs do not share the same branch name [$UWARL_catkin_ws_branch != $config_tooling_branch]"
         ic_wrn ">-- Continuing checking out workspace with [$UWARL_catkin_ws_branch], please make sure this is intentional! "
     fi
-    # checkout branch:
-    ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
-    cd $ROS_CATKIN_WS/src && git checkout $UWARL_catkin_ws_branch
+    ## Check if both branches exist on remote:
+    if [[ -z ${config_tooling_existed_in_remote} ]]; then
+        ic_wrn ">-- Did not find [$config_tooling_branch] on remote, please check if this is intentional! "
+    fi
+    if [[ -z ${catkin_ws_existed_in_remote} ]]; then
+        # if not, exit: (This function is supposed to be used for updating the workspace from remote.)
+        ic_err ">-- Did not find [$UWARL_catkin_ws_branch] on remote, please check if this is intentional!"
+        ic_err ">-- Aborting Updating Workspace!"
+        ic_wrn ">-- List of available remote branches:"
+        git ls-remote --heads
+        exit 0 
+    else
+        # checkout branch:
+        ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
+        git checkout $UWARL_catkin_ws_branch
+    fi
 
     # update submodules:
     ic_wrn ">-- Loading Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src"
 
-    list_of_modules=("$@")
-    total=${#list_of_modules[@]}
-    i=0
+    ## Indexing every modules given in common based on the system you have, and load them one by one:
+    ##      1. If there are any missing modules, it will initialize them and pull from remote origin. 
+    ##      2. If there are any modules that are not in the list, it will be not synced. 
+    ##              - You have to manually delete them from the workspace, before pushing to remote.
+    ##      3. If there are any modules that are not in the remote, it will be not synced.
+    ##      4. If there are any modules are outdated, it will be pulled from origin.
+    ##      5. If there are any modules have local changes, it will be not synced.
+    
+    local list_of_modules=("$@")
+    local total=${#list_of_modules[@]}
+    local i=0
     for module in "${list_of_modules[@]}"; do
         i=$(( i + 1 ))
-        ic_wrn "    > [$i/$total] - Loading submodule @ $module"
+        ic "    > [$i/$total] - Loading submodule @ $module"
         cd $ROS_CATKIN_WS/src
-        git submodule update --init --recursive $module
+        if [ -d "ls -A $dir" ]; then
+            ic_wrn "    > Directory [$module] is empty, initialize submodules! "
+            # checkout submodules
+            git submodule update --init --recursive $module
+        else
+            # update submodules
+            ic_wrn "       > Directory [$module] is not empty, entering submodules! "
+            cd $module
+            local git_submodule_branch_name=$(parse_git_branch)$(parse_git_hash)
+            local submodule_branch_name=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+            if [[ $submodule_branch_name =~ "HEAD" ]]; then
+                ic_wrn "       > [$module] - Submodule @ HEAD already up to date!"
+                ic_wrn "       > [$module] - Skip pulling from remote origin"
+            else
+                ic_wrn "       > [$module] - Submodule @ $submodule_branch_name "
+                local existed_in_remote=$(git ls-remote --heads origin ${submodule_branch_name})
+                if [[ -z ${existed_in_remote} ]]; then
+                    ic_err "       > [$module] - Did not found on remote, please check if this is intentional! "
+                    ic_wrn "                   > Skip pulling from remote origin"
+                else
+                    local local_ahead_count=$(git rev-list --count @{u}..HEAD)
+                    if [[ $local_ahead_count == 0 ]]; then
+                        ic_wrn "       > [$module] - Found on remote, attempt to pull from remote origin"
+                        git pull origin $submodule_branch_name
+                    else
+                        ic_err "       > [$module] - Found on remote, but local changes is ahead of remote, please check if this is intentional! "
+                        ic_wrn "                   > Skip pulling from remote origin"
+                    fi
+                fi
+            fi
+            cd ..
+        fi
     done
 
     # install dependencies:
     if [[ $ROS_DISTRO == "noetic" ]]; then
         ic  "ROS: [Noetic]"
-        ic_err "[ERR] Missing Ros Dep Tooling"
         apt_install python3-rosdep
-        sudo rosdep init
     else
         if [ "$(dpkg -l | awk '/rosdep/ {print }'|wc -l)" -ge 1 ]; then
             ic "rosdep exists!"
         else
             ic  "ROS: [Melodic]"
-            ic_err "[ERR] Missing Ros Dep Tooling"
             apt_install python-rosdep
-            sudo rosdep init
         fi
     fi
     ic_wrn ">-- Install ros dependencies @ $ROS_CATKIN_WS"
-    cd $ROS_CATKIN_WS && rosdep update
+    local default_rosdep_file="/etc/ros/rosdep/sources.list.d/20-default.list"
+    if test -f $default_rosdep_file; then
+        ic_wrn "> $default_rosdep_file already exists!"
+    else
+        in_wrn "> Now, initing rosdep!"
+        sudo rosdep init
+        ic_wrn "> Updating rosdep ..."
+        cd $ROS_CATKIN_WS && rosdep update
+    fi
+    ic_wrn "> Instaling rosdep fron $ROS_CATKIN_WS/src ..."
     cd $ROS_CATKIN_WS && rosdep install --from-paths src --ignore-src -r -y
     ic "x--- Done loading submodules."
 }
