@@ -97,7 +97,7 @@ function load_submodules(){
         i=$(( i + 1 ))
         ic "    > [$i/$total] - Loading submodule @ $module"
         cd $ROS_CATKIN_WS/src
-        if [ "$(ls -A $dir)" ]; then
+        if [[  -z "$(ls -A $dir)" ]]; then
             ic_wrn "    > Directory [$module] is empty, initialize submodules! "
             # checkout submodules
             git submodule update --init --recursive $module
@@ -118,7 +118,10 @@ function load_submodules(){
                     ic_wrn "                   > Skip pulling from remote origin"
                 else
                     local local_ahead_count=$(git rev-list --count @{u}..HEAD)
-                    if [[ $local_ahead_count == 0 ]]; then
+                    if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
+                        ic_err "       > [$module] - Found on remote, but uncommitted local changes, please check if this is intentional! "
+                        ic_wrn "                   > Skip pulling from remote origin"
+                    elif [[ $local_ahead_count == 0 ]]; then
                         ic_wrn "       > [$module] - Found on remote, attempt to pull from remote origin"
                         git pull origin $submodule_branch_name
                     else

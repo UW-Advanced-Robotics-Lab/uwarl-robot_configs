@@ -31,11 +31,11 @@ fi
 ## Config Check ##
 ic_title  "Auto-Configuration Begin ..."
 
-if [[ -d "$ROS_CATKIN_WS" ]]; then
-    ic_err " x- $ROS_CATKIN_WS Already Configured"
+if [[ -d "$ROS_CATKIN_WS/src" ]]; then
+    ic_err " x- $ROS_CATKIN_WS/src Already Configured"
 else
     create_catkin_ws
-    ic_wrn " [x] $ROS_CATKIN_WS has been created"
+    ic_wrn " [x] $ROS_CATKIN_WS/src has been created"
 fi
 
 if [[ -d "$JX_LINUX" ]]; then
