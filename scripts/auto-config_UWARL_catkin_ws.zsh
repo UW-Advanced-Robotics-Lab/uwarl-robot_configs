@@ -58,6 +58,7 @@ elif [[ $USER = "uwarl-orin" ]]; then
     load_submodules "${SUBMODULES_FOR_WAM[@]}"
     load_common 
     # install drivers :
+    install_misc_utilities # misc apt 
     install_pcan_if_not NETDEV_SUPPORT
     install_libbarrett_if_not
     install_librealsense_if_not # for Intel Sensors

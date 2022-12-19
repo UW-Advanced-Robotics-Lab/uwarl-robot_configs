@@ -180,12 +180,12 @@ function create_JX_Linux(){
 }
 
 function install_pcan_if_not(){
-    ic_title "Installing `pcan_linux_driver` into $JX_LINUX ..."
+    ic_title "Installing pcan_linux_driver into $JX_LINUX ..."
     ic_wrn ">-- Please note that this installation may not support custom kernel-header"
     if [[ -d "$JX_LINUX/peak-linux-driver-8.15.2" ]]; then
         ic_err " [!] Peak Linux Driver Areadly Installed!"
     else
-        ic_wrn ">-- Download `pcan_linux_driver`"
+        ic_wrn ">-- Download pcan_linux_driver"
         cd $JX_LINUX
         # download driver:
         wget https://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-8.15.2.tar.gz
@@ -201,14 +201,14 @@ function install_pcan_if_not(){
             sudo make -C driver 
         fi
 
-        ic_wrn ">-- Install `pcan_linux_driver`"
+        ic_wrn ">-- Install pcan_linux_driver"
         sudo make install
-        ic_wrn ">-- Probing `pcan_linux_driver`"
+        ic_wrn ">-- Probing pcan_linux_driver"
         sudo modprobe pcan
-        ic_wrn ">-- Checking `pcan_linux_driver`"
+        ic_wrn ">-- Checking pcan_linux_driver"
         sudo dmesg | grep pcan
 
-        ic "x--- Done installling `pcan_linux_driver`! "
+        ic "x--- Done installling pcan_linux_driver! "
     fi
 }
 
@@ -298,6 +298,16 @@ function install_dlink_dongle(){
         ic "x--- Done installling librealsense! "
         ic_err "[Reboot Required] Please reboot !"
     fi
+}
+
+function install_misc_utilities(){
+    ic_title "Installing Misc apt Packages:"
+    apt_install tree
+    apt_install tmux
+    apt_install git
+    apt_install zsh
+    apt_install vim
+    git config --global core.editor "vim"
 }
 
 function load_common() {
