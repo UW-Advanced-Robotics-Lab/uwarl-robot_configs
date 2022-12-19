@@ -97,7 +97,7 @@ function load_submodules(){
         i=$(( i + 1 ))
         ic "    > [$i/$total] - Loading submodule @ $module"
         cd $ROS_CATKIN_WS/src
-        if [ -d "ls -A $dir" ]; then
+        if [ "$(ls -A $dir)" ]; then
             ic_wrn "    > Directory [$module] is empty, initialize submodules! "
             # checkout submodules
             git submodule update --init --recursive $module
