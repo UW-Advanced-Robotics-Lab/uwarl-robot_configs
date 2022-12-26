@@ -44,6 +44,8 @@ else
     create_JX_Linux
 fi
 
+source_all_common_configs
+
 #################################################################
 ## Auto-Install ##
 if [[ $USER = "uwarl" ]]; then
@@ -72,6 +74,5 @@ fi
 
 #################################################################
 ## Auto-Source ##
-ic_title  "Source ~/.zshrc"
-source $HOME/.zshrc
+ic_source $HOME/.zshrc "Auto-Source Zshrc"
 ic  "\n\n<<< EOF"

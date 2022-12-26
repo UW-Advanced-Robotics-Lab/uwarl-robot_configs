@@ -18,7 +18,7 @@ function parse_git_hash() {
 }
 
 function commit_ws() {
-    check_submodule_status
+    log_submodule_status
     
     ic_title "Package Workspace and Commit to Git"
     cd $ROS_CATKIN_WS/src
@@ -93,15 +93,12 @@ function load_submodules(){
     local list_of_modules=("$@")
     local total=${#list_of_modules[@]}
     local i=0
+    local module=""
     for module in "${list_of_modules[@]}"; do
         i=$(( i + 1 ))
         ic "    > [$i/$total] - Loading submodule @ $module"
         cd $ROS_CATKIN_WS/src
-        if [[  -z "$(ls -A $dir)" ]]; then
-            ic_wrn "    > Directory [$module] is empty, initialize submodules! "
-            # checkout submodules
-            git submodule update --init --recursive $module
-        else
+        if if [ "$(ls -A $module)" ]; then
             # update submodules
             ic_wrn "       > Directory [$module] is not empty, entering submodules! "
             cd $module
@@ -131,6 +128,10 @@ function load_submodules(){
                 fi
             fi
             cd ..
+        else
+            ic_wrn "    > Directory [$module] is empty, initialize submodules! "
+            # checkout submodules
+            git submodule update --init --recursive $module
         fi
     done
 
@@ -340,6 +341,48 @@ function check_submodule_status(){
     ic_title "Checking Submodule Status ..."
     # start a new log:
     ic_wrn "[Git Status Lastly Updated on $(date) by $USER]"
+    # update submodules:
+    ic "Indexing Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src "
+    echo "------------------------------------------------------------------------------------------------"
+    
+    cd "$ROS_CATKIN_WS/src"
+    local i=0
+    local_change_counter=0
+    for dir in */ ; do
+        i=$(( i + 1 ))
+        if [ "$(ls -A $dir)" ]; then
+            ic "[$i] $dir is loaded: "
+            cd "$ROS_CATKIN_WS/src/$dir"
+            # now check changes
+            local git_stats=$(git status --porcelain)
+            local git_remote=$(git remote -v)
+            local git_head=$(git rev-parse --abbrev-ref HEAD)
+            local git_head_ver=$(git rev-parse --short HEAD)
+            ic "   > $dir on branch @ [$git_head_ver] $git_head"
+            ic "   > $dir remote version: \n$git_remote"
+            if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
+                ic_err "   > [!] $dir has changes: \n $git_stats"
+                local_change_counter=$(( local_change_counter + 1 ))
+            else   
+                ic "   > [OK] $dir is up-to-date"
+            fi 
+
+            # git status
+            #
+            cd "$ROS_CATKIN_WS/src"
+        else
+            ic_wrn "[$i] $dir submodule is not loaded! "
+        fi
+        echo "------------------------------------------------------------------------------------------------"
+    done
+    
+    ic "x- Done indexing submodules."
+}
+
+function log_submodule_status(){
+    ic_title "Checking Submodule Status ..."
+    # start a new log:
+    ic_wrn "[Git Status Lastly Updated on $(date) by $USER]"
     echo "[Git Status Lastly Updated on $(date) by $USER]" > $OUTPUT_STATUS_LOG_DIR
     # update submodules:
     ic "Indexing Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src >>--log-->> $OUTPUT_STATUS_LOG_DIR"
@@ -348,7 +391,8 @@ function check_submodule_status(){
     
     cd "$ROS_CATKIN_WS/src"
     local i=0
-    local_change_counter=0
+    local local_change_counter=0
+    local dir=""
     for dir in */ ; do
         i=$(( i + 1 ))
         if [ "$(ls -A $dir)" ]; then
