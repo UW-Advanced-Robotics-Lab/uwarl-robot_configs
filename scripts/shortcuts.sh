@@ -1,6 +1,7 @@
 source "$HOME/uwarl-robot_configs/scripts/common.sh"
 
 ic " > Path of ROS Catkin Workspace: $ROS_CATKIN_WS"
+echo "" # empty line
 ## kill processor:
 ic_bind_cmd kill-ros "ps aux  | grep -e ros | awk '{print $2}' | xargs -i -exec kill -9 {}"
 
@@ -24,5 +25,11 @@ ic_bind_cmd source_all   "source $HOME/.zshrc && source $ROS_CATKIN_WS/devel/set
 ic_bind_cmd cd_ws        "cd $ROS_CATKIN_WS/src"
 ic_bind_cmd cd_config    "cd $UWARL_CONFIGS"
 
-## Host VNC: `$ host_vnc {display_id:0,1,2}`
-ic_bind_cmd host_vnc     "/usr/bin/x11vnc -forever -bg -usepw -httpdir /usr/share/vnc-java/ -httpport 5901 -display :$1"
+## Markdown script:
+echo "" # empty line
+ic_source "$UWARL_CONFIGS/scripts/markdown-toc.sh" "Markdown Toc Generator"
+ic_bind_cmd md_toc       "markdown_toc"
+ic_bind_cmd md_toc_dir   "markdown_toc_directory"
+
+## Host VNC: `$ host_vnc {display_id:0,1,2}` [ARCHIVED: no longer used, as vnc requires physical monitor, and slow/insecure]
+# ic_bind_cmd host_vnc     "/usr/bin/x11vnc -forever -bg -usepw -httpdir /usr/share/vnc-java/ -httpport 5901 -display :$1"
