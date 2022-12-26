@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 function markdown-toc(){
-    FILE=${1:?No file was specified as first argument}
+    local FILE=${1:?No file was specified as first argument}
     
     declare -a TOC
-    CODE_BLOCK=0
-    CODE_BLOCK_REGEX='.*```'
-    CODE_BLOCK_REGEX_PAIR='.*```.*```'
-    HEADING_REGEX='\#{1,}'
+    local CODE_BLOCK=0
+    local CODE_BLOCK_REGEX='.*```'
+    local CODE_BLOCK_REGEX_PAIR='.*```.*```'
+    local HEADING_REGEX='\#{1,}'
     
     while read -r LINE; do
         # Treat code blocks
@@ -35,7 +35,7 @@ function markdown-toc(){
         fi
     done < <(grep -v '\n# Table of Contents' "${FILE}")
     
-    TOC_TEXT="<toc>\n\n"
+    local TOC_TEXT="<toc>\n\n"
     TOC_TEXT+="# Table of Contents\n"
     TOC_TEXT+="[*Last generated: $(date)*]\n"
     for LINE in "${TOC[@]}"; do
@@ -80,8 +80,8 @@ function markdown-toc(){
 }
 
 function markdown_toc(){
-    file=$1
-    if [[ $file = "docs/_Sidebar.md" || $file = "docs/_Footer.md" || $file = "docs/Home.md" ]]; then
+    local file=$1
+    if [[ $file = "_Sidebar.md" || $file = "_Footer.md" || $file = "Home.md" ]]; then
         echo "    - [!] Skip $file"
         continue # skip particular md files
     else
@@ -99,23 +99,21 @@ function markdown_toc(){
 }
 
 function markdown_toc_directory(){
-    # enter main directories:
-    cd "$(dirname "$0")"/..
-    
     # markdown batch process:
-    if [[ $1 = "-a" ]]; then
-        # process all documents
-        LIST_OF_MD=(docs/*.md)
+    if [[ $1 = "-git" ]]; then
+        # process only '.md' files from git status
+        IFS=$'\n'
+        LIST_OF_MD=($(git diff --name-only | grep -E "\.md$"))
     else
-        # process only '.md' files
-        LIST_OF_MD="$(git status --porcelain -- 'docs/*.md' | sed s/^...//)" 
-        LIST_OF_MD=($LIST_OF_MD) # convert to array
+        # process all documents
+        LIST_OF_MD=($1/*.md)
     fi 
     
-    i=0
+    local n=${#LIST_OF_MD[@]}
+    local i=0
     for file in "${LIST_OF_MD[@]}"; do
         i=$(( i + 1 ))
-        echo "> [$i] - editing toc @ $file"
+        echo "> [$i/$n] - editing toc @ $file"
         markdown_toc $file
     done
 }
