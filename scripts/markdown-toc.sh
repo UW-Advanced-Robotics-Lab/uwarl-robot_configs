@@ -78,31 +78,53 @@ function markdown-toc(){
     mv $FILE{.new,}
     echo "    - [x] Generated table of contents"
 }
+function markdown-eof(){
+    local FILE=${1:?No file was specified as first argument}
+    local TOC_TEXT="\n<eof>\n"
+    TOC_TEXT+="\n---\n"
+    TOC_TEXT+="[*> Back To Top <*](#Table of Contents)"
+    TOC_TEXT+="\n</eof>"
+    { cat $FILE; echo -en "${TOC_TEXT}"; } > $FILE.new
+    mv $FILE{.new,}
+}
 
 function markdown_toc(){
-    local file=$1
+    local file=${1:?No file was specified as first argument}
     if [[ $file = "_Sidebar.md" || $file = "_Footer.md" || $file = "Home.md" ]]; then
         echo "    - [!] Skip $file"
         continue # skip particular md files
     else
+        # now edit toc
         if [[ $(<$file) = *"<toc>"*"</toc>"* ]]; then
         # if [[ $(<$file) = *"# Table of Contents"* ]]; then
             echo "    - [!] Already has a ToC, deleting the old ToC ..."
             sed '/<toc>/,/<\/toc>/d' $file > $file.new
             mv $file{.new,}
             markdown-toc $file
-            continue # skip if already has a toc
         else
             markdown-toc $file
         fi
+        
+        # now edit eof
+        if [[ $(<$file) = *"<eof>"*"</eof>"* ]]; then
+        # if [[ $(<$file) = *"# Table of Contents"* ]]; then
+            echo "    - [!] Already has a EoF, deleting the old ToC ..."
+            sed '/<eof>/,/<\/eof>/d' $file > $file.new
+            mv $file{.new,}
+            markdown-eof $file
+        else
+            markdown-eof $file
+        fi
+        
+        # Append back to top shortcut @ eof
     fi
 }
 
 function markdown_toc_directory(){
+    local file=${1:?No directory was specified as first argument}
     # markdown batch process:
     if [[ $1 = "-git" ]]; then
         # process only '.md' files from git status
-        IFS=$'\n'
         LIST_OF_MD=($(git diff --name-only | grep -E "\.md$"))
     else
         # process all documents
