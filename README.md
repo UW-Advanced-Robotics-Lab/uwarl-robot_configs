@@ -1,25 +1,24 @@
 <toc>
 
 # Table of Contents
-[*Last generated: Mon 26 Dec 2022 08:17:23 AM EST*]
-- [Table of Contents](#table-of-contents)
-- [1. A brief about `uwarl-robot_configs`](#1-a-brief-about-uwarl-robot_configs)
-- [2. ⭐ Unified Development :construction:  \[Local PC / Summit / WAM\] (Melodic/Noetic):](#2--unified-development-construction--local-pc--summit--wam-melodicnoetic)
-  - [2.1 How to commit:](#21-how-to-commit)
-  - [2.2 How to Add a new modules under workspace/src:](#22-how-to-add-a-new-modules-under-workspacesrc)
-- [3. ROS UWARL\_catkin\_ws Usage Guide:](#3-ros-uwarl_catkin_ws-usage-guide)
-  - [3.1 Modifications:](#31-modifications)
-  - [3.2 Commit and Push:](#32-commit-and-push)
-  - [3.3 Pull latest repo:](#33-pull-latest-repo)
-  - [3.4 Restart over the catkin workspace:](#34-restart-over-the-catkin-workspace)
-  - [3.5 Shortcuts:](#35-shortcuts)
-- [A. Appendix:](#a-appendix)
-  - [A.1 File Tree:](#a1-file-tree)
-  - [A.2 ZSHRC Terminal Output After Installing:](#a2-zshrc-terminal-output-after-installing)
-  - [A.3 Environment Configurations:](#a3-environment-configurations)
-    - [A.3.1 summitxl\_params.env](#a31-summitxl_paramsenv)
+[*Last generated: Mon 26 Dec 2022 11:06:30 EST*]
+- [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
+- [**2. ⭐ Unified Development :construction:  [Local PC / Summit / WAM] (Melodic/Noetic):**](#2-Unified-Development-construction-Local-PC-Summit-WAM-MelodicNoetic)
+  - [2.1 How to commit:](#21-How-to-commit)
+  - [2.2 How to Add a new modules under workspace/src:](#22-How-to-Add-a-new-modules-under-workspacesrc)
+- [**3. ROS UWARL_catkin_ws Usage Guide:**](#3-ROS-UWARL_catkin_ws-Usage-Guide)
+  - [3.1 Modifications:](#31-Modifications)
+  - [3.2 Commit and Push:](#32-Commit-and-Push)
+  - [3.3 Pull latest repo:](#33-Pull-latest-repo)
+  - [3.4 Restart over the catkin workspace:](#34-Restart-over-the-catkin-workspace)
+  - [3.5 Shortcuts:](#35-Shortcuts)
+- [**A. Appendix:**](#A-Appendix)
+  - [A.1 File Tree:](#A1-File-Tree)
+  - [A.2 ZSHRC Terminal Output After Installing:](#A2-ZSHRC-Terminal-Output-After-Installing)
+  - [A.3 Environment Configurations:](#A3-Environment-Configurations)
+    - [A.3.1 summitxl_params.env](#A31-summitxl_paramsenv)
 
-
+---
 </toc>
 
 
@@ -272,3 +271,8 @@ Robot Configuration Description:
  
      - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
 ```
+<eof>
+
+---
+[*> Back To Top <*](#Table-of-Contents)
+</eof>
