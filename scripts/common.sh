@@ -1,27 +1,10 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
+# export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
 # export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/feature/wam_node"
-
-SUBMODULES_FOR_PC=(
-    ## SUMMIT Side:
-    "multimap_server_msgs"
-    "system_monitor"
-    "uwarl-multimap_server"
-    "uwarl-robot_localization_utils"
-    # "uwarl-robotnik_base_hw" # not needed for simulation !  # [x86_64 only]
-    "uwarl-robotnik_msgs"
-    "uwarl-robotnik_sensors"
-    "uwarl-summit_xl_common"
-    "uwarl-summit_xl_robot"
-    "waterloo_steel"
-    ## WAM Side:
-    # "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
-    # "uwarl-barrett_wam_msgs"
-    "uwarl-barrett-ros-pkg" # [DEPRECATED]
-    # "uwarl-zed_ros_wrapper"
-)
+export UWARL_catkin_ws_branch="universal/ros1/robohub/session-dec-2022"
+# $USER = "uwarl":
 SUBMODULES_FOR_SUMMIT=(
     ## SUMMIT Side:
     "multimap_server_msgs"
@@ -36,39 +19,96 @@ SUBMODULES_FOR_SUMMIT=(
     "waterloo_steel"         # [universal/ros1/main]
     ## WAM Side:
     # "uwarl-barrett_wam_hw"  # [NOT NEEDED]
-    # "uwarl-barrett_wam_msgs"
+    "uwarl-barrett_wam_msgs"  # [NOT USED]
     # "uwarl-barrett-ros-pkg" # [DEPRECATED]
 )
+# $USER = "uwarl-orin":
 SUBMODULES_FOR_WAM=(
     ## SUMMIT Side:
-    # "waterloo_steel" not needed for WAM?
+    "uwarl-robotnik_msgs"    # to talk to base
+    "uwarl-robotnik_sensors"
+    "waterloo_steel"         # [universal/ros1/main]
     ## WAM Side:
-    # "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
-    # "uwarl-barrett_wam_msgs"
-    "uwarl-barrett-ros-pkg" # [DEPRECATED]
-    "uwarl-zed_ros_wrapper"
+    "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    "uwarl-realsense_ros"    # [L515 Support]
+    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
+    # "uwarl-zed_ros_wrapper" # [No longer used]
+    ## Vicon Tracker:
+    "uwarl-vicon_bridge"
+)
+# else:
+SUBMODULES_FOR_PC_DEFAULT=(
+    ## SUMMIT Side:
+    "multimap_server_msgs"
+    "system_monitor"
+    "uwarl-multimap_server"
+    "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw" # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    ## WAM Side:
+    "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    "uwarl-realsense_ros"    # [L515 Support]
+    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
+    # "uwarl-zed_ros_wrapper"
+)
+#### USER DEFINED PC: ####
+# $USER = "parallels":
+SUBMODULES_FOR_JX_PARALLEL=(
+    ## SUMMIT Side:
+    "multimap_server_msgs"
+    "system_monitor"
+    "uwarl-multimap_server"
+    "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw" # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    ## WAM Side:
+    "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    "uwarl-realsense_ros"    # [L515 Support]
+    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
+    # "uwarl-zed_ros_wrapper"
 )
 
 #################################################################
 ## NETWORK PARAM: ##
-export ROS_SUMMIT_IP=192.168.1.11
+### User Defined: ###
+export ROS_CORE_HOSTER="SUMMIT-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+### SYSTEM Defined: ###
+export LOCAL_PC_IP="$(hostname -I | cut -d' ' -f1)"
+
+### [ Robot Network: UWARL-171102A_5G ] ###
+export ROS_SUMMIT_IP=192.168.1.11 # MAC Binded
 export ROS_SUMMIT_HOSTNAME=192.168.1.11
-export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
 export ROS_SUMMIT_DISTRO=melodic
 
-export ROS_WAM_IP=192.168.1.10
+export ROS_WAM_IP=192.168.1.10 # MAC Binded
 export ROS_WAM_HOSTNAME=192.168.1.10
-export ROS_WAM_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
 export ROS_WAM_DISTRO=noetic
 
-export ROS_PC_IP=192.168.1.101
-export ROS_PC_HOSTNAME=192.168.1.101
-export ROS_PC_MASTER_URI=http://$ROS_SUMMIT_IP:11311/ # <--- change it to localhost for local roscore
+export ROS_PC_IP=192.168.1.100 # DHCP , may change
+export ROS_PC_HOSTNAME=192.168.1.100
 export ROS_PC_DISTRO=noetic
+
+### [ Other Miscellaneous Networks ] ###
+export ROS_JX_PARALLEL_PC_IP=10.211.55.5
+export ROS_JX_PARALLEL_PC_HOSTNAME=10.211.55.5
+export ROS_JX_PARALLEL_PC_DISTRO=noetic
 
 #################################################################
 ## VAR ##
-export DISPLAY=:0 # make sure it only display on the default screen
+# assign to DISPLAY param:
+export DISPLAY_WAM=:1
+export DISPLAY_DEFAULT=:0
 
 ## FILE PATH ##
 export COMMON_ROBOT_CONFIGS="$HOME/uwarl-robot_configs/scripts/common.sh"
@@ -105,7 +145,11 @@ function ic () {
 function ic_title () {
     echo " "
     ic " ==================================================="
-    ic " [ $1 ]"
+    if [[ -z "$2" ]]; then
+        ic " [ $1 ] "
+    else
+        echo -e "${CYAN}[UWARL-Robot_Config]${NC} ${BLUE} [ $1 | ${NC} $2 ${BLUE} ] ${NC}"
+    fi
     ic " ==================================================="
 }
 function ic_err () {
@@ -118,8 +162,12 @@ function ic_log () {
     echo "[UWARL-Robot_Config] $1" >> $OUTPUT_STATUS_LOG_DIR
 }
 function ic_bind_cmd () {
-    echo -e "${CYAN}[UWARL-Robot_Config]   Aliasing \`${NC}${YELLOW}\$ $1${NC}\` command @ $UWARL_CONFIGS/scripts/shortcuts.sh"
+    echo -e "${CYAN}[UWARL-Robot_Config]   > Aliasing \`${NC}${YELLOW}\$ $1${NC}\` command @ $UWARL_CONFIGS/scripts/shortcuts.sh"
     alias $1=$2
+}
+function ic_source () {
+    echo -e "${CYAN}[UWARL-Robot_Config]   > Sourcing ${YELLOW} $2 ${BLUE} @ $1 ${NC}"
+    source $1
 }
 
 function cat_summit_env() {
@@ -140,54 +188,126 @@ function cat_summit_env() {
     ic     "    - ROBOT_PAD_MODEL         : $ROBOT_PAD_MODEL"
 }
 function cat_ros_env() {
-    ic_wrn " [ROS CONFIG]: "
-    ic     "    - ROS HOST   : $ROS_HOSTNAME"
-    ic     "    - ROS MASTER : $ROS_MASTER_URI"
-    ic     "    - ROS IP     : $ROS_IP"
+    ic_wrn " [ROS CONFIG ($USER)]: "
+    ic     "    - ROS ROS_DISTRO          : $ROS_DISTRO"
+    ic     "    - ROS HOST                : $ROS_HOSTNAME"
+    ic     "    - ROS MASTER              : $ROS_MASTER_URI"
+    ic     "    - ROS IP                  : $ROS_IP"
+    ic_wrn " [LINUX ENV CONFIG ($USER)]: "
+    ic     "    - IP                      : $LOCAL_PC_IP"
+    ic     "    - DISPLAY                 : $DISPLAY"
+    ic     "    - KERNEL                  : $(uname -a)"
+    ic     "    - PYTHONPATH              : $PYTHONPATH"
+}
+
+function ros_core_sync() {
+    ## Auto-Assign: ros core synchronization ##
+    ic_wrn " > ROS CORE is currently hosted by [$1]!"
+    case $1 in
+    
+        "SUMMIT-PC")
+            export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
+            export ROS_WAM_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
+            export ROS_PC_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
+            ;;
+    
+        "WAM-PC")
+            export ROS_SUMMIT_MASTER_URI=http://$ROS_WAM_IP:11311/
+            export ROS_WAM_MASTER_URI=http://localhost:11311/
+            export ROS_PC_MASTER_URI=http://$ROS_WAM_IP:11311/
+            ;;
+    
+        "REMOTE-PC")
+            export ROS_SUMMIT_MASTER_URI=http://$ROS_PC_IP:11311/
+            export ROS_WAM_MASTER_URI=http://$ROS_PC_IP:11311/
+            export ROS_PC_MASTER_URI=http://localhost:11311/
+            ;;
+    
+        "LOCAL-HOSTS")
+            export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
+            export ROS_WAM_MASTER_URI=http://localhost:11311/
+            export ROS_PC_MASTER_URI=http://localhost:11311/
+            ;;
+    
+        *)
+            exit "Please configure HOSTER from [SUMMIT-PC, WAM-PC, REMOTE-PC, LOCALHOST]!"
+            ;;
+    esac
 }
 
 function source_ros() {
-    ic_title "ROS" "Setting up ROS Master IP:"
-    if [[ $USER = "uwarl" ]]; then
-        ic " - Adlink MXE211 Summit PC detected!" 
+    ic_title "ROS" "Setting up ROS environment based on User and PC IP"
+    ## Auto-Assign: ##
+    ic " > PC Reg.: $USER @ $LOCAL_PC_IP"
+    # adlink in-robot-network PC:
+    if [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
+        ic_wrn " - Adlink MXE211 Summit PC detected!" 
+        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
+        ros_core_sync $ROS_CORE_HOSTER
         export ROS_IP=$ROS_SUMMIT_IP
         export ROS_HOSTNAME=$ROS_SUMMIT_HOSTNAME
         export ROS_MASTER_URI=$ROS_SUMMIT_MASTER_URI
         export ROS_DISTRO=$ROS_SUMMIT_DISTRO
-    elif [[ $USER = "uwarl-orin" ]]; then
-        ic " - Jetson Orin WAM PC detected!"
+        export DISPLAY=$DISPLAY_DEFAULT
+        
+    # jetson in-robot-network PC:
+    elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
+        ic_wrn " - Jetson Orin WAM PC detected!"
+        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
+        ros_core_sync $ROS_CORE_HOSTER
         export ROS_IP=$ROS_WAM_IP
         export ROS_HOSTNAME=$ROS_WAM_HOSTNAME
         export ROS_MASTER_URI=$ROS_WAM_MASTER_URI
         export ROS_DISTRO=$ROS_WAM_DISTRO
-    else
-        ic " - NON-Robot PC User detected!"
+        export DISPLAY=$DISPLAY_WAM
+        export PYTHONPATH=/usr/bin/python3
+        
+    # default in-robot-network PC:
+    elif [[ $LOCAL_PC_IP = "$ROS_PC_IP" ]]; then
+        ic_wrn " - NON-Robot PC User detected!"
+        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
+        ros_core_sync $ROS_CORE_HOSTER
         export ROS_IP=$ROS_PC_IP
         export ROS_HOSTNAME=$ROS_PC_HOSTNAME
         export ROS_MASTER_URI=$ROS_PC_MASTER_URI
         export ROS_DISTRO=$ROS_PC_DISTRO
+        export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH=/usr/bin/python3
+        SUBMODULES_FOR_PC=${SUBMODULES_FOR_PC_DEFAULT[@]}
+        
+    ### user defined out-of-network PC:
+    elif [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
+        ic_wrn " - NON-Robot PC User [Jack's Parallel VM] detected!"
+        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
+        ros_core_sync "LOCAL-HOSTS"
+        export ROS_IP=$ROS_JX_PARALLEL_PC_IP
+        export ROS_HOSTNAME=$ROS_JX_PARALLEL_PC_HOSTNAME
+        export ROS_MASTER_URI=http://localhost:11311/
+        export ROS_DISTRO=$ROS_JX_PARALLEL_PC_DISTRO
+        export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH=/usr/bin/python3
+        SUBMODULES_FOR_PC=${SUBMODULES_FOR_JX_PARALLEL[@]}
+    
+    ### TEMPLATE:
+    # elif [[ $USER = "{define-here}" ]] && [[ $LOCAL_PC_IP = "${define-here}" ]]; then
+    #     ic_wrn " - NON-Robot PC User [Jack's Parallel VM] detected!"
+    #     ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
+    
+    else
+        ic_err " - UNREGISTERED Out-of-network/In-network PC detected!"
+        ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/robot_env.sh"
+        SUBMODULES_FOR_PC=${SUBMODULES_FOR_PC_DEFAULT[@]}
     fi
 
-    ic_title "Sourcing $ROS_DISTRO + $ROS_CATKIN_WS:"
-    source /opt/ros/$ROS_DISTRO/setup.zsh
-    source $ROS_CATKIN_WS/devel/setup.zsh
-}
-
-function source_shortcuts() {
-    ic_title " Sourcing shortcuts @ $UWARL_CONFIGS/scripts/shortcuts.sh"
-    source "$UWARL_CONFIGS/scripts/shortcuts.sh"
-}
-
-function source_robot_env() {
-    ic_title "Sourcing env @ $UWARL_SUMMIT_SPECIFIC/summitxl_params.env"
-    source $UWARL_SUMMIT_SPECIFIC/summitxl_params.env
+    ic_source /opt/ros/$ROS_DISTRO/setup.zsh "ROS_DISTRO=$ROS_DISTRO"
+    ic_source $ROS_CATKIN_WS/devel/setup.zsh "ROS_CATKIN_WS=$ROS_CATKIN_WS"
 }
 
 function source_all_common_configs() {
     # action:
-    source_robot_env
+    ic_source $UWARL_SUMMIT_SPECIFIC/summitxl_params.env "Summit Params"
     source_ros
-    source_shortcuts
+    ic_source "$UWARL_CONFIGS/scripts/shortcuts.sh" "Shortcuts"
     # report:
     ic_title "Print Environment Variables: "
     cat_summit_env

@@ -31,11 +31,11 @@ fi
 ## Config Check ##
 ic_title  "Auto-Configuration Begin ..."
 
-if [[ -d "$ROS_CATKIN_WS" ]]; then
-    ic_err " x- $ROS_CATKIN_WS Already Configured"
+if [[ -d "$ROS_CATKIN_WS/src" ]]; then
+    ic_err " x- $ROS_CATKIN_WS/src Already Configured"
 else
     create_catkin_ws
-    ic_wrn " [x] $ROS_CATKIN_WS has been created"
+    ic_wrn " [x] $ROS_CATKIN_WS/src has been created"
 fi
 
 if [[ -d "$JX_LINUX" ]]; then
@@ -58,9 +58,12 @@ elif [[ $USER = "uwarl-orin" ]]; then
     load_submodules "${SUBMODULES_FOR_WAM[@]}"
     load_common 
     # install drivers :
+    install_misc_utilities # misc apt 
     install_pcan_if_not NETDEV_SUPPORT
     install_libbarrett_if_not
-    
+    install_librealsense_if_not # for Intel Sensors
+    install_dlink_dongle # for dlink dongle
+
 else
     ic " - NON-Robot PC User detected! Begin local build:"
     load_submodules "${SUBMODULES_FOR_PC[@]}"
