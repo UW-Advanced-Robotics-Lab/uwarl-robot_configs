@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 source "$HOME/uwarl-robot_configs/scripts/common.sh"
-local_change_counter=0
+global_change_counter=0
 
 # checks if branch has something pending
 function parse_git_dirty() {
@@ -22,13 +22,13 @@ function commit_ws() {
     
     ic_title "Package Workspace and Commit to Git"
     cd $ROS_CATKIN_WS/src
-    if [[ $local_change_counter == 0 ]]; then
+    if [[ $global_change_counter == 0 ]]; then
         ic_wrn " - Looking good! Committing Workspace ..."
         git add .
         git commit 
         ic_wrn " - All done! You may now push the changes to remote!"
     else
-        ic_err " - There are ${local_change_counter} submodule changes to commit before saving the workspace!"
+        ic_err " - There are ${global_change_counter} submodule changes to commit before saving the workspace!"
         ic_wrn " - Please cd into submodule && commit submodule changes first!"
         ic_wrn " - Abort!"
     fi
@@ -347,7 +347,7 @@ function check_submodule_status(){
     
     cd "$ROS_CATKIN_WS/src"
     local i=0
-    local_change_counter=0
+    local change_counter=0
     for dir in */ ; do
         i=$(( i + 1 ))
         if [ "$(ls -A $dir)" ]; then
@@ -362,7 +362,7 @@ function check_submodule_status(){
             ic "   > $dir remote version: \n$git_remote"
             if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
                 ic_err "   > [!] $dir has changes: \n $git_stats"
-                local_change_counter=$(( local_change_counter + 1 ))
+                change_counter=$(( change_counter + 1 ))
             else   
                 ic "   > [OK] $dir is up-to-date"
             fi 
@@ -376,6 +376,7 @@ function check_submodule_status(){
         echo "------------------------------------------------------------------------------------------------"
     done
     
+    ic_wrn "x- There are $change_counter Submodules with uncommited changes"
     ic "x- Done indexing submodules."
 }
 
@@ -391,7 +392,7 @@ function log_submodule_status(){
     
     cd "$ROS_CATKIN_WS/src"
     local i=0
-    local local_change_counter=0
+    global_change_counter=0
     local dir=""
     for dir in */ ; do
         i=$(( i + 1 ))
@@ -405,12 +406,13 @@ function log_submodule_status(){
             local git_head=$(git rev-parse --abbrev-ref HEAD)
             local git_head_ver=$(git rev-parse --short HEAD)
             ic "   > $dir on branch @ [$git_head_ver] $git_head"
+            ic_log "   > $dir on branch @ [$git_head_ver] $git_head"
             ic "   > $dir remote version: \n$git_remote"
             ic_log "   > $dir remote version: \n$git_remote"
             if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
                 ic_err "   > [!] $dir has changes: \n $git_stats"
                 ic_log "   > [!] $dir has changes: \n $git_stats"
-                local_change_counter=$(( local_change_counter + 1 ))
+                global_change_counter=$(( global_change_counter + 1 ))
             else   
                 ic "   > [OK] $dir is up-to-date"
                 ic_log "   > [OK] $dir is up-to-date"
@@ -427,6 +429,8 @@ function log_submodule_status(){
         echo "------------------------------------------------------------------------------------------------"
     done
     
+    ic_wrn "x- There are $global_change_counter Submodules with uncommited changes"
+    ic_log "x- There are $global_change_counter Submodules with uncommited changes"
     ic "x- Done indexing submodules."
 }
 
