@@ -273,7 +273,7 @@ function source_ros() {
         export ROS_DISTRO=$ROS_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH=/usr/bin/python3
-        SUBMODULES_FOR_PC=${SUBMODULES_FOR_PC_DEFAULT[@]}
+        SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
         
     ### user defined out-of-network PC:
     elif [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
@@ -286,7 +286,7 @@ function source_ros() {
         export ROS_DISTRO=$ROS_JX_PARALLEL_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH=/usr/bin/python3
-        SUBMODULES_FOR_PC=${SUBMODULES_FOR_JX_PARALLEL[@]}
+        SUBMODULES_FOR_PC=($SUBMODULES_FOR_JX_PARALLEL)
     
     ### TEMPLATE:
     # elif [[ $USER = "{define-here}" ]] && [[ $LOCAL_PC_IP = "${define-here}" ]]; then
@@ -296,7 +296,7 @@ function source_ros() {
     else
         ic_err " - UNREGISTERED Out-of-network/In-network PC detected!"
         ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/robot_env.sh"
-        SUBMODULES_FOR_PC=${SUBMODULES_FOR_PC_DEFAULT[@]}
+        SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
     fi
 
     ic_source /opt/ros/$ROS_DISTRO/setup.zsh "ROS_DISTRO=$ROS_DISTRO"

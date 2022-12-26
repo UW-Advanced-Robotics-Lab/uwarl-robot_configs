@@ -90,10 +90,8 @@ This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` f
 3. Once you are satisfied with the current version of the workspace, you may commit this specific combination of submodules
 
    ```bash
-   $ check_ws_status # let's update local log file that automatically track workspace status upon checking the status, so we will know if the commit for workspace has any local commits that have not yet been tracked.
    $ cd_ws
-   $ git status
-   $ git commit -a 
+   $ commit_ws # it will automatically log all the submodule status for this commit, and prompt any residual modifications
    $ git push
    ```
 
