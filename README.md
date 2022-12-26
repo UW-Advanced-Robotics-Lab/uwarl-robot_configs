@@ -234,40 +234,41 @@ $ md_toc_dir docs
 ### A.3.1 summitxl_params.env
 
 Robot Configuration Description:
-    ```
-        - ROBOT_ID indicates the name of the robot. This is the name of the namespace under all the nodes will be working. This is also used as the prefix of all the subcomponents.(*summit_xl*)
+   
+```
+     - ROBOT_ID indicates the name of the robot. This is the name of the namespace under all the nodes will be working. This is also used as the prefix of all the subcomponents.(*summit_xl*)
 
-        - ROBOT_XACRO indicates the path where the xacro file is. (inside the robot folder in robot_description)(*summit_xl.urdf.xacro*)
-    
-        - ROBOT_FRONT_LASER_MODEL indicates the model of the laser that the robot is using. The model is the name of the launch file.(*sick_tim561/hokuyo_ug01/hokuyo_ust*)
-    
-        - ROBOT_REAR_LASER_MODEL indicates the model of the laser that the robot is using. The model is the name of the launch file.(*sick_tim561/hokuyo_ug01/hokuyo_ust*)
-    
-        - ROBOT_HAS_FRONT_LASER indicates if the robot has a laser in front. (*true/false*)
-    
-        - ROBOT_HAS_REAR_LASER indicates if the robot has a laser in rear. (*true/false*)
-    
-        - ROBOT_HAS_FRONT_PTZ_CAMERA indicates if the robot has the ptz camera in front. (*true/false*)
-    
-        - ROBOT_HAS_REAR_PTZ_CAMERA indicates if the robot has the ptz camera in front. (*true/false*)
-    
-        - ROBOT_HAS_GPS indicates if the robot has gps. (*true/false*)
-    
-        - ROBOT_HAS_FRONT_RGBD_CAMERA indicates if the robot has a front rgbd camera. (*true/false*)
-    
-        - ROBOT_FRONT_RGBD_CAMERA_ID camera id to identify in the bus
-    
-        - ROBOT_HAS_REAR_RGBD_CAMERA indicates if the robot has a front rgbd camera. (*true/false*)
-    
-        - ROBOT_REAR_RGBD_CAMERA_ID camera id to identify in the bus
-    
-        - ROBOT_PAD_MODEL pad model used. (*ps4/ps3/logitechf710/xbox360*)
-    
-        - ROBOT_GEARBOX establishes the motor gearbox value. (*24V: 12.52 | 48V: 9.56*)
-    
-        - ROBOT_HAS_ENCODER indicates if the robot has encoders. (*true/false*)
-    
-        - ROBOT_KINEMATICS kinematic configuration of the robot. (*skid/omni/steel_skid/steel_omni*)
-    
-        - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
-    ```
+     - ROBOT_XACRO indicates the path where the xacro file is. (inside the robot folder in robot_description)(*summit_xl.urdf.xacro*)
+ 
+     - ROBOT_FRONT_LASER_MODEL indicates the model of the laser that the robot is using. The model is the name of the launch file.(*sick_tim561/hokuyo_ug01/hokuyo_ust*)
+ 
+     - ROBOT_REAR_LASER_MODEL indicates the model of the laser that the robot is using. The model is the name of the launch file.(*sick_tim561/hokuyo_ug01/hokuyo_ust*)
+ 
+     - ROBOT_HAS_FRONT_LASER indicates if the robot has a laser in front. (*true/false*)
+ 
+     - ROBOT_HAS_REAR_LASER indicates if the robot has a laser in rear. (*true/false*)
+ 
+     - ROBOT_HAS_FRONT_PTZ_CAMERA indicates if the robot has the ptz camera in front. (*true/false*)
+ 
+     - ROBOT_HAS_REAR_PTZ_CAMERA indicates if the robot has the ptz camera in front. (*true/false*)
+ 
+     - ROBOT_HAS_GPS indicates if the robot has gps. (*true/false*)
+ 
+     - ROBOT_HAS_FRONT_RGBD_CAMERA indicates if the robot has a front rgbd camera. (*true/false*)
+ 
+     - ROBOT_FRONT_RGBD_CAMERA_ID camera id to identify in the bus
+ 
+     - ROBOT_HAS_REAR_RGBD_CAMERA indicates if the robot has a front rgbd camera. (*true/false*)
+ 
+     - ROBOT_REAR_RGBD_CAMERA_ID camera id to identify in the bus
+ 
+     - ROBOT_PAD_MODEL pad model used. (*ps4/ps3/logitechf710/xbox360*)
+ 
+     - ROBOT_GEARBOX establishes the motor gearbox value. (*24V: 12.52 | 48V: 9.56*)
+ 
+     - ROBOT_HAS_ENCODER indicates if the robot has encoders. (*true/false*)
+ 
+     - ROBOT_KINEMATICS kinematic configuration of the robot. (*skid/omni/steel_skid/steel_omni*)
+ 
+     - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
+```
