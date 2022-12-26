@@ -72,7 +72,7 @@ function markdown-toc(){
         esac
 
     done
-    TOC_TEXT+="\n\n</toc>\n"
+    TOC_TEXT+="\n---\n</toc>\n"
     
     { echo -en "${TOC_TEXT}"; cat $FILE; } > $FILE.new
     mv $FILE{.new,}
@@ -90,7 +90,7 @@ function markdown-eof(){
 
 function markdown_toc(){
     local file=${1:?No file was specified as first argument}
-    if [[ $file = "_Sidebar.md" || $file = "_Footer.md" || $file = "Home.md" ]]; then
+    if [[ $file = *"_Sidebar.md" || $file = *"_Footer.md" || $file = *"Home.md" ]]; then
         echo "    - [!] Skip $file"
         continue # skip particular md files
     else
