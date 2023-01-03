@@ -3,7 +3,9 @@
 ## USER PARAM: ##
 # export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
 # export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/feature/wam_node"
-export UWARL_catkin_ws_branch="universal/ros1/robohub/session-dec-2022"
+# export UWARL_catkin_ws_branch="universal/ros1/robohub/session-dec-2022"
+export UWARL_catkin_ws_branch="universal/ros1/robohub/session-jan-2023"
+
 # $USER = "uwarl":
 SUBMODULES_FOR_SUMMIT=(
     ## SUMMIT Side:
