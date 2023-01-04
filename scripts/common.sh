@@ -242,7 +242,7 @@ function source_ros() {
     ## Auto-Assign: ##
     ic " > PC Reg.: $USER @ $LOCAL_PC_IP"
     # adlink in-robot-network PC:
-    if [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
+    if [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_SUMMIT_IP" ]]; then
         ic_wrn " - Adlink MXE211 Summit PC detected!" 
         ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
         ros_core_sync $ROS_CORE_HOSTER
@@ -253,7 +253,7 @@ function source_ros() {
         export DISPLAY=$DISPLAY_DEFAULT
         
     # jetson in-robot-network PC:
-    elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
+    elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
         ic_wrn " - Jetson Orin WAM PC detected!"
         ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
         ros_core_sync $ROS_CORE_HOSTER
