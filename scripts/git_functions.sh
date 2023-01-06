@@ -396,7 +396,7 @@ function log_submodule_status(){
     local dir=""
     for dir in */ ; do
         i=$(( i + 1 ))
-        if [ "$(ls -A $dir)" ]; then
+        if [[ "$(ls -A $dir)" ]]; then
             ic "[$i] $dir is loaded: "
             ic_log "[$i] $dir is loaded: "
             cd "$ROS_CATKIN_WS/src/$dir"

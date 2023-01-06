@@ -6,6 +6,26 @@
 # export UWARL_catkin_ws_branch="universal/ros1/robohub/session-dec-2022"
 export UWARL_catkin_ws_branch="universal/ros1/robohub/session-jan-2023"
 
+# $USER = "deck":
+SUBMODULES_FOR_DECK=(
+    ## SUMMIT Side:
+    "multimap_server_msgs"
+    # "system_monitor"
+    # "uwarl-multimap_server"
+    # "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw" # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    # "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    ## WAM Side:
+    # "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    # "uwarl-realsense_ros"    # [L515 Support]
+    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
+    # "uwarl-zed_ros_wrapper"
+)
 # $USER = "uwarl":
 SUBMODULES_FOR_SUMMIT=(
     ## SUMMIT Side:
@@ -96,6 +116,10 @@ export ROS_SUMMIT_DISTRO=melodic
 export ROS_WAM_IP=192.168.1.10 # MAC Binded
 export ROS_WAM_HOSTNAME=192.168.1.10
 export ROS_WAM_DISTRO=noetic
+
+export ROS_DECK_IP=192.168.1.15 # MAC Binded
+export ROS_DECK_HOSTNAME=192.168.1.15
+export ROS_DECK_DISTRO=noetic
 
 export ROS_PC_IP=192.168.1.100 # DHCP , may change
 export ROS_PC_HOSTNAME=192.168.1.100
@@ -203,7 +227,7 @@ function cat_ros_env() {
 }
 
 function ros_core_sync() {
-    ## Auto-Assign: ros core synchronization ##
+    ## Auto-Assign: ros core synchronization, given core PC name tag ##
     ic_wrn " > ROS CORE is currently hosted by [$1]!"
     case $1 in
     
@@ -211,24 +235,28 @@ function ros_core_sync() {
             export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
             export ROS_WAM_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
             export ROS_PC_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
+            export ROS_DECK_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
             ;;
     
         "WAM-PC")
             export ROS_SUMMIT_MASTER_URI=http://$ROS_WAM_IP:11311/
             export ROS_WAM_MASTER_URI=http://localhost:11311/
             export ROS_PC_MASTER_URI=http://$ROS_WAM_IP:11311/
+            export ROS_DECK_MASTER_URI=http://$ROS_WAM_IP:11311/
             ;;
     
         "REMOTE-PC")
             export ROS_SUMMIT_MASTER_URI=http://$ROS_PC_IP:11311/
             export ROS_WAM_MASTER_URI=http://$ROS_PC_IP:11311/
             export ROS_PC_MASTER_URI=http://localhost:11311/
+            export ROS_DECK_MASTER_URI=http://$ROS_PC_IP:11311/
             ;;
     
         "LOCAL-HOSTS")
             export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
             export ROS_WAM_MASTER_URI=http://localhost:11311/
             export ROS_PC_MASTER_URI=http://localhost:11311/
+            export ROS_DECK_MASTER_URI=http://localhost:11311/
             ;;
     
         *)
@@ -264,6 +292,18 @@ function source_ros() {
         export DISPLAY=$DISPLAY_WAM
         export PYTHONPATH=/usr/bin/python3
         
+    # steam deck in-robot-network PC:
+    elif [[ $USER = "deck" ]]; then
+        ic " - Steam Deck PC detected!"
+        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
+        ros_core_sync $ROS_CORE_HOSTER
+        export ROS_IP=$ROS_DECK_IP
+        export ROS_HOSTNAME=$ROS_DECK_HOSTNAME
+        export ROS_MASTER_URI=$ROS_DECK_MASTER_URI
+        export ROS_DISTRO=$ROS_DECK_DISTRO
+        export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH=/home/deck/mambaforge/envs/ros_env_3_8/bin/python3
+    
     # default in-robot-network PC:
     elif [[ $LOCAL_PC_IP = "$ROS_PC_IP" ]]; then
         ic_wrn " - NON-Robot PC User detected!"
@@ -305,7 +345,12 @@ function source_ros() {
     ic_source $ROS_CATKIN_WS/devel/setup.zsh "ROS_CATKIN_WS=$ROS_CATKIN_WS"
 }
 
+function print_ascii_title() {
+    echo -e "${BLUE} \n██╗    ██╗ █████╗ ████████╗███████╗██████╗ ██╗      ██████╗  ██████╗    \n██║    ██║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██║     ██╔═══██╗██╔═══██╗   \n██║ █╗ ██║███████║   ██║   █████╗  ██████╔╝██║     ██║   ██║██║   ██║   \n██║███╗██║██╔══██║   ██║   ██╔══╝  ██╔══██╗██║     ██║   ██║██║   ██║   \n╚███╔███╔╝██║  ██║   ██║   ███████╗██║  ██║███████╗╚██████╔╝╚██████╔╝   \n ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═════╝    \n                                                                        \n███████╗████████╗███████╗███████╗██╗                   ██╗   ██╗██████╗ \n██╔════╝╚══██╔══╝██╔════╝██╔════╝██║                   ██║   ██║╚════██╗\n███████╗   ██║   █████╗  █████╗  ██║         █████╗    ██║   ██║ █████╔╝\n╚════██║   ██║   ██╔══╝  ██╔══╝  ██║         ╚════╝    ╚██╗ ██╔╝██╔═══╝ \n███████║   ██║   ███████╗███████╗███████╗               ╚████╔╝ ███████╗\n╚══════╝   ╚═╝   ╚══════╝╚══════╝╚══════╝                ╚═══╝  ╚══════╝ ${NC}" 
+}
+
 function source_all_common_configs() {
+    print_ascii_title
     # action:
     ic_source $UWARL_SUMMIT_SPECIFIC/summitxl_params.env "Summit Params"
     source_ros
@@ -315,3 +360,4 @@ function source_all_common_configs() {
     cat_summit_env
     cat_ros_env
 }
+# <<< EOF
