@@ -15,7 +15,7 @@ ic_bind_cmd update_ws "zsh $UWARL_CONFIGS/scripts/auto-config_UWARL_catkin_ws.zs
 if [ $ROS_DISTRO = "melodic" ]; then
     ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build"
 else
-    ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build -DPYTHON_EXECUTABLE=$PYTHONPATH"
+    ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build -DPYTHON_EXECUTABLE=$PYTHONPATH_ROS"
 fi
 
 ## ROS src:

@@ -290,7 +290,7 @@ function source_ros() {
         export ROS_MASTER_URI=$ROS_WAM_MASTER_URI
         export ROS_DISTRO=$ROS_WAM_DISTRO
         export DISPLAY=$DISPLAY_WAM
-        export PYTHONPATH=/usr/bin/python3
+        export PYTHONPATH_ROS=/usr/bin/python3
         
     # steam deck in-robot-network PC:
     elif [[ $USER = "deck" ]]; then
@@ -302,7 +302,7 @@ function source_ros() {
         export ROS_MASTER_URI=$ROS_DECK_MASTER_URI
         export ROS_DISTRO=$ROS_DECK_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
-        export PYTHONPATH=/home/deck/mambaforge/envs/ros_env_3_8/bin/python3
+        export PYTHONPATH_ROS=/home/deck/mambaforge/envs/ros_env_3_8/bin/python3
     
     # default in-robot-network PC:
     elif [[ $LOCAL_PC_IP = "$ROS_PC_IP" ]]; then
@@ -314,7 +314,7 @@ function source_ros() {
         export ROS_MASTER_URI=$ROS_PC_MASTER_URI
         export ROS_DISTRO=$ROS_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
-        export PYTHONPATH=/usr/bin/python3
+        export PYTHONPATH_ROS=/usr/bin/python3
         SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
         
     ### user defined out-of-network PC:
@@ -327,7 +327,7 @@ function source_ros() {
         export ROS_MASTER_URI=http://localhost:11311/
         export ROS_DISTRO=$ROS_JX_PARALLEL_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
-        export PYTHONPATH=/usr/bin/python3
+        export PYTHONPATH_ROS=/usr/bin/python3
         SUBMODULES_FOR_PC=($SUBMODULES_FOR_JX_PARALLEL)
     
     ### TEMPLATE:
