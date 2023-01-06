@@ -70,14 +70,10 @@ SUBMODULES_FOR_PC_DEFAULT=(
     "system_monitor"
     "uwarl-multimap_server"
     "uwarl-robot_localization_utils"
-    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    # "uwarl-summit_xl_common"
-    # "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
-    "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
     "uwarl-realsense_ros"
 )
