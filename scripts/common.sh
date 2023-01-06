@@ -1,30 +1,38 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-# export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/develop/jx"
-# export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/feature/wam_node"
-# export UWARL_catkin_ws_branch="universal/ros1/robohub/session-dec-2022"
 export UWARL_catkin_ws_branch="universal/ros1/robohub/session-jan-2023"
+
+#################################################################
+#    ## SUMMIT Side:
+#       "multimap_server_msgs"              # TODO: need to deal with mapping
+#       "uwarl-multimap_server"             # TODO: need to deal with mapping
+#       "uwarl-robot_localization_utils"    # TODO: need to deal with mapping
+#       "system_monitor"           # ["robotnik"]
+#       "uwarl-robotnik_base_hw"   # [waterloo_steel/adlink-mxe211-melodic/main] # [x86_64 only]
+#       "uwarl-robotnik_msgs"
+#       "uwarl-robotnik_sensors"
+#       "uwarl-summit_xl_common"   # X-[waterloo_steel/universal/main] TODO: need to deal with mapping,
+#       "uwarl-summit_xl_robot"    # [waterloo_steel/adlink-mxe211-melodic/main]
+#       "waterloo_steel"           # [universal/ros1/main]
+#    ## WAM Side:
+#       "uwarl-barrett_wam_hw"     # [x86_64, aarch64/arm64]
+#       "uwarl-barrett_wam_msgs"
+#       "uwarl-realsense_ros"      # [L515 Support]
+#       "uwarl-barrett-ros-pkg"    # [DEPRECATED]
+#       "uwarl-zed_ros_wrapper"    # [No longer used]
+#    ## Vicon Tracker:
+#    "uwarl-vicon_bridge"
+#################################################################
 
 # $USER = "deck":
 SUBMODULES_FOR_DECK=(
     ## SUMMIT Side:
-    "multimap_server_msgs"
-    # "system_monitor"
-    # "uwarl-multimap_server"
-    # "uwarl-robot_localization_utils"
-    # "uwarl-robotnik_base_hw" # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    "uwarl-summit_xl_common"
-    # "uwarl-summit_xl_robot"
-    "waterloo_steel"
+    "waterloo_steel" # pad launcher
     ## WAM Side:
-    # "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
-    # "uwarl-realsense_ros"    # [L515 Support]
-    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
-    # "uwarl-zed_ros_wrapper"
 )
 # $USER = "uwarl":
 SUBMODULES_FOR_SUMMIT=(
@@ -33,29 +41,25 @@ SUBMODULES_FOR_SUMMIT=(
     "system_monitor"
     "uwarl-multimap_server"
     "uwarl-robot_localization_utils"
-    "uwarl-robotnik_base_hw" # [waterloo_steel/adlink-mxe211-melodic/main] # [x86_64 only]
+    "uwarl-robotnik_base_hw"
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    "uwarl-summit_xl_common" # [waterloo_steel/adlink-mxe211-melodic/main]
-    "uwarl-summit_xl_robot"  # [waterloo_steel/adlink-mxe211-melodic/main]
-    "waterloo_steel"         # [universal/ros1/main]
+    # "uwarl-summit_xl_common" # TODO: need to deal with mapping
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
     ## WAM Side:
-    # "uwarl-barrett_wam_hw"  # [NOT NEEDED]
     "uwarl-barrett_wam_msgs"  # [NOT USED]
-    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
 )
 # $USER = "uwarl-orin":
 SUBMODULES_FOR_WAM=(
     ## SUMMIT Side:
     "uwarl-robotnik_msgs"    # to talk to base
     "uwarl-robotnik_sensors"
-    "waterloo_steel"         # [universal/ros1/main]
+    "waterloo_steel"
     ## WAM Side:
     "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
     "uwarl-realsense_ros"    # [L515 Support]
-    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
-    # "uwarl-zed_ros_wrapper" # [No longer used]
     ## Vicon Tracker:
     "uwarl-vicon_bridge"
 )
@@ -66,18 +70,16 @@ SUBMODULES_FOR_PC_DEFAULT=(
     "system_monitor"
     "uwarl-multimap_server"
     "uwarl-robot_localization_utils"
-    # "uwarl-robotnik_base_hw" # not needed for simulation !  # [x86_64 only]
+    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    "uwarl-summit_xl_common"
-    "uwarl-summit_xl_robot"
+    # "uwarl-summit_xl_common"
+    # "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
-    "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
-    "uwarl-realsense_ros"    # [L515 Support]
-    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
-    # "uwarl-zed_ros_wrapper"
+    "uwarl-realsense_ros"
 )
 #### USER DEFINED PC: ####
 # $USER = "parallels":
@@ -87,18 +89,16 @@ SUBMODULES_FOR_JX_PARALLEL=(
     "system_monitor"
     "uwarl-multimap_server"
     "uwarl-robot_localization_utils"
-    # "uwarl-robotnik_base_hw" # not needed for simulation !  # [x86_64 only]
+    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    "uwarl-summit_xl_common"
+    # "uwarl-summit_xl_common"
     "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
-    "uwarl-barrett_wam_hw"  # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
-    "uwarl-realsense_ros"    # [L515 Support]
-    # "uwarl-barrett-ros-pkg" # [DEPRECATED]
-    # "uwarl-zed_ros_wrapper"
+    "uwarl-realsense_ros"       # [L515 Support]
 )
 
 #################################################################
