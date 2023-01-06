@@ -291,6 +291,7 @@ function source_ros() {
         export ROS_DISTRO=$ROS_WAM_DISTRO
         export DISPLAY=$DISPLAY_WAM
         export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
         
     # steam deck in-robot-network PC:
     elif [[ $USER = "deck" ]]; then
@@ -303,6 +304,7 @@ function source_ros() {
         export ROS_DISTRO=$ROS_DECK_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/home/deck/mambaforge/envs/ros_env_3_8/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
     
     # default in-robot-network PC:
     elif [[ $LOCAL_PC_IP = "$ROS_PC_IP" ]]; then
@@ -315,6 +317,7 @@ function source_ros() {
         export ROS_DISTRO=$ROS_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
         SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
         
     ### user defined out-of-network PC:
@@ -328,6 +331,7 @@ function source_ros() {
         export ROS_DISTRO=$ROS_JX_PARALLEL_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
         SUBMODULES_FOR_PC=($SUBMODULES_FOR_JX_PARALLEL)
     
     ### TEMPLATE:
@@ -338,6 +342,8 @@ function source_ros() {
     else
         ic_err " - UNREGISTERED Out-of-network/In-network PC detected!"
         ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/robot_env.sh"
+        export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
         SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
     fi
 
