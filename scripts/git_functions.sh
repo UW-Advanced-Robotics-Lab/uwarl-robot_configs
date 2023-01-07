@@ -98,15 +98,17 @@ function load_submodules(){
         i=$(( i + 1 ))
         ic "    > [$i/$total] - Loading submodule @ $module"
         cd $ROS_CATKIN_WS/src
-        if if [ "$(ls -A $module)" ]; then
+        if [ "$(ls -A $module)" ]; then
             # update submodules
             ic_wrn "       > Directory [$module] is not empty, entering submodules! "
             cd $module
             local git_submodule_branch_name=$(parse_git_branch)$(parse_git_hash)
             local submodule_branch_name=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
             if [[ $submodule_branch_name =~ "HEAD" ]]; then
-                ic_wrn "       > [$module] - Submodule @ HEAD already up to date!"
-                ic_wrn "       > [$module] - Skip pulling from remote origin"
+                ic_wrn "       > [$module] - Submodule @ HEAD is dettached!"
+                ic_wrn "       > [$module] - Re-init the submodule ..."
+                git submodule update --init --recursive .
+                ic_wrn "       > [$module] - Submodule @ HEAD up to date!"
             else
                 ic_wrn "       > [$module] - Submodule @ $submodule_branch_name "
                 local existed_in_remote=$(git ls-remote --heads origin ${submodule_branch_name})

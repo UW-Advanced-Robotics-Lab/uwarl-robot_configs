@@ -55,6 +55,11 @@ if [[ $USER = "uwarl" ]]; then
     # install drivers :
     install_pcan_if_not
 
+elif [[ $USER = "deck" ]]; then
+    ic " - Steam Deck Controller detected!" 
+    load_submodules "${SUBMODULES_FOR_DECK[@]}"
+    load_common 
+
 elif [[ $USER = "uwarl-orin" ]]; then
     ic " - Jetson Orin WAM PC detected!"
     load_submodules "${SUBMODULES_FOR_WAM[@]}"
