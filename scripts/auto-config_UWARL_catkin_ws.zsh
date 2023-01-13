@@ -79,5 +79,5 @@ fi
 
 #################################################################
 ## Auto-Source ##
-ic_source $HOME/.zshrc "Auto-Source Zshrc"
+# ic_source $HOME/.zshrc "Auto-Source Zshrc"
 ic  "\n\n<<< EOF"
