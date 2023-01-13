@@ -121,6 +121,8 @@ export ROS_PC_IP=192.168.1.100 # DHCP , may change
 export ROS_PC_HOSTNAME=192.168.1.100
 export ROS_PC_DISTRO=noetic
 
+export ROS_DISTRO=noetic # by default
+
 ### [ Other Miscellaneous Networks ] ###
 export ROS_JX_PARALLEL_PC_IP=10.211.55.5
 export ROS_JX_PARALLEL_PC_HOSTNAME=10.211.55.5
