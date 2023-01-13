@@ -48,8 +48,9 @@ source_all_common_configs
 
 #################################################################
 ## Auto-Install ##
-if [[ $USER = "uwarl" ]]; then
+if [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_SUMMIT_IP" ]]; then
     ic " - Adlink MXE211 Summit PC detected!" 
+    ic " > Loading SUMMIT workspace submodules:"
     load_submodules "${SUBMODULES_FOR_SUMMIT[@]}"
     load_common 
     # install drivers :
@@ -57,11 +58,13 @@ if [[ $USER = "uwarl" ]]; then
 
 elif [[ $USER = "deck" ]]; then
     ic " - Steam Deck Controller detected!" 
+    ic " > Loading Deck workspace submodules:"
     load_submodules "${SUBMODULES_FOR_DECK[@]}"
     load_common 
 
-elif [[ $USER = "uwarl-orin" ]]; then
+elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
     ic " - Jetson Orin WAM PC detected!"
+    ic " > Loading WAM workspace submodules:"
     load_submodules "${SUBMODULES_FOR_WAM[@]}"
     load_common 
     # install drivers :
@@ -73,11 +76,17 @@ elif [[ $USER = "uwarl-orin" ]]; then
 
 else
     ic " - NON-Robot PC User detected! Begin local build:"
-    load_submodules "${SUBMODULES_FOR_PC[@]}"
+    if [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
+        ic " > Loading parallels workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
+    else
+        ic " > Loading default workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_PC_DEFAULT[@]}"
+    fi
     load_common 
 fi
 
 #################################################################
 ## Auto-Source ##
-ic_source $HOME/.zshrc "Auto-Source Zshrc"
+# ic_source $HOME/.zshrc "Auto-Source Zshrc"
 ic  "\n\n<<< EOF"
