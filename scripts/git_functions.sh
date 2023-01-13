@@ -75,7 +75,7 @@ function load_submodules(){
     else
         # checkout branch:
         ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
-        git pull origin $UWARL_catkin_ws_branch
+        git pull origin
         git checkout $UWARL_catkin_ws_branch
     fi
 
