@@ -316,7 +316,6 @@ function source_ros() {
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-        export SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
         
     ### user defined out-of-network PC:
     elif [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
@@ -330,7 +329,6 @@ function source_ros() {
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-        export SUBMODULES_FOR_PC=($SUBMODULES_FOR_JX_PARALLEL)
     
     ### TEMPLATE:
     # elif [[ $USER = "{define-here}" ]] && [[ $LOCAL_PC_IP = "${define-here}" ]]; then
@@ -342,7 +340,6 @@ function source_ros() {
         ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/robot_env.sh"
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-        export SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
     fi
 
     ic_source /opt/ros/$ROS_DISTRO/setup.zsh "ROS_DISTRO=$ROS_DISTRO"
