@@ -48,7 +48,7 @@ source_all_common_configs
 
 #################################################################
 ## Auto-Install ##
-if [[ $USER = "uwarl" ]]; then
+if [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_SUMMIT_IP" ]]; then
     ic " - Adlink MXE211 Summit PC detected!" 
     ic " > Loading SUMMIT workspace submodules:"
     load_submodules "${SUBMODULES_FOR_SUMMIT[@]}"
@@ -62,7 +62,7 @@ elif [[ $USER = "deck" ]]; then
     load_submodules "${SUBMODULES_FOR_DECK[@]}"
     load_common 
 
-elif [[ $USER = "uwarl-orin" ]]; then
+elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
     ic " - Jetson Orin WAM PC detected!"
     ic " > Loading WAM workspace submodules:"
     load_submodules "${SUBMODULES_FOR_WAM[@]}"
