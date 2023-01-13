@@ -75,7 +75,7 @@ function load_submodules(){
     else
         # checkout branch:
         ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
-        git pull origin $UWARL_catkin_ws_branch
+        git pull origin
         git checkout $UWARL_catkin_ws_branch
     fi
 
@@ -154,7 +154,7 @@ function load_submodules(){
     if test -f $default_rosdep_file; then
         ic_wrn "> $default_rosdep_file already exists!"
     else
-        in_wrn "> Now, initing rosdep!"
+        ic_wrn "> Now, initing rosdep!"
         sudo rosdep init
         ic_wrn "> Updating rosdep ..."
         cd $ROS_CATKIN_WS && rosdep update

@@ -82,19 +82,19 @@ SUBMODULES_FOR_PC_DEFAULT=(
 SUBMODULES_FOR_JX_PARALLEL=(
     ## SUMMIT Side:
     "multimap_server_msgs"
-    "system_monitor"
-    "uwarl-multimap_server"
-    "uwarl-robot_localization_utils"
-    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
-    "uwarl-robotnik_msgs"
-    "uwarl-robotnik_sensors"
-    # "uwarl-summit_xl_common"
-    "uwarl-summit_xl_robot"
-    "waterloo_steel"
-    ## WAM Side:
-    "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
-    "uwarl-barrett_wam_msgs"
-    "uwarl-realsense_ros"       # [L515 Support]
+    # "system_monitor"
+    # "uwarl-multimap_server"
+    # "uwarl-robot_localization_utils"
+    # # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
+    # "uwarl-robotnik_msgs"
+    # "uwarl-robotnik_sensors"
+    # # "uwarl-summit_xl_common"
+    # "uwarl-summit_xl_robot"
+    # "waterloo_steel"
+    # ## WAM Side:
+    # "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    # "uwarl-barrett_wam_msgs"
+    # "uwarl-realsense_ros"       # [L515 Support]
 )
 
 #################################################################
@@ -120,6 +120,8 @@ export ROS_DECK_DISTRO=noetic
 export ROS_PC_IP=192.168.1.100 # DHCP , may change
 export ROS_PC_HOSTNAME=192.168.1.100
 export ROS_PC_DISTRO=noetic
+
+export ROS_DISTRO=noetic # by default
 
 ### [ Other Miscellaneous Networks ] ###
 export ROS_JX_PARALLEL_PC_IP=10.211.55.5
@@ -314,7 +316,7 @@ function source_ros() {
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-        SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
+        export SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
         
     ### user defined out-of-network PC:
     elif [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
@@ -328,7 +330,7 @@ function source_ros() {
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-        SUBMODULES_FOR_PC=($SUBMODULES_FOR_JX_PARALLEL)
+        export SUBMODULES_FOR_PC=($SUBMODULES_FOR_JX_PARALLEL)
     
     ### TEMPLATE:
     # elif [[ $USER = "{define-here}" ]] && [[ $LOCAL_PC_IP = "${define-here}" ]]; then
@@ -340,7 +342,7 @@ function source_ros() {
         ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/robot_env.sh"
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-        SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
+        export SUBMODULES_FOR_PC=($SUBMODULES_FOR_PC_DEFAULT)
     fi
 
     ic_source /opt/ros/$ROS_DISTRO/setup.zsh "ROS_DISTRO=$ROS_DISTRO"
