@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-wed-2023"
+export UWARL_catkin_ws_branch="universal/ros1/jeongwoo/localization-and-mapping"
 
 #################################################################
 #    ## SUMMIT Side:
@@ -197,7 +197,7 @@ export ROS_JX_PARALLEL_PC_IP=10.211.55.5
 export ROS_JX_PARALLEL_PC_HOSTNAME=10.211.55.5
 export ROS_JX_PARALLEL_PC_DISTRO=noetic
 
-export ROS_P51_LENOVO_PC_IP=192.168.1.156
+export ROS_P51_LENOVO_PC_IP=192.168.5.156
 export ROS_P51_LENOVO_PC_HOSTNAME=192.168.5.156
 export ROS_P51_LENOVO_PC_DISTRO=melodic
 
@@ -432,7 +432,7 @@ function source_ros() {
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
     
-    elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
+    elif [[ $USER = "uwarl-laptop-4" ]]; then
         ic_wrn " - NON-Robot PC User [UWARL Laptop 4] detected!"
         ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
         ros_core_sync "LOCAL-HOSTS"

@@ -89,7 +89,7 @@ else
         install_libbarrett_if_not
         install_librealsense_if_not # for Intel Sensors
         load_submodules "${SUBMODULES_FOR_JX_OEM[@]}"
-    elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
+    elif [[ $USER = "uwarl-laptop-4" ]]; then
         ic " > Loading parallels workspace submodules:"
         load_submodules "${SUBMODULES_FOR_P51_LENOVO[@]}"
     elif [[ $USER = "uwarl-laptop-3" ]] && [[ $LOCAL_PC_IP = "$ROS_P50s_LENOVO_PC_IP" ]]; then
