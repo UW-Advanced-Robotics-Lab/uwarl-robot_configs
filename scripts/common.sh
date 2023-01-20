@@ -143,8 +143,6 @@ export ROS_PC_IP=192.168.1.100 # DHCP , may change
 export ROS_PC_HOSTNAME=192.168.1.100
 export ROS_PC_DISTRO=noetic
 
-export ROS_DISTRO=noetic # by default
-
 ### [ Other Miscellaneous Networks ] ###
 export ROS_JX_PARALLEL_PC_IP=10.211.55.5
 export ROS_JX_PARALLEL_PC_HOSTNAME=10.211.55.5
@@ -391,6 +389,7 @@ function source_ros() {
         ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/robot_env.sh"
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
+        export ROS_DISTRO=noetic # by default
     fi
 
     ic_source /opt/ros/$ROS_DISTRO/setup.zsh "ROS_DISTRO=$ROS_DISTRO"
