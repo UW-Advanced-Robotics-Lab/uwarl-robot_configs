@@ -79,9 +79,12 @@ else
     if [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
         ic " > Loading parallels workspace submodules:"
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
-    if [[ $USER = "jx" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_DESKTOP_PC_IP" ]]; then
+    elif [[ $USER = "jx" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_DESKTOP_PC_IP" ]]; then
         ic " > Loading parallels workspace submodules:"
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
+    elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
+        ic " > Loading parallels workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_P51_LENOVO[@]}"
     else
         ic " > Loading default workspace submodules:"
         load_submodules "${SUBMODULES_FOR_PC_DEFAULT[@]}"
