@@ -128,6 +128,10 @@ export ROS_JX_PARALLEL_PC_IP=10.211.55.5
 export ROS_JX_PARALLEL_PC_HOSTNAME=10.211.55.5
 export ROS_JX_PARALLEL_PC_DISTRO=noetic
 
+export ROS_JX_DESKTOP_PC_IP=192.168.5.145
+export ROS_JX_DESKTOP_PC_HOSTNAME=192.168.5.145
+export ROS_JX_DESKTOP_PC_DISTRO=noetic
+
 #################################################################
 ## VAR ##
 # assign to DISPLAY param:
@@ -326,6 +330,18 @@ function source_ros() {
         export ROS_HOSTNAME=$ROS_JX_PARALLEL_PC_HOSTNAME
         export ROS_MASTER_URI=http://localhost:11311/
         export ROS_DISTRO=$ROS_JX_PARALLEL_PC_DISTRO
+        export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
+    
+    elif [[ $USER = "jx" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_DESKTOP_PC_IP" ]]; then
+        ic_wrn " - NON-Robot PC User [Jack's Parallel VM] detected!"
+        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
+        ros_core_sync "LOCAL-HOSTS"
+        export ROS_IP=$ROS_JX_DESKTOP_PC_IP
+        export ROS_HOSTNAME=$ROS_JX_DESKTOP_PC_HOSTNAME
+        export ROS_MASTER_URI=http://localhost:11311/
+        export ROS_DISTRO=$ROS_JX_DESKTOP_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
