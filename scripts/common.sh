@@ -22,7 +22,7 @@ export UWARL_catkin_ws_branch="universal/ros1/robohub/session-jan-2023"
 #       "uwarl-barrett-ros-pkg"    # [DEPRECATED]
 #       "uwarl-zed_ros_wrapper"    # [No longer used]
 #    ## Vicon Tracker:
-#    "uwarl-vicon_bridge"
+#       "uwarl-vicon_bridge"
 #################################################################
 
 # $USER = "deck":
@@ -96,6 +96,28 @@ SUBMODULES_FOR_JX_PARALLEL=(
     "uwarl-barrett_wam_msgs"
     "uwarl-realsense_ros"       # [L515 Support]
 )
+# $USER = "uwarl-laptop-4"
+SUBMODULES_FOR_P51_LENOVO=(
+#    ## SUMMIT Side:
+       "multimap_server_msgs"              # TODO: need to deal with mapping
+       "uwarl-multimap_server"             # TODO: need to deal with mapping
+       "uwarl-robot_localization_utils"    # TODO: need to deal with mapping
+       "system_monitor"            # ["robotnik"]
+#       "uwarl-robotnik_base_hw"   # [waterloo_steel/adlink-mxe211-melodic/main] # [x86_64 only]
+       "uwarl-robotnik_msgs"
+       "uwarl-robotnik_sensors"
+       "uwarl-summit_xl_common"   # X-[waterloo_steel/universal/main] TODO: need to deal with mapping,
+       "uwarl-summit_xl_robot"    # [waterloo_steel/adlink-mxe211-melodic/main]
+       "waterloo_steel"           # [universal/ros1/main]
+#    ## WAM Side:
+#       "uwarl-barrett_wam_hw"     # [x86_64, aarch64/arm64]
+#       "uwarl-barrett_wam_msgs"
+#       "uwarl-realsense_ros"      # [L515 Support]
+#       "uwarl-barrett-ros-pkg"    # [DEPRECATED]
+#       "uwarl-zed_ros_wrapper"    # [No longer used]
+#    ## Vicon Tracker:
+#       "uwarl-vicon_bridge"
+)
 
 #################################################################
 ## NETWORK PARAM: ##
@@ -121,13 +143,18 @@ export ROS_PC_IP=192.168.1.100 # DHCP , may change
 export ROS_PC_HOSTNAME=192.168.1.100
 export ROS_PC_DISTRO=noetic
 
-export ROS_DISTRO=noetic # by default
-
 ### [ Other Miscellaneous Networks ] ###
 export ROS_JX_PARALLEL_PC_IP=10.211.55.5
 export ROS_JX_PARALLEL_PC_HOSTNAME=10.211.55.5
 export ROS_JX_PARALLEL_PC_DISTRO=noetic
 
+export ROS_JX_DESKTOP_PC_IP=192.168.5.145
+export ROS_JX_DESKTOP_PC_HOSTNAME=192.168.5.145
+export ROS_JX_DESKTOP_PC_DISTRO=noetic
+
+export ROS_P51_LENOVO_PC_IP=192.168.1.156
+export ROS_P51_LENOVO_PC_HOSTNAME=192.168.5.156
+export ROS_P51_LENOVO_PC_DISTRO=melodic
 #################################################################
 ## VAR ##
 # assign to DISPLAY param:
@@ -330,6 +357,28 @@ function source_ros() {
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
     
+    elif [[ $USER = "jx" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_DESKTOP_PC_IP" ]]; then
+        ic_wrn " - NON-Robot PC User [Jack's Parallel VM] detected!"
+        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
+        ros_core_sync "LOCAL-HOSTS"
+        export ROS_IP=$ROS_JX_DESKTOP_PC_IP
+        export ROS_HOSTNAME=$ROS_JX_DESKTOP_PC_HOSTNAME
+        export ROS_MASTER_URI=http://localhost:11311/
+        export ROS_DISTRO=$ROS_JX_DESKTOP_PC_DISTRO
+        export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
+    
+    elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
+        ic_wrn " - NON-Robot PC User [UWARL Laptop 4] detected!"
+        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
+        ros_core_sync "LOCAL-HOSTS"
+        export ROS_IP=$ROS_P51_LENOVO_PC_IP
+        export ROS_HOSTNAME=$ROS_P51_LENOVO_PC_HOSTNAME
+        export ROS_MASTER_URI=http://localhost:11311/
+        export ROS_DISTRO=$ROS_P51_LENOVO_PC_DISTRO
+        export DISPLAY=$DISPLAY_DEFAULT
+    
     ### TEMPLATE:
     # elif [[ $USER = "{define-here}" ]] && [[ $LOCAL_PC_IP = "${define-here}" ]]; then
     #     ic_wrn " - NON-Robot PC User [Jack's Parallel VM] detected!"
@@ -340,6 +389,7 @@ function source_ros() {
         ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/robot_env.sh"
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
+        export ROS_DISTRO=noetic # by default
     fi
 
     ic_source /opt/ros/$ROS_DISTRO/setup.zsh "ROS_DISTRO=$ROS_DISTRO"

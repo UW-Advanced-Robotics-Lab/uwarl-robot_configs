@@ -61,6 +61,8 @@ elif [[ $USER = "deck" ]]; then
     ic " > Loading Deck workspace submodules:"
     load_submodules "${SUBMODULES_FOR_DECK[@]}"
     load_common 
+    ic " > Create a controller app @ the desktop!"
+    cp $HOME/uwarl-robot_configs/deck/uwarl_controller.desktop $HOME/Desktop
 
 elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
     ic " - Jetson Orin WAM PC detected!"
@@ -79,6 +81,12 @@ else
     if [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
         ic " > Loading parallels workspace submodules:"
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
+    elif [[ $USER = "jx" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_DESKTOP_PC_IP" ]]; then
+        ic " > Loading parallels workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
+    elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
+        ic " > Loading parallels workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_P51_LENOVO[@]}"
     else
         ic " > Loading default workspace submodules:"
         load_submodules "${SUBMODULES_FOR_PC_DEFAULT[@]}"
