@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/robohub/session-jan-2023"
+export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-jan-2023"
 
 #################################################################
 #    ## SUMMIT Side:
