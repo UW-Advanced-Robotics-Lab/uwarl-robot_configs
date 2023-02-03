@@ -63,6 +63,7 @@ elif [[ $USER = "deck" ]]; then
     load_common 
     ic " > Create a controller app @ the desktop!"
     cp $HOME/uwarl-robot_configs/deck/uwarl_controller.desktop $HOME/Desktop
+    cp $HOME/uwarl-robot_configs/deck/uwarl_rviz.desktop $HOME/Desktop
 
 elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
     ic " - Jetson Orin WAM PC detected!"
