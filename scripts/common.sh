@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-jan-2023"
+export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-feb-2023"
 
 #################################################################
 #    ## SUMMIT Side:
@@ -95,6 +95,8 @@ SUBMODULES_FOR_JX_PARALLEL=(
     "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
     "uwarl-realsense_ros"       # [L515 Support]
+    ## Research:
+    "vins-research-pkg"
 )
 # $USER = "uwarl-laptop-4"
 SUBMODULES_FOR_P51_LENOVO=(
