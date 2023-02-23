@@ -26,6 +26,9 @@ ic_bind_cmd cd_ws        "cd $ROS_CATKIN_WS/src"
 ic_bind_cmd cd_config    "cd $UWARL_CONFIGS"
 ic_bind_cmd clean_ws     "catkin clean"
 
+## ROS launch in tmux:
+ic_bind_cmd tmux_sync    tmux_sync
+
 ## Markdown script:
 echo "" # empty line
 ic_source "$UWARL_CONFIGS/scripts/markdown-toc.sh" "Markdown Toc Generator"

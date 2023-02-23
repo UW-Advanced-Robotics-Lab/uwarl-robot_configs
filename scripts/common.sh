@@ -88,7 +88,7 @@ SUBMODULES_FOR_JX_PARALLEL=(
     # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    # "uwarl-summit_xl_common"
+    "uwarl-summit_xl_common"
     "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
@@ -215,7 +215,7 @@ function ic_log () {
     echo "[UWARL-Robot_Config] $1" >> $OUTPUT_STATUS_LOG_DIR
 }
 function ic_bind_cmd () {
-    echo -e "${CYAN}[UWARL-Robot_Config]   > Aliasing \`${NC}${YELLOW}\$ $1${NC}\` command @ $UWARL_CONFIGS/scripts/shortcuts.sh"
+    echo -e "${CYAN}[UWARL-Robot_Config]   > Aliasing \`${NC}${YELLOW}\$ $1${NC}\` command := $2"
     alias $1=$2
 }
 function ic_source () {
@@ -412,5 +412,35 @@ function source_all_common_configs() {
     ic_title "Print Environment Variables: "
     cat_summit_env
     cat_ros_env
+}
+
+function tmux_sync () {
+    set -e
+    if [ $# -lt 2 ]
+    then
+        echo "Usage: $0 [session_name] [command_1]..."
+        exit 1
+    fi
+    
+    session=$1
+    shift
+    tmux start-server
+    tmux new -d -s $session
+    on_error() {
+        tmux kill-session -t $session
+    }
+    trap on_error ERR
+    cmd1=$1
+    shift
+    tmux send -t $session:0 "$cmd1" C-m
+    for i in "$@"
+    do
+        tmux splitw -t $session -l 1
+        tmux send -t $session:0.1 "$i" C-m
+        tmux selectp -t $session:0.0
+        tmux selectl -t $session tiled
+    done
+    tmux setw synchronize-panes on
+    tmux a -t $session
 }
 # <<< EOF
