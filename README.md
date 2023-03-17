@@ -187,25 +187,39 @@ $ source_ws
 ## 3.5 Shortcuts:
 
 ```bash
+### ROS Workspace Specific:
+## Note: you may add optional arguments afterwards.
 # update (pull recursively in a batch) of the entire workspace with all required submodules (as noted in common.sh) from anywhere
 $ update_ws
-# build ws from anywhere
+# clean ws from anywhere (build files from catkin-build)
+$ clean_ws
+# build ws from anywhere (w/ catkin-build)
 $ build_ws
 # source ws from anywhere
-$ src_ws
+$ source_ws
 # source ~/.zshrc from anywhere
-$ src_zsh
+$ source_zsh
 # cd into workspace from anywhere
 $ cd_ws
 # check wworkspace status from anywhere
 $ check_ws_status
+# commit the current workspace milestone:
+$ commit_ws
 # cd into robot_configs from anywhere
 $ cd_config
+
+### Git Related:
+# pretty compact git log tree:
+$ git_log
+# ...  and include line changes:
+$ git_log -p
 
 # auto-gen Table of Contents for a specific markdown file
 $ md_toc README.md 
 # auto-gen Table of Contents for a specific directory containing all markdown files
 $ md_toc_dir docs
+# auto-gen ToC for MODIFIED Changes Only based on git status
+$ md_toc_dir git
 ```
 
 # A. Appendix:

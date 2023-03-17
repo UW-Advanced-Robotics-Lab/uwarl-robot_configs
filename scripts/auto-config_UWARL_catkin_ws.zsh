@@ -82,12 +82,18 @@ else
     if [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
         ic " > Loading parallels workspace submodules:"
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
-    elif [[ $USER = "jx" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_DESKTOP_PC_IP" ]]; then
+    elif [[ $USER = "oem" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_OEM_PC_IP" ]]; then
         ic " > Loading parallels workspace submodules:"
-        load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
+        install_misc_utilities # misc apt 
+        install_libbarrett_if_not
+        install_librealsense_if_not # for Intel Sensors
+        load_submodules "${SUBMODULES_FOR_JX_OEM[@]}"
     elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
         ic " > Loading parallels workspace submodules:"
         load_submodules "${SUBMODULES_FOR_P51_LENOVO[@]}"
+    elif [[ $USER = "uwarl-laptop-3" ]] && [[ $LOCAL_PC_IP = "$ROS_P50s_LENOVO_PC_IP" ]]; then
+        ic " > Loading parallels workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_P50s_LENOVO[@]}"
     else
         ic " > Loading default workspace submodules:"
         load_submodules "${SUBMODULES_FOR_PC_DEFAULT[@]}"
