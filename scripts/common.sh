@@ -122,17 +122,17 @@ SUBMODULES_FOR_JX_OEM=(
 )
 # $USER = "uwarl-laptop-4"
 SUBMODULES_FOR_P51_LENOVO=(
-#    ## SUMMIT Side:
-       "multimap_server_msgs"              # TODO: need to deal with mapping
-       "uwarl-multimap_server"             # TODO: need to deal with mapping
-       "uwarl-robot_localization_utils"    # TODO: need to deal with mapping
-       "system_monitor"            # ["robotnik"]
-#       "uwarl-robotnik_base_hw"   # [waterloo_steel/adlink-mxe211-melodic/main] # [x86_64 only]
-       "uwarl-robotnik_msgs"
-       "uwarl-robotnik_sensors"
-       "uwarl-summit_xl_common"   # X-[waterloo_steel/universal/main] TODO: need to deal with mapping,
-       "uwarl-summit_xl_robot"    # [waterloo_steel/adlink-mxe211-melodic/main]
-       "waterloo_steel"           # [universal/ros1/main]
+#   ## SUMMIT Side:
+    "multimap_server_msgs"              # TODO: need to deal with mapping
+    "uwarl-multimap_server"             # TODO: need to deal with mapping
+    "uwarl-robot_localization_utils"    # TODO: need to deal with mapping
+    "system_monitor"            # ["robotnik"]
+#   "uwarl-robotnik_base_hw"   # [waterloo_steel/adlink-mxe211-melodic/main] # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"   # X-[waterloo_steel/universal/main] TODO: need to deal with mapping,
+    "uwarl-summit_xl_robot"    # [waterloo_steel/adlink-mxe211-melodic/main]
+    "waterloo_steel"           # [universal/ros1/main]
 #    ## WAM Side:
 #       "uwarl-barrett_wam_hw"     # [x86_64, aarch64/arm64]
 #       "uwarl-barrett_wam_msgs"
@@ -144,28 +144,28 @@ SUBMODULES_FOR_P51_LENOVO=(
 )
 # $USER = "uwarl-laptop-3"
 SUBMODULES_FOR_P50s_LENOVO=(
-#    ## SUMMIT Side:
-       "multimap_server_msgs"              # TODO: need to deal with mapping
-       "uwarl-multimap_server"             # TODO: need to deal with mapping
-       "uwarl-robot_localization_utils"    # TODO: need to deal with mapping
-       "system_monitor"            # ["robotnik"]
-#       "uwarl-robotnik_base_hw"   # [waterloo_steel/adlink-mxe211-melodic/main] # [x86_64 only]
-       "uwarl-robotnik_msgs"
-       "uwarl-robotnik_sensors"
-       "uwarl-summit_xl_common"   # X-[waterloo_steel/universal/main] TODO: need to deal with mapping,
-       "uwarl-summit_xl_robot"    # [waterloo_steel/adlink-mxe211-melodic/main]
-       "waterloo_steel"           # [universal/ros1/main]
+#   ## SUMMIT Side:
+    "multimap_server_msgs"              # TODO: need to deal with mapping
+    "uwarl-multimap_server"             # TODO: need to deal with mapping
+    "uwarl-robot_localization_utils"    # TODO: need to deal with mapping
+    "system_monitor"            # ["robotnik"]
+#   "uwarl-robotnik_base_hw"   # [waterloo_steel/adlink-mxe211-melodic/main] # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"   # X-[waterloo_steel/universal/main] TODO: need to deal with mapping,
+    "uwarl-summit_xl_robot"    # [waterloo_steel/adlink-mxe211-melodic/main]
+    "waterloo_steel"           # [universal/ros1/main]
 #    ## WAM Side:
-       "uwarl-barrett_wam_hw"     # [x86_64, aarch64/arm64]
-       "uwarl-barrett_wam_msgs"
-       "uwarl-realsense_ros"      # [L515 Support]
-       "uwarl-barrett-ros-pkg"    # [DEPRECATED]
-       "uwarl-zed_ros_wrapper"    # [No longer used]
+    "uwarl-barrett_wam_hw"     # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    "uwarl-realsense_ros"      # [L515 Support]
+    "uwarl-barrett-ros-pkg"    # [DEPRECATED]
+    "uwarl-zed_ros_wrapper"    # [No longer used]
 #    ## Vicon Tracker:
-       "uwarl-vicon_bridge"
+    "uwarl-vicon_bridge"
 #    ## Research:
-       "vins-research-pkg"
-       'uwarl-sensor_calibr"
+    "vins-research-pkg"
+    "uwarl-sensor_calibr"
 )
 
 #################################################################
