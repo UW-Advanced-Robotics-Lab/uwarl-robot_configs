@@ -162,6 +162,9 @@ SUBMODULES_FOR_P50s_LENOVO=(
        "uwarl-zed_ros_wrapper"    # [No longer used]
 #    ## Vicon Tracker:
        "uwarl-vicon_bridge"
+#    ## Research:
+       "vins-research-pkg"
+       'uwarl-sensor_calibr"
 )
 
 #################################################################
