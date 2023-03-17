@@ -91,6 +91,9 @@ else
     elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
         ic " > Loading parallels workspace submodules:"
         load_submodules "${SUBMODULES_FOR_P51_LENOVO[@]}"
+    elif [[ $USER = "uwarl-laptop-3" ]] && [[ $LOCAL_PC_IP = "$ROS_P50s_LENOVO_PC_IP" ]]; then
+        ic " > Loading parallels workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_P50s_LENOVO[@]}"
     else
         ic " > Loading default workspace submodules:"
         load_submodules "${SUBMODULES_FOR_PC_DEFAULT[@]}"

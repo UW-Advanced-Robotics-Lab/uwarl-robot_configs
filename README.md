@@ -1,8 +1,13 @@
 <toc>
 
 # Table of Contents
-[*Last generated: Mon 26 Dec 2022 11:06:30 EST*]
+[*Last generated: Fri 17 Mar 2023 04:06:45 PM EDT*]
 - [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
+  - [1.1 How to Setup Workstation:](#11-How-to-Setup-Workstation)
+  - [1.2 How to Setup Platform Hardware:](#12-How-to-Setup-Platform-Hardware)
+  - [1.3 How to Use Platform Toolchain and Maintain Workspace:](#13-How-to-Use-Platform-Toolchain-and-Maintain-Workspace)
+  - [1.4 How to Launch the Robot:](#14-How-to-Launch-the-Robot)
+  - [1.5 How to Modify and Commit to Config Toolchains:](#15-How-to-Modify-and-Commit-to-Config-Toolchains)
 - [**2. ⭐ Unified Development :construction:  [Local PC / Summit / WAM] (Melodic/Noetic):**](#2-Unified-Development-construction-Local-PC-Summit-WAM-MelodicNoetic)
   - [2.1 How to commit:](#21-How-to-commit)
   - [2.2 How to Add a new modules under workspace/src:](#22-How-to-Add-a-new-modules-under-workspacesrc)
@@ -29,6 +34,37 @@ This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` f
 
 > :warning: For more/latest setup tips, please refer to the [Lab Wiki Guide](https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Instructions) for details.
 
+## 1.1 How to Setup Workstation:
+Please go to: https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Workstation-Setup
+
+## 1.2 How to Setup Platform Hardware:
+Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Hardware-Setup
+
+## 1.3 How to Use Platform Toolchain and Maintain Workspace:
+Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Development
+
+## 1.4 How to Launch the Robot:
+Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Launch-Instruction
+
+## 1.5 How to Modify and Commit to Config Toolchains:
+1. Make sure you checkout your own branch before modifying someone's branch:
+   ```bash
+   $ cd_config
+   $ git branch -v
+   #### OUTPUT:
+   #     universal/ros1/data-analysis/session-feb-2023 da577d7 [behind 3] [ New: tmux multi session sync launch ] + a shortcut function would auto-launch everything in multiple sub-widows in tmux
+   #     universal/ros1/data-analysis/session-jan-2023 616a10f [ begin of data analysis development (jx) ]
+   #   * universal/ros1/data-analysis/session-wed-2023 46ab84a [ahead 3] Merge branch 'universal/ros1/data-analysis/session-wed-2023' of github.com:UW-Advanced-Robotics-Lab/uwarl-robot_configs into universal/ros1/data-analysis/session-wed-2023
+   #     universal/ros1/robohub/session-dec-2022       25118a9 Merge pull request #8 from UW-Advanced-Robotics-Lab/universal/ros1/robohub/session-dec-2022
+   #     universal/ros1/robohub/session-dec-2022-deck  4cb0a25 + deck configs
+   #     universal/ros1/robohub/session-jan-2023       012c854 + suspending scripts
+   #     waterloo_steel/universal/main                 25118a9 [behind 36] Merge pull request #8 from UW-Advanced-Robotics-Lab/universal/ros1/robohub/session-dec-2022
+   
+   $ git checkout -b universal/ros1/data-analysis/session-wed-2023_register_my_pc
+   $ git push -u origin universal/ros1/data-analysis/session-wed-2023_register_my_pc
+   ```
+2. Make a PR (Pull Requests) on GitHub UI to merge-in your changes
+---
 # 2. ⭐ Unified Development :construction:  [Local PC / Summit / WAM] (Melodic/Noetic):
 
 > 🔥 (hot-takes) on **[Hardware v2]** : A unified multi-platform configuration
@@ -283,6 +319,7 @@ Robot Configuration Description:
  
      - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
 ```
+
 <eof>
 
 ---
