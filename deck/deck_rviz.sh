@@ -1,0 +1,1 @@
+rosrun rviz rviz -d $HOME/UWARL_catkin_ws/src/waterloo_steel_rviz/deck_default.rviz

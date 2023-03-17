@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=true
+TerminalOptions=zsh
+Exec=zsh -c "source /home/deck/.zshrc;/home/deck/uwarl-robot_configs/deck/deck_rviz.sh"
+Icon=/home/deck/uwarl-robot_configs/deck/rviz-icon-180x180.png
+Name=Launch Rviz
