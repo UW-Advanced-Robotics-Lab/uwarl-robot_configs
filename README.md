@@ -1,7 +1,7 @@
 <toc>
 
 # Table of Contents
-[*Last generated: Fri 17 Mar 2023 04:06:45 PM EDT*]
+[*Last generated: Mon 20 Mar 2023 12:01:45 PM EDT*]
 - [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
   - [1.1 How to Setup Workstation:](#11-How-to-Setup-Workstation)
   - [1.2 How to Setup Platform Hardware:](#12-How-to-Setup-Platform-Hardware)
@@ -17,6 +17,9 @@
   - [3.3 Pull latest repo:](#33-Pull-latest-repo)
   - [3.4 Restart over the catkin workspace:](#34-Restart-over-the-catkin-workspace)
   - [3.5 Shortcuts:](#35-Shortcuts)
+- [**3. Tools:**](#3-Tools)
+  - [3.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:](#31-Remote-Desktop-Auto-Sleep-and-Auto-Wake-Scheduling)
+  - [3.2 Remote Desktop without physical monitor (Headless Monitor):](#32-Remote-Desktop-without-physical-monitor-Headless-Monitor)
 - [**A. Appendix:**](#A-Appendix)
   - [A.1 File Tree:](#A1-File-Tree)
   - [A.2 ZSHRC Terminal Output After Installing:](#A2-ZSHRC-Terminal-Output-After-Installing)
@@ -240,6 +243,33 @@ $ md_toc_dir docs
 $ md_toc_dir git
 ```
 
+# 3. Tools:
+## 3.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:
+
+```bash
+$ sudo cp ~/uwarl-robot_configs/desktop/suspend_until $HOME
+# Takes a 24hour time HH:MM as its argument
+# Example:
+#
+$ suspend_until 9:30
+#     suspend_until 18:45
+#
+# You can create a root cron job that calls this script to execute at a
+# specific time in the evening and then awake in the morning:
+#
+$ sudo crontab -e
+#
+# Now enter something like to run the suspend script at 23:30:
+#
+30 23 * * * /home/myhomefolder/suspend_until 07:30 
+```
+
+## 3.2 Remote Desktop without physical monitor (Headless Monitor):
+```bash
+$ sudo apt-get install xserver-xorg-video-dummy -y 
+$ sudo cp ~/uwarl-robot_configs/desktop/etc/X11/xorg.conf /etc/X11/xorg.conf
+```
+
 # A. Appendix:
 
 ## A.1 File Tree:
@@ -319,6 +349,7 @@ Robot Configuration Description:
  
      - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
 ```
+
 
 <eof>
 
