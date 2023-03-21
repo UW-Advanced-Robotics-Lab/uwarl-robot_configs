@@ -28,7 +28,10 @@ ic_bind_cmd cd_config    "cd $UWARL_CONFIGS"
 ic_bind_cmd clean_ws     "catkin clean"
 
 ## ROS launch in tmux:
-ic_bind_cmd tmux_sync    tmux_sync
+ic_bind_cmd tmux_sync    tmux_sync # [session name] [cmd_1] **...
+ic_bind_cmd tmux_multi   tmux_multi_pane # [**number of panes]
+ic_bind_cmd tmux_kill    "tmux kill-session" #: kill all sessions
+ic_bind_cmd tmux_src     "tmux source-file $UWARL_CONFIGS/desktop/tmux.conf" #: apply custom settings to current tmux session
 
 ## Markdown script:
 echo "" # empty line

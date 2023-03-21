@@ -1,0 +1,53 @@
+Device info: 
+    Name                          : 	Intel RealSense L515
+    Serial Number                 : 	f1271800
+    Firmware Version              : 	01.05.04.01
+    Recommended Firmware Version  : 	01.05.08.01
+    Physical Port                 : 	1-5-9
+    Debug Op Code                 : 	15
+    Product Id                    : 	0B64
+    Camera Locked                 : 	YES
+    Usb Type Descriptor           : 	2.1
+    Product Line                  : 	L500
+    Asic Serial Number            : 	0003cbd01733
+    Firmware Update Id            : 	0003cbd01733
+
+Stream Profiles supported by L500 Depth Sensor
+ Supported modes:
+    stream       resolution      fps       format   
+    Confidence	  320x240	@ 30Hz	   RAW8
+    Infrared	  320x240	@ 30Hz	   Y8
+    Depth	  320x240	@ 30Hz	   Z16
+
+Stream Profiles supported by RGB Camera
+ Supported modes:
+    stream       resolution      fps       format   
+    Color	  640x480	@ 30Hz	   RGB8
+    Color	  640x480	@ 30Hz	   Y16
+    Color	  640x480	@ 30Hz	   BGRA8
+    Color	  640x480	@ 30Hz	   RGBA8
+    Color	  640x480	@ 30Hz	   BGR8
+    Color	  640x480	@ 30Hz	   YUYV
+    Color	  640x480	@ 15Hz	   RGB8
+    Color	  640x480	@ 15Hz	   Y16
+    Color	  640x480	@ 15Hz	   BGRA8
+    Color	  640x480	@ 15Hz	   RGBA8
+    Color	  640x480	@ 15Hz	   BGR8
+    Color	  640x480	@ 15Hz	   YUYV
+    Color	  640x480	@ 6Hz	   RGB8
+    Color	  640x480	@ 6Hz	   Y16
+    Color	  640x480	@ 6Hz	   BGRA8
+    Color	  640x480	@ 6Hz	   RGBA8
+    Color	  640x480	@ 6Hz	   BGR8
+    Color	  640x480	@ 6Hz	   YUYV
+
+Stream Profiles supported by Motion Module
+ Supported modes:
+    stream       resolution      fps       format   
+    Accel	 N/A		@ 400Hz	   MOTION_XYZ32F
+    Accel	 N/A		@ 200Hz	   MOTION_XYZ32F
+    Accel	 N/A		@ 100Hz	   MOTION_XYZ32F
+    Gyro	 N/A		@ 400Hz	   MOTION_XYZ32F
+    Gyro	 N/A		@ 200Hz	   MOTION_XYZ32F
+    Gyro	 N/A		@ 100Hz	   MOTION_XYZ32F
+

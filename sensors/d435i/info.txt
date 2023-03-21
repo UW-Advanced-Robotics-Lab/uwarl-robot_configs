@@ -1,0 +1,134 @@
+Device info: 
+    Name                          : 	Intel RealSense D435I
+    Serial Number                 : 	925622071018
+    Firmware Version              : 	05.14.00.00
+    Recommended Firmware Version  : 	05.14.00.00
+    Physical Port                 : 	1-5-8
+    Debug Op Code                 : 	15
+    Advanced Mode                 : 	YES
+    Product Id                    : 	0B3A
+    Camera Locked                 : 	YES
+    Usb Type Descriptor           : 	2.1
+    Product Line                  : 	D400
+    Asic Serial Number            : 	926223050066
+    Firmware Update Id            : 	926223050066
+
+Stream Profiles supported by Stereo Module
+ Supported modes:
+    stream       resolution      fps       format   
+    Infrared 1	  1280x720	@ 6Hz	   Y8
+    Infrared 1	  848x480	@ 10Hz	   Y8
+    Infrared 1	  848x480	@ 8Hz	   Y8
+    Infrared 1	  848x480	@ 6Hz	   Y8
+    Infrared 1	  640x480	@ 30Hz	   Y8
+    Infrared 1	  640x480	@ 15Hz	   Y8
+    Infrared 1	  640x480	@ 6Hz	   Y8
+    Infrared 1	  640x360	@ 30Hz	   Y8
+    Infrared 1	  480x270	@ 60Hz	   Y8
+    Infrared 1	  480x270	@ 30Hz	   Y8
+    Infrared 1	  480x270	@ 15Hz	   Y8
+    Infrared 1	  480x270	@ 6Hz	   Y8
+    Infrared 2	  1280x720	@ 6Hz	   Y8
+    Infrared 2	  848x480	@ 10Hz	   Y8
+    Infrared 2	  848x480	@ 8Hz	   Y8
+    Infrared 2	  848x480	@ 6Hz	   Y8
+    Infrared 2	  640x480	@ 30Hz	   Y8
+    Infrared 2	  640x480	@ 15Hz	   Y8
+    Infrared 2	  640x480	@ 6Hz	   Y8
+    Infrared 2	  640x360	@ 30Hz	   Y8
+    Infrared 2	  480x270	@ 60Hz	   Y8
+    Infrared 2	  480x270	@ 30Hz	   Y8
+    Infrared 2	  480x270	@ 15Hz	   Y8
+    Infrared 2	  480x270	@ 6Hz	   Y8
+    Depth	  1280x720	@ 6Hz	   Z16
+    Depth	  848x480	@ 10Hz	   Z16
+    Depth	  848x480	@ 8Hz	   Z16
+    Depth	  848x480	@ 6Hz	   Z16
+    Depth	  640x480	@ 30Hz	   Z16
+    Depth	  640x480	@ 15Hz	   Z16
+    Depth	  640x480	@ 6Hz	   Z16
+    Depth	  640x360	@ 30Hz	   Z16
+    Depth	  480x270	@ 60Hz	   Z16
+    Depth	  480x270	@ 30Hz	   Z16
+    Depth	  480x270	@ 15Hz	   Z16
+    Depth	  480x270	@ 6Hz	   Z16
+    Depth	  256x144	@ 90Hz	   Z16
+
+Stream Profiles supported by RGB Camera
+ Supported modes:
+    stream       resolution      fps       format   
+    Color	  1920x1080	@ 8Hz	   RGB8
+    Color	  1920x1080	@ 8Hz	   Y16
+    Color	  1920x1080	@ 8Hz	   BGRA8
+    Color	  1920x1080	@ 8Hz	   RGBA8
+    Color	  1920x1080	@ 8Hz	   BGR8
+    Color	  1920x1080	@ 8Hz	   YUYV
+    Color	  1280x720	@ 15Hz	   RGB8
+    Color	  1280x720	@ 15Hz	   Y16
+    Color	  1280x720	@ 15Hz	   BGRA8
+    Color	  1280x720	@ 15Hz	   RGBA8
+    Color	  1280x720	@ 15Hz	   BGR8
+    Color	  1280x720	@ 15Hz	   YUYV
+    Color	  1280x720	@ 10Hz	   RGB8
+    Color	  1280x720	@ 10Hz	   Y16
+    Color	  1280x720	@ 10Hz	   BGRA8
+    Color	  1280x720	@ 10Hz	   RGBA8
+    Color	  1280x720	@ 10Hz	   BGR8
+    Color	  1280x720	@ 10Hz	   YUYV
+    Color	  1280x720	@ 6Hz	   RGB8
+    Color	  1280x720	@ 6Hz	   Y16
+    Color	  1280x720	@ 6Hz	   BGRA8
+    Color	  1280x720	@ 6Hz	   RGBA8
+    Color	  1280x720	@ 6Hz	   BGR8
+    Color	  1280x720	@ 6Hz	   YUYV
+    Color	  640x480	@ 30Hz	   RGB8
+    Color	  640x480	@ 30Hz	   Y16
+    Color	  640x480	@ 30Hz	   BGRA8
+    Color	  640x480	@ 30Hz	   RGBA8
+    Color	  640x480	@ 30Hz	   BGR8
+    Color	  640x480	@ 30Hz	   YUYV
+    Color	  640x480	@ 15Hz	   RGB8
+    Color	  640x480	@ 15Hz	   Y16
+    Color	  640x480	@ 15Hz	   BGRA8
+    Color	  640x480	@ 15Hz	   RGBA8
+    Color	  640x480	@ 15Hz	   BGR8
+    Color	  640x480	@ 15Hz	   YUYV
+    Color	  640x480	@ 6Hz	   RGB8
+    Color	  640x480	@ 6Hz	   Y16
+    Color	  640x480	@ 6Hz	   BGRA8
+    Color	  640x480	@ 6Hz	   RGBA8
+    Color	  640x480	@ 6Hz	   BGR8
+    Color	  640x480	@ 6Hz	   YUYV
+    Color	  424x240	@ 60Hz	   RGB8
+    Color	  424x240	@ 60Hz	   Y16
+    Color	  424x240	@ 60Hz	   BGRA8
+    Color	  424x240	@ 60Hz	   RGBA8
+    Color	  424x240	@ 60Hz	   BGR8
+    Color	  424x240	@ 60Hz	   YUYV
+    Color	  424x240	@ 30Hz	   RGB8
+    Color	  424x240	@ 30Hz	   Y16
+    Color	  424x240	@ 30Hz	   BGRA8
+    Color	  424x240	@ 30Hz	   RGBA8
+    Color	  424x240	@ 30Hz	   BGR8
+    Color	  424x240	@ 30Hz	   YUYV
+    Color	  424x240	@ 15Hz	   RGB8
+    Color	  424x240	@ 15Hz	   Y16
+    Color	  424x240	@ 15Hz	   BGRA8
+    Color	  424x240	@ 15Hz	   RGBA8
+    Color	  424x240	@ 15Hz	   BGR8
+    Color	  424x240	@ 15Hz	   YUYV
+    Color	  424x240	@ 6Hz	   RGB8
+    Color	  424x240	@ 6Hz	   Y16
+    Color	  424x240	@ 6Hz	   BGRA8
+    Color	  424x240	@ 6Hz	   RGBA8
+    Color	  424x240	@ 6Hz	   BGR8
+    Color	  424x240	@ 6Hz	   YUYV
+
+Stream Profiles supported by Motion Module
+ Supported modes:
+    stream       resolution      fps       format   
+    Accel	 N/A		@ 250Hz	   MOTION_XYZ32F
+    Accel	 N/A		@ 63Hz	   MOTION_XYZ32F
+    Gyro	 N/A		@ 400Hz	   MOTION_XYZ32F
+    Gyro	 N/A		@ 200Hz	   MOTION_XYZ32F
+

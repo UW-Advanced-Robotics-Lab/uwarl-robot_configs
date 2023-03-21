@@ -467,6 +467,15 @@ function print_ascii_title() {
     echo -e "${BLUE} \n██╗    ██╗ █████╗ ████████╗███████╗██████╗ ██╗      ██████╗  ██████╗    \n██║    ██║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██║     ██╔═══██╗██╔═══██╗   \n██║ █╗ ██║███████║   ██║   █████╗  ██████╔╝██║     ██║   ██║██║   ██║   \n██║███╗██║██╔══██║   ██║   ██╔══╝  ██╔══██╗██║     ██║   ██║██║   ██║   \n╚███╔███╔╝██║  ██║   ██║   ███████╗██║  ██║███████╗╚██████╔╝╚██████╔╝   \n ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═════╝    \n                                                                        \n███████╗████████╗███████╗███████╗██╗                   ██╗   ██╗██████╗ \n██╔════╝╚══██╔══╝██╔════╝██╔════╝██║                   ██║   ██║╚════██╗\n███████╗   ██║   █████╗  █████╗  ██║         █████╗    ██║   ██║ █████╔╝\n╚════██║   ██║   ██╔══╝  ██╔══╝  ██║         ╚════╝    ╚██╗ ██╔╝██╔═══╝ \n███████║   ██║   ███████╗███████╗███████╗               ╚████╔╝ ███████╗\n╚══════╝   ╚═╝   ╚══════╝╚══════╝╚══════╝                ╚═══╝  ╚══════╝ ${NC}" 
 }
 
+function tmux_custom() {
+    if ! command -v tmux &> /dev/null
+        tmux source-file $UWARL_CONFIGS/scripts/.tmux.conf
+    then
+        ic_wrn "<tmux> could not be found! Please install first."
+        exit
+    fi
+}
+
 function source_all_common_configs() {
     print_ascii_title
     # action:
@@ -479,11 +488,27 @@ function source_all_common_configs() {
     cat_ros_env
 }
 
+function tmux_multi_pane () {
+    session="UWARL Multi Window"
+    tmux start-server
+    tmux new-session -d -s $session
+    tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
+    n_session=${1:-2}
+    for i in $(seq 2 $n_session)
+    do 
+        tmux splitw -t $session -l 1
+        tmux send -t $session:0.1 clear C-m
+        tmux selectp -t $session:0.0
+        tmux selectl -t $session tiled
+    done
+    tmux a -t $session
+}
+
 function tmux_sync () {
     set -e
     if [ $# -lt 2 ]
     then
-        echo "Usage: $0 [session_name] [command_1]..."
+        ic_wrn "Usage: $0 [session_name] [command_1]..."
         exit 1
     fi
     
