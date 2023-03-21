@@ -1,7 +1,7 @@
 <toc>
 
 # Table of Contents
-[*Last generated: Mon 20 Mar 2023 12:01:45 PM EDT*]
+[*Last generated: Mon 20 Mar 2023 08:46:46 PM EDT*]
 - [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
   - [1.1 How to Setup Workstation:](#11-How-to-Setup-Workstation)
   - [1.2 How to Setup Platform Hardware:](#12-How-to-Setup-Platform-Hardware)
@@ -17,6 +17,14 @@
   - [3.3 Pull latest repo:](#33-Pull-latest-repo)
   - [3.4 Restart over the catkin workspace:](#34-Restart-over-the-catkin-workspace)
   - [3.5 Shortcuts:](#35-Shortcuts)
+    - [3.5.1 Short for ROS workspace:](#351-Short-for-ROS-workspace)
+    - [3.5.2 Short for OS Env.:](#352-Short-for-OS-Env)
+    - [3.5.3 Short for UWARL_catkin_ws/src Commit:](#353-Short-for-UWARL_catkin_wssrc-Commit)
+    - [3.5.4 Short for Robot Config Toolchain:](#354-Short-for-Robot-Config-Toolchain)
+    - [3.5.5 Short for Git (Pretty)](#355-Short-for-Git-Pretty)
+    - [3.5.6 Short Generation Tool for Markdown .md files:](#356-Short-Generation-Tool-for-Markdown-md-files)
+    - [3.5.7 Short for Tmux Multi-pane Session:](#357-Short-for-Tmux-Multi-pane-Session)
+      - [3.5.7.a) tmux configuration file:](#357a-tmux-configuration-file)
 - [**3. Tools:**](#3-Tools)
   - [3.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:](#31-Remote-Desktop-Auto-Sleep-and-Auto-Wake-Scheduling)
   - [3.2 Remote Desktop without physical monitor (Headless Monitor):](#32-Remote-Desktop-without-physical-monitor-Headless-Monitor)
@@ -206,35 +214,60 @@ $ source_ws
 ```
 
 ## 3.5 Shortcuts:
-
+### 3.5.1 Short for ROS workspace:
 ```bash
 ### ROS Workspace Specific:
 ## Note: you may add optional arguments afterwards.
+# cd into workspace from anywhere
+$ cd_ws
 # update (pull recursively in a batch) of the entire workspace with all required submodules (as noted in common.sh) from anywhere
 $ update_ws
 # clean ws from anywhere (build files from catkin-build)
 $ clean_ws
 # build ws from anywhere (w/ catkin-build)
 $ build_ws
-# source ws from anywhere
+# source 'ws/devel/.zsh' from anywhere
 $ source_ws
+# source ~/.zshrc from anywhere and then source 'ws/devel/.zsh'
+$ source_all
+```
+
+### 3.5.2 Short for OS Env.:
+```bash
 # source ~/.zshrc from anywhere
 $ source_zsh
+```
+
+### 3.5.3 Short for UWARL_catkin_ws/src Commit:
+```bash
 # cd into workspace from anywhere
 $ cd_ws
 # check wworkspace status from anywhere
 $ check_ws_status
 # commit the current workspace milestone:
 $ commit_ws
+```
+### 3.5.4 Short for Robot Config Toolchain:
+```bash
 # cd into robot_configs from anywhere
 $ cd_config
+# source ~/.zshrc from anywhere and then source 'ws/devel/.zsh'
+$ source_all
+# update the workspace with toolwchain
+$ update_ws
+```
 
+### 3.5.5 Short for Git (Pretty) 
+```bash
 ### Git Related:
 # pretty compact git log tree:
 $ git_log
 # ...  and include line changes:
 $ git_log -p
+```
 
+### 3.5.6 Short Generation Tool for Markdown .md files:
+```bash
 # auto-gen Table of Contents for a specific markdown file
 $ md_toc README.md 
 # auto-gen Table of Contents for a specific directory containing all markdown files
@@ -242,6 +275,38 @@ $ md_toc_dir docs
 # auto-gen ToC for MODIFIED Changes Only based on git status
 $ md_toc_dir git
 ```
+
+### 3.5.7 Short for Tmux Multi-pane Session:
+```bash
+# start tmux session:
+$ tmux 
+# start tmux session with multiple panes:
+$ tmux_multi            # 2 panes
+$ tmux_multi 4          # 4 panes
+# auto-init multiple commands inseparate terminal panes inside one tmux session
+$ tmux_sync [session_name] [cmd_1] ... 
+
+# detach session to background of OS:
+$ tmux detach
+# list available sessions
+$ tmux ls
+# reatach
+$ tmux a
+
+# [winin tmux session] apply custom configurations:
+$ tmux_src # see configuration file from `uwarl-robot_configs/desktop/tmux.conf`
+
+# kill all session:
+$ tmux_kill
+```
+#### 3.5.7.a) tmux configuration file:
+1. [CMD + B] + [SHIFT + |] : vertical split
+2. [CMD + B] + [SHIFT + -] : horizontal split
+3. [Alt + Arrow Key] : traverse pane without prefix keys ~~[CMD + B]~~
+4. [CMD + B] + u : capture pane: to show a menu of URLS to open
+5. [CMD + B] + c : new window
+6. [CMD + B] + p : previous window
+7. Mouse is on, history limit: [5000]
 
 # 3. Tools:
 ## 3.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:
@@ -349,6 +414,7 @@ Robot Configuration Description:
  
      - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
 ```
+
 
 
 <eof>
