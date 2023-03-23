@@ -281,8 +281,14 @@ function install_librealsense_if_not(){
 
         ic_wrn ">-- Prepare librealsense cmake files:"
         mkdir $candidate_path/build && cd $candidate_path/build
-        cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
-        
+        if [[ $USER = "uwarl-orin" ]]; then
+            # FYI: https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_jetson.md
+            ic_wrn "[Detected :: Jetson Orin] Building with native kernel backend, and with CUDA !!"
+            cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DBUILD_WITH_CUDA=true  -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true
+        else
+            ic_wrn "[Detected :: Not Jetson Orin] Building without native kernel, but with RSUSB backend, and without CUDA !!"
+            cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
+        fi
         ic_wrn ">-- Build librealsense"
         make -j$(($(nproc)-1)) 
 

@@ -476,12 +476,26 @@ function tmux_custom() {
     fi
 }
 
+function source_CUDA() {
+    if [[ $USER = "uwarl-orin" ]]; then
+        # https://github.com/jetsonhacks/buildLibrealsense2TX/issues/13#issuecomment-573976359
+        # Needed to build package like librealsesne for CUDA support!
+        ic_wrn "[Detected :: Jetson Orin] Exporting CUDA Path ..."
+        export CUDA_HOME=/usr/local/cuda
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64
+        export PATH=$PATH:$CUDA_HOME/bin
+    else
+        ic_wrn "[HINT] \"source_CUDA\" is not implemented. You may not need it, else define it in common.sh ..."
+    fi
+}
+
 function source_all_common_configs() {
     print_ascii_title
     # action:
     ic_source $UWARL_SUMMIT_SPECIFIC/summitxl_params.env "Summit Params"
     source_ros
     ic_source "$UWARL_CONFIGS/scripts/shortcuts.sh" "Shortcuts"
+    source_CUDA
     # report:
     ic_title "Print Environment Variables: "
     cat_summit_env
