@@ -205,9 +205,9 @@ export ROS_JX_OEM_PC_IP=10.42.0.1
 export ROS_JX_OEM_PC_HOSTNAME=10.42.0.1
 export ROS_JX_OEM_PC_DISTRO=noetic
 
-export ROS_P50s_Lenovo_PC_IP=192.168.1.211
-export ROS_P50s_Lenovo_PC_HOSTNAME=192.168.5.211
-export ROS_P50s_Lenovo_PC_DISTRO=neotic
+export ROS_P50s_LENOVO_PC_IP=192.168.5.211
+export ROS_P50s_LENOVO_PC_HOSTNAME=192.168.5.211
+export ROS_P50s_LENOVO_PC_DISTRO=noetic
 #################################################################
 ## VAR ##
 # assign to DISPLAY param:
@@ -432,7 +432,7 @@ function source_ros() {
         export ROS_DISTRO=$ROS_P51_LENOVO_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
 
-    elif [[ $USER = "uwarl-laptop-3" ]] && [[ $LOCAL_PC_IP = "$ROS_P50s_LENOVO_PC_IP" ]]; then
+    elif [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_P50s_LENOVO_PC_IP" ]]; then
         ic_wrn " - NON-Robot PC User [UWARL Laptop 4] detected!"
         ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
         ros_core_sync "LOCAL-HOSTS"
