@@ -320,6 +320,19 @@ function install_dlink_dongle(){
         ic_err "[Reboot Required] Please reboot !"
     fi
 }
+function install_jetson_utilities(){
+    ic_title "Installing Jetson Utilities into $JX_LINUX ..."
+    local candidate_path="$JX_LINUX/jetsonUtilities"
+    if [[ -d "$candidate_path" ]]; then
+        ic_err " [!] jetsonUtilities Areadly Installed!"
+    else
+        ic_wrn ">-- Cloning jetsonUtilities"
+        cd $JX_LINUX
+        git clone https://github.com/jetsonhacks/jetsonUtilities.git
+        cd $candidate_path
+        ic "x--- Done installling jetsonUtilities! "
+    fi
+}
 
 function install_misc_utilities(){
     ic_title "Installing Misc apt Packages:"

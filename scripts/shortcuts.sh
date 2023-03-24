@@ -26,6 +26,8 @@ ic_bind_cmd source_all   "source $HOME/.zshrc && source $ROS_CATKIN_WS/devel/set
 ic_bind_cmd cd_ws        "cd $ROS_CATKIN_WS/src"
 ic_bind_cmd cd_config    "cd $UWARL_CONFIGS"
 ic_bind_cmd clean_ws     "catkin clean"
+## Linux:
+ic_bind_cmd cd_linux     "cd $JX_LINUX" # to access libraries installed automatically or manually
 
 ## ROS launch in tmux:
 ic_bind_cmd tmux_sync    tmux_sync # [session name] [cmd_1] **...
@@ -41,3 +43,10 @@ ic_bind_cmd md_toc_dir   "markdown_toc_directory"
 
 ## Host VNC: `$ host_vnc {display_id:0,1,2}` [ARCHIVED: no longer used, as vnc requires physical monitor, and slow/insecure]
 # ic_bind_cmd host_vnc     "/usr/bin/x11vnc -forever -bg -usepw -httpdir /usr/share/vnc-java/ -httpport 5901 -display :$1"
+
+## Only in Jetson:
+if [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
+    if [[ -d "$JX_LINUX/jetsonUtilities" ]]; then
+        ic_bind_cmd jetson_info "./$JX_LINUX/jetsonUtilities/jetsonInfo.py" # Jetson Info
+    fi
+fi

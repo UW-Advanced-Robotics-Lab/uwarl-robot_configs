@@ -76,6 +76,7 @@ elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
     install_libbarrett_if_not
     install_librealsense_if_not # for Intel Sensors
     install_dlink_dongle # for dlink dongle
+    install_jetson_utilities # for jetson utilities
 
 else
     ic " - NON-Robot PC User detected! Begin local build:"
