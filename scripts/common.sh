@@ -304,6 +304,16 @@ function cat_ros_env() {
     ic     "    - PYTHONPATH              : $PYTHONPATH"
 }
 
+function cat_sensor_status() {
+    ic_wrn " [SENSOR Driver STATUS]: "
+    if [[ -d "$JX_LINUX/librealsense" ]]; then
+        ic     "  Serials:\n$(rs-enumerate-devices | grep '  Serial Number' )"
+        ic     "  Firmware:\n$(rs-enumerate-devices | grep '  Firmware Version' )"
+        ic     "  Types:\n$(rs-enumerate-devices | grep 'Usb Type Descriptor' )"
+        ic     "  Port:\n$(rs-enumerate-devices | grep 'Physical Port' )"
+    fi
+}
+
 function ros_core_sync() {
     ## Auto-Assign: ros core synchronization, given core PC name tag ##
     ic_wrn " > ROS CORE is currently hosted by [$1]!"
@@ -500,6 +510,8 @@ function source_all_common_configs() {
     ic_title "Print Environment Variables: "
     cat_summit_env
     cat_ros_env
+    ic_title "Print Driver Status: "
+    cat_sensor_status
 }
 
 function tmux_multi_pane () {

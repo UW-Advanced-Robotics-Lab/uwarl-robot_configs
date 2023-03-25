@@ -254,7 +254,11 @@ function install_librealsense_if_not(){
     local candidate_path="$JX_LINUX/librealsense"
     if [[ -d "$candidate_path" ]]; then
         ic_err " [!] librealsense Areadly Installed!"
+        ic " [!] librealsense Version: $(dpkg -l | grep 'realsense')"
     else
+        ic_wrn ">-- Remove any previously installed `realsense`:"
+        dpkg -l | grep "realsense" | cut -d " " -f 3 | xargs sudo dpkg --purge
+        
         ic_wrn ">-- Pre-req:"
         sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade
         echo Installing Librealsense-required dev packages
