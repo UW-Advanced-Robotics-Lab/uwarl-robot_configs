@@ -510,8 +510,12 @@ function source_all_common_configs() {
     ic_title "Print Environment Variables: "
     cat_summit_env
     cat_ros_env
-    ic_title "Print Driver Status: "
-    cat_sensor_status
+    # system status:
+    if ! { [[ "$TERM" == *"screen"* ]] && [ -n "$TMUX" ]; } then
+        ic_title "Print Driver Status: "
+        # Only print sensor when it's not TMUX sessions:
+        cat_sensor_status
+    fi
 }
 
 function tmux_multi_pane () {
