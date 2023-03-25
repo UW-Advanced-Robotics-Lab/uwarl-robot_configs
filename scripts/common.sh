@@ -538,7 +538,7 @@ function tmux_sync () {
     set -e
     if [ $# -lt 2 ]
     then
-        ic_wrn "Usage: $0 [session_name] [command_1]..."
+        ic_wrn "Tmux Sync Usage: $0 [session_name] [command_1]..."
         exit 1
     fi
     
@@ -546,6 +546,7 @@ function tmux_sync () {
     shift
     tmux start-server
     tmux new -d -s $session
+    tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
     on_error() {
         tmux kill-session -t $session
     }
@@ -561,6 +562,36 @@ function tmux_sync () {
         tmux selectl -t $session tiled
     done
     tmux setw synchronize-panes on
+    tmux a -t $session
+}
+
+function tmux_usync () {
+    set -e
+    if [ $# -lt 2 ]
+    then
+        ic_wrn "Tmux Unsync Usage: $0 [session_name] [command_1]..."
+        exit 1
+    fi
+    
+    session=$1
+    shift
+    tmux start-server
+    tmux new -d -s $session
+    tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
+    on_error() {
+        tmux kill-session -t $session
+    }
+    trap on_error ERR
+    cmd1=$1
+    shift
+    tmux send -t $session:0 "$cmd1" C-m
+    for i in "$@"
+    do
+        tmux splitw -t $session -l 1
+        tmux send -t $session:0.1 "$i" C-m
+        tmux selectp -t $session:0.0
+        tmux selectl -t $session tiled
+    done
     tmux a -t $session
 }
 # <<< EOF

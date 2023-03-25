@@ -31,6 +31,7 @@ ic_bind_cmd cd_linux     "cd $JX_LINUX" # to access libraries installed automati
 
 ## ROS launch in tmux:
 ic_bind_cmd tmux_sync    tmux_sync # [session name] [cmd_1] **...
+ic_bind_cmd tmux_usync   tmux_usync # [session name] [cmd_1] **...
 ic_bind_cmd tmux_multi   tmux_multi_pane # [**number of panes]
 ic_bind_cmd tmux_kill    "tmux kill-session" #: kill all sessions
 ic_bind_cmd tmux_src     "tmux source-file $UWARL_CONFIGS/desktop/tmux.conf" #: apply custom settings to current tmux session
