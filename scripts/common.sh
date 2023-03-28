@@ -546,7 +546,7 @@ function tmux_sync () {
     shift
     tmux start-server
     tmux new -d -s $session
-    tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
+    # tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
     on_error() {
         tmux kill-session -t $session
     }
