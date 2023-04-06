@@ -301,10 +301,12 @@ function cat_ros_env() {
 function cat_sensor_status() {
     if [[ -d "$JX_LINUX/librealsense" ]]; then
         ic_wrn " [SENSOR Driver STATUS]: "
-        ic     "  Serials:\n$(rs-enumerate-devices | grep '  Serial Number' )"
-        ic     "  Firmware:\n$(rs-enumerate-devices | grep '  Firmware Version' )"
-        ic     "  Types:\n$(rs-enumerate-devices | grep 'Usb Type Descriptor' )"
-        ic     "  Port:\n$(rs-enumerate-devices | grep 'Physical Port' )"
+        ic     "  \n$( rs-enumerate-devices -s )"
+        # ic     "  \n$(rs-enumerate-devices | grep -E '  Serial Number|  Firmware Version|Usb Type Descriptor|Physical Port' )"
+        # rs-enumerate-devices -c # calibration information
+        # rs-enumerate-devices -m # stream profiles
+        # rs-enumerate-devices -o # device options
+        # rs-enumerate-devices -s # summary
     else
         ic     "  Unable to Find Sensor Drivers! [librealsense]"
     fi

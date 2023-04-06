@@ -14,9 +14,9 @@ ic_bind_cmd git_log "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)
 
 ### catkin build from anywhere:
 if [[ -v PYTHONPATH_ROS ]]; then
-    ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build -j$($(nproc)-1) -DPYTHON_EXECUTABLE=$PYTHONPATH_ROS"
+    ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build -DPYTHON_EXECUTABLE=$PYTHONPATH_ROS"
 else
-    ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build -j$($(nproc)-1)"
+    ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build"
 fi
 
 ## ROS src:
