@@ -25,6 +25,12 @@ export UWARL_catkin_ws_branch="universal/ros1/simulation_pkg"
 #       "uwarl-vicon_bridge"
 #################################################################
 
+### SUBMODULES Definitons for Workspace: ###
+## NOTE on How to register your PC and Workspace Submodules:
+#   (1) Please add your submodules here
+#   (2) Please register your PC into `function source_ros()` inside `common.sh``
+#   (3) Please modify `auto-config_UWARL_catkin_ws.zsh` to load your submodules
+
 # $USER = "deck":
 SUBMODULES_FOR_DECK=(
     ## SUMMIT Side:
@@ -63,20 +69,6 @@ SUBMODULES_FOR_WAM=(
     ## Vicon Tracker:
     "uwarl-vicon_bridge"
 )
-# else:
-SUBMODULES_FOR_PC_DEFAULT=(
-    ## SUMMIT Side:
-    "multimap_server_msgs"
-    "system_monitor"
-    "uwarl-multimap_server"
-    "uwarl-robot_localization_utils"
-    "uwarl-robotnik_msgs"
-    "uwarl-robotnik_sensors"
-    "waterloo_steel"
-    ## WAM Side:
-    "uwarl-barrett_wam_msgs"
-    "uwarl-realsense_ros"
-)
 #### USER DEFINED PC: ####
 # $USER = "parallels":
 SUBMODULES_FOR_JX_PARALLEL=(
@@ -103,7 +95,7 @@ SUBMODULES_FOR_JX_PARALLEL=(
 )
 # $USER = "oem":
 SUBMODULES_FOR_JX_OEM=(
- ## SUMMIT Side:
+    ## SUMMIT Side:
     "multimap_server_msgs"
     "system_monitor"
     "uwarl-multimap_server"
@@ -175,42 +167,22 @@ SUBMODULES_FOR_P50s_LENOVO=(
 ## NETWORK PARAM: ##
 ### User Defined: ###
 export ROS_CORE_HOSTER="SUMMIT-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
-### SYSTEM Defined: ###
-export LOCAL_PC_IP="$(hostname -I | cut -d' ' -f1)"
 
-### [ Robot Network: UWARL-171102A_5G ] ###
-export ROS_SUMMIT_IP=192.168.1.11 # MAC Binded
-export ROS_SUMMIT_HOSTNAME=192.168.1.11
-export ROS_SUMMIT_DISTRO=melodic
+### Manually Registered: ###
+### [ Robot Network: UWARL-171102A_5G Wired ] ###
+export ROS_SUMMIT_IN_NETWORK_IP=192.168.1.11 # MAC Binded
+export ROS_WAM_IN_NETWORK_IP=192.168.1.10 # MAC Binded
+export ROS_DECK_IN_NETWORK_IP=192.168.1.15 # MAC Binded
+### [ Robot Network: UWARL-171102A_5G Wifi ] ###
+# DHCP , may change:
+export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.100
+# export ROS_P51_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
+# export ROS_JX_IN_NETWORK_OEM_PC_IP=192.168.1.x
+# export ROS_P50s_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
 
-export ROS_WAM_IP=192.168.1.10 # MAC Binded
-export ROS_WAM_HOSTNAME=192.168.1.10
-export ROS_WAM_DISTRO=noetic
+# [USER:] please change this one if you want to direct it to your own PC to host ROSCORE:
+export ROS_EXTERNAL_PC_IN_NETWORK_IP=$ROS_JX_IN_NETWORK_PARALLEL_PC_IP 
 
-export ROS_DECK_IP=192.168.1.15 # MAC Binded
-export ROS_DECK_HOSTNAME=192.168.1.15
-export ROS_DECK_DISTRO=noetic
-
-export ROS_PC_IP=192.168.1.100 # DHCP , may change
-export ROS_PC_HOSTNAME=192.168.1.100
-export ROS_PC_DISTRO=noetic
-
-### [ Other Miscellaneous Networks ] ###
-export ROS_JX_PARALLEL_PC_IP=10.211.55.5
-export ROS_JX_PARALLEL_PC_HOSTNAME=10.211.55.5
-export ROS_JX_PARALLEL_PC_DISTRO=noetic
-
-export ROS_P51_LENOVO_PC_IP=192.168.1.156
-export ROS_P51_LENOVO_PC_HOSTNAME=192.168.1.156
-export ROS_P51_LENOVO_PC_DISTRO=melodic
-
-export ROS_JX_OEM_PC_IP=10.42.0.1
-export ROS_JX_OEM_PC_HOSTNAME=10.42.0.1
-export ROS_JX_OEM_PC_DISTRO=noetic
-
-export ROS_P50s_LENOVO_PC_IP=192.168.5.211
-export ROS_P50s_LENOVO_PC_HOSTNAME=192.168.5.211
-export ROS_P50s_LENOVO_PC_DISTRO=noetic
 #################################################################
 ## VAR ##
 # assign to DISPLAY param:
@@ -245,7 +217,7 @@ RED='\033[0;31m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-## FUNC ##
+## DEBUGGING PRINT FUNC ##
 function ic () {
     echo -e "${CYAN}[UWARL-Robot_Config]${NC} ${BLUE} $1 ${NC}"
 }
@@ -277,6 +249,15 @@ function ic_source () {
     source $1
 }
 
+#################################################################
+### AUTO SYSTEM CONFIG: ###
+ic_title "Auto System Config:"
+export LOCAL_PC_IP=`hostname -I | cut -d' ' -f1` # <--- fetch local IP from LINUX Env.
+export LOCAL_LSB_VERSION=`lsb_release -sc` # <--- fetch local LSB Version from LINUX Env.
+export LOCAL_LSB_RELEASENUMBER=`grep DISTRIB_DESCRIPTION /etc/*-release | awk -F 'Ubuntu ' '{print $2}' | awk -F ' LTS' '{print $1}'` # <--- fetch local LSB Version from LINUX Env.
+
+#################################################################
+## FUNCTIONS ##
 function cat_summit_env() {
     ic_wrn " [SUMMIT ENV CONFIG]: "
     ic     "    - ROBOT_ID                : $ROBOT_ID"
@@ -293,6 +274,9 @@ function cat_summit_env() {
     ic     "    - ROBOT_FRONT_LASER_PORT  : $ROBOT_FRONT_LASER_PORT"
     ic     "    - ROBOT_FRONT_LASER_IP    : $ROBOT_FRONT_LASER_IP"
     ic     "    - ROBOT_PAD_MODEL         : $ROBOT_PAD_MODEL"
+    ic_wrn " [COMMON SH CONFIG]: "
+    ic     "    - ROBOT_PC_NAME           : $UWARL_ROBOT_PC_NAME"
+    ic     "    - ROS_CORE_HOSTER         : $ROS_CORE_HOSTER"
 }
 function cat_ros_env() {
     ic_wrn " [ROS CONFIG ($USER)]: "
@@ -300,20 +284,24 @@ function cat_ros_env() {
     ic     "    - ROS HOST                : $ROS_HOSTNAME"
     ic     "    - ROS MASTER              : $ROS_MASTER_URI"
     ic     "    - ROS IP                  : $ROS_IP"
-    ic_wrn " [LINUX ENV CONFIG ($USER)]: "
+    ic_wrn " [OS REPORT ($USER)]: "
     ic     "    - IP                      : $LOCAL_PC_IP"
     ic     "    - DISPLAY                 : $DISPLAY"
-    ic     "    - KERNEL                  : $(uname -a)"
+    ic     "    - LSB_Version             : $LOCAL_LSB_VERSION"
+    ic     "    - LSB_RELEASE#            : $LOCAL_LSB_RELEASENUMBER"
     ic     "    - PYTHONPATH              : $PYTHONPATH"
+    ic     "    - KERNEL                  : $(uname -a)"
 }
 
 function cat_sensor_status() {
-    ic_wrn " [SENSOR Driver STATUS]: "
     if [[ -d "$JX_LINUX/librealsense" ]]; then
+        ic_wrn " [SENSOR Driver STATUS]: "
         ic     "  Serials:\n$(rs-enumerate-devices | grep '  Serial Number' )"
         ic     "  Firmware:\n$(rs-enumerate-devices | grep '  Firmware Version' )"
         ic     "  Types:\n$(rs-enumerate-devices | grep 'Usb Type Descriptor' )"
         ic     "  Port:\n$(rs-enumerate-devices | grep 'Physical Port' )"
+    else
+        ic     "  Unable to Find Sensor Drivers! [librealsense]"
     fi
 }
 
@@ -323,31 +311,21 @@ function ros_core_sync() {
     case $1 in
     
         "SUMMIT-PC")
-            export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
-            export ROS_WAM_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
-            export ROS_PC_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
-            export ROS_DECK_MASTER_URI=http://$ROS_SUMMIT_IP:11311/
+            export ROS_MASTER_URI=http://$ROS_SUMMIT_IN_NETWORK_IP:11311/
             ;;
     
         "WAM-PC")
-            export ROS_SUMMIT_MASTER_URI=http://$ROS_WAM_IP:11311/
-            export ROS_WAM_MASTER_URI=http://localhost:11311/
-            export ROS_PC_MASTER_URI=http://$ROS_WAM_IP:11311/
-            export ROS_DECK_MASTER_URI=http://$ROS_WAM_IP:11311/
+            export ROS_MASTER_URI=http://$ROS_WAM_IN_NETWORK_IP:11311/
             ;;
     
         "REMOTE-PC")
-            export ROS_SUMMIT_MASTER_URI=http://$ROS_PC_IP:11311/
-            export ROS_WAM_MASTER_URI=http://$ROS_PC_IP:11311/
-            export ROS_PC_MASTER_URI=http://localhost:11311/
-            export ROS_DECK_MASTER_URI=http://$ROS_PC_IP:11311/
+            export ROS_MASTER_URI=http://$ROS_EXTERNAL_PC_IN_NETWORK_IP:11311/
             ;;
     
         "LOCAL-HOSTS")
-            export ROS_SUMMIT_MASTER_URI=http://localhost:11311/
-            export ROS_WAM_MASTER_URI=http://localhost:11311/
-            export ROS_PC_MASTER_URI=http://localhost:11311/
-            export ROS_DECK_MASTER_URI=http://localhost:11311/
+            export ROS_IP=localhost
+            export ROS_HOSTNAME=localhost
+            export ROS_MASTER_URI=http://localhost:11311/
             ;;
     
         *)
@@ -356,125 +334,135 @@ function ros_core_sync() {
     esac
 }
 
+function sync_ros_core_if_in_robot_network_else_localhost() {
+    in_network_ip=$1
+    if [[ $LOCAL_PC_IP = "$in_network_ip" ]]; then
+        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
+        ros_core_sync $ROS_CORE_HOSTER
+        export ROS_IP=$in_network_ip
+        export ROS_HOSTNAME=$in_network_ip
+        export IN_ROBOT_NETWORK=1
+    else # when out-of-network
+        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
+        ros_core_sync "LOCAL-HOSTS"
+        export IN_ROBOT_NETWORK=0
+    fi
+}
+
 function source_ros() {
     ic_title "ROS" "Setting up ROS environment based on User and PC IP"
     ## Auto-Assign: ##
     ic " > PC Reg.: $USER @ $LOCAL_PC_IP"
+    ### Always In Network On-Robot PC ###
     # adlink in-robot-network PC:
-    if [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_SUMMIT_IP" ]]; then
+    if [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_SUMMIT_IN_NETWORK_IP" ]]; then
+        export UWARL_ROBOT_PC_NAME="ADLINK_MXE211_SUMMIT"
         ic_wrn " - Adlink MXE211 Summit PC detected!" 
-        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
-        ros_core_sync $ROS_CORE_HOSTER
-        export ROS_IP=$ROS_SUMMIT_IP
-        export ROS_HOSTNAME=$ROS_SUMMIT_HOSTNAME
-        export ROS_MASTER_URI=$ROS_SUMMIT_MASTER_URI
-        export ROS_DISTRO=$ROS_SUMMIT_DISTRO
+        # manual config:
+        export ROS_DISTRO=melodic
         export DISPLAY=$DISPLAY_DEFAULT
+        # export PYTHONPATH_ROS=/usr/bin/python3
+        # export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_SUMMIT_IN_NETWORK_IP 
         
     # jetson in-robot-network PC:
-    elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
+    elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IN_NETWORK_IP" ]]; then
+        export UWARL_ROBOT_PC_NAME="JETSON_ORIN_WAM"
         ic_wrn " - Jetson Orin WAM PC detected!"
-        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
-        ros_core_sync $ROS_CORE_HOSTER
-        export ROS_IP=$ROS_WAM_IP
-        export ROS_HOSTNAME=$ROS_WAM_HOSTNAME
-        export ROS_MASTER_URI=$ROS_WAM_MASTER_URI
-        export ROS_DISTRO=$ROS_WAM_DISTRO
+        # manual config:
+        export ROS_DISTRO=noetic
         export DISPLAY=$DISPLAY_WAM
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_WAM_IN_NETWORK_IP 
         
-    # steam deck in-robot-network PC:
+    ### In Network / Out-Network On-Robot PC ###
+    # steam deck:
     elif [[ $USER = "deck" ]]; then
+        export UWARL_ROBOT_PC_NAME="STEAM_DECK_CONTROLLER"
         ic " - Steam Deck PC detected!"
-        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
-        ros_core_sync $ROS_CORE_HOSTER
-        export ROS_IP=$ROS_DECK_IP
-        export ROS_HOSTNAME=$ROS_DECK_HOSTNAME
-        export ROS_MASTER_URI=$ROS_DECK_MASTER_URI
-        export ROS_DISTRO=$ROS_DECK_DISTRO
+        # manual config:
+        export ROS_DISTRO=noetic
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/home/deck/mambaforge/envs/ros_env_3_8/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-    
-    # default in-robot-network PC:
-    elif [[ $LOCAL_PC_IP = "$ROS_PC_IP" ]]; then
-        ic_wrn " - NON-Robot PC User detected!"
-        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
-        ros_core_sync $ROS_CORE_HOSTER
-        export ROS_IP=$ROS_PC_IP
-        export ROS_HOSTNAME=$ROS_PC_HOSTNAME
-        export ROS_MASTER_URI=$ROS_PC_MASTER_URI
-        export ROS_DISTRO=$ROS_PC_DISTRO
-        export DISPLAY=$DISPLAY_DEFAULT
-        export PYTHONPATH_ROS=/usr/bin/python3
-        export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_DECK_IN_NETWORK_IP 
         
     ### user defined out-of-network PC:
-    elif [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
-        ic_wrn " - NON-Robot PC User [Jack's Parallel VM] detected!"
-        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
-        ros_core_sync "LOCAL-HOSTS"
-        export ROS_IP=$ROS_JX_PARALLEL_PC_IP
-        export ROS_HOSTNAME=$ROS_JX_PARALLEL_PC_HOSTNAME
-        export ROS_MASTER_URI=http://localhost:11311/
-        export ROS_DISTRO=$ROS_JX_PARALLEL_PC_DISTRO
+    elif [[ $USER = "parallels" ]]; then
+        # manual config:
+        export UWARL_ROBOT_PC_NAME="PARALLELS_VM_JACK"
+        export ROS_DISTRO=noetic
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
     
-    elif [[ $USER = "oem" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_OEM_PC_IP" ]]; then
-        ic_wrn " - NON-Robot PC User [Jack's Parallel VM] detected!"
-        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
-        ros_core_sync "LOCAL-HOSTS"
-        export ROS_IP=$ROS_JX_OEM_PC_IP
-        export ROS_HOSTNAME=$ROS_JX_OEM_PC_HOSTNAME
-        export ROS_MASTER_URI=http://localhost:11311/
-        export ROS_DISTRO=$ROS_JX_OEM_PC_DISTRO
+    elif [[ $USER = "oem" ]]; then
+        # manual config:
+        export UWARL_ROBOT_PC_NAME="OEM_PC_JACK"
+        export ROS_DISTRO=noetic
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
     
     elif [[ $USER = "uwarl-laptop-4" ]]; then
-        ic_wrn " - NON-Robot PC User [UWARL Laptop 4] detected!"
-        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
-
-        ros_core_sync "LOCAL-HOSTS"
-        export ROS_IP=localhost
-        export ROS_HOSTNAME=localhost    
-        if [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
-            ros_core_sync $ROS_CORE_HOSTER
-            export ROS_IP=$ROS_P51_LENOVO_PC_IP
-            export ROS_HOSTNAME=$ROS_P51_LENOVO_PC_HOSTNAME
-        fi
-        export ROS_MASTER_URI=$ROS_PC_MASTER_URI
-        export ROS_DISTRO=$ROS_P51_LENOVO_PC_DISTRO
+        local UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_4_JEONGWOO"
+        # manual config:
+        export ROS_DISTRO=melodic
         export DISPLAY=$DISPLAY_DEFAULT
-        
+        # export PYTHONPATH_ROS=/usr/bin/python3
+        # export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
 
-    elif [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_P50s_LENOVO_PC_IP" ]]; then
-        ic_wrn " - NON-Robot PC User [UWARL Laptop 4] detected!"
-        ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
-        ros_core_sync "LOCAL-HOSTS"
-        export ROS_IP=$ROS_P50s_LENOVO_PC_IP
-        export ROS_HOSTNAME=$ROS_P50s_LENOVO_PC_HOSTNAME
-        export ROS_MASTER_URI=http://localhost:11311/
-        export ROS_DISTRO=$ROS_P50s_LENOVO_PC_DISTRO
+    elif [[ $USER = "uwarl" ]]; then
+        local UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_3_SIMON"
+        # manual config:
+        export ROS_DISTRO=noetic
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-    
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+
     ### TEMPLATE:
-    # elif [[ $USER = "{define-here}" ]] && [[ $LOCAL_PC_IP = "${define-here}" ]]; then
-    #     ic_wrn " - NON-Robot PC User [Jack's Parallel VM] detected!"
-    #     ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
-    
+    # elif [[ $USER = "{$USER}" ]]; then
+    #     local UWARL_ROBOT_PC_NAME="{ENTER HERE}"
+    #     # manual config:
+    #     export ROS_DISTRO=noetic
+    #     export DISPLAY=$DISPLAY_DEFAULT
+    #     export PYTHONPATH_ROS=/usr/bin/python3
+    #     export PYTHONPATH=$PYTHONPATH_ROS
+    #     # welcome:
+    #     ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+    #     # ros core:
+    #     sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+
     else
-        ic_err " - UNREGISTERED Out-of-network/In-network PC detected!"
-        ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/robot_env.sh"
-        export PYTHONPATH_ROS=/usr/bin/python3
-        export PYTHONPATH=$PYTHONPATH_ROS
-        export ROS_DISTRO=noetic # by default
+        ic_err " - UNREGISTERED PC detected!"
+        ic_wrn " > Please add your PC to the ROS config file: $UWARL_CONFIGS/scripts/common.sh"
+        export UWARL_ROBOT_PC_NAME="UNKNOWN_PC"
     fi
 
     ic_source /opt/ros/$ROS_DISTRO/setup.zsh "ROS_DISTRO=$ROS_DISTRO"

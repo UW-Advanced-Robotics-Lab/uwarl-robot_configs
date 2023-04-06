@@ -13,10 +13,10 @@ ic_bind_cmd update_ws "zsh $UWARL_CONFIGS/scripts/auto-config_UWARL_catkin_ws.zs
 ic_bind_cmd git_log "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 ### catkin build from anywhere:
-if [ $ROS_DISTRO = "melodic" ]; then
-    ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build -j$($(nproc)-1)"
-else
+if [[ -v PYTHONPATH_ROS ]]; then
     ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build -j$($(nproc)-1) -DPYTHON_EXECUTABLE=$PYTHONPATH_ROS"
+else
+    ic_bind_cmd build_ws "cd $ROS_CATKIN_WS && catkin build -j$($(nproc)-1)"
 fi
 
 ## ROS src:
