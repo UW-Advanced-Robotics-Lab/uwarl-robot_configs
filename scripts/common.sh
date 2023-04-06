@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-wed-2023"
+export UWARL_catkin_ws_branch="universal/ros1/simulation_pkg"
 
 #################################################################
 #    ## SUMMIT Side:
@@ -96,8 +96,10 @@ SUBMODULES_FOR_JX_PARALLEL=(
     "uwarl-barrett_wam_msgs"
     "uwarl-realsense_ros"       # [L515 Support]
     ## Research:
-    "vins-research-pkg"
-    "uwarl-sensor_calibr"
+    # "vins-research-pkg"
+    # "uwarl-sensor_calibr"
+    ## Simulation:
+    "velodyne_simulator"
 )
 # $USER = "oem":
 SUBMODULES_FOR_JX_OEM=(
