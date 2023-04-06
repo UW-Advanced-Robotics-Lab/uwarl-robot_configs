@@ -143,6 +143,7 @@ SUBMODULES_FOR_P51_LENOVO=(
 #       "uwarl-zed_ros_wrapper"    # [No longer used]
 #    ## Vicon Tracker:
 #       "uwarl-vicon_bridge"
+    "velodyne_simulator"
 )
 # $USER = "uwarl-laptop-3"
 SUBMODULES_FOR_P50s_LENOVO=(
@@ -200,7 +201,7 @@ export ROS_JX_PARALLEL_PC_HOSTNAME=10.211.55.5
 export ROS_JX_PARALLEL_PC_DISTRO=noetic
 
 export ROS_P51_LENOVO_PC_IP=192.168.1.156
-export ROS_P51_LENOVO_PC_HOSTNAME=192.168.5.156
+export ROS_P51_LENOVO_PC_HOSTNAME=192.168.1.156
 export ROS_P51_LENOVO_PC_DISTRO=melodic
 
 export ROS_JX_OEM_PC_IP=10.42.0.1
@@ -434,15 +435,22 @@ function source_ros() {
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
     
-    elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
+    elif [[ $USER = "uwarl-laptop-4" ]]; then
         ic_wrn " - NON-Robot PC User [UWARL Laptop 4] detected!"
         ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
+
         ros_core_sync "LOCAL-HOSTS"
-        export ROS_IP=$ROS_P51_LENOVO_PC_IP
-        export ROS_HOSTNAME=$ROS_P51_LENOVO_PC_HOSTNAME
-        export ROS_MASTER_URI=http://localhost:11311/
+        export ROS_IP=localhost
+        export ROS_HOSTNAME=localhost    
+        if [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
+            ros_core_sync $ROS_CORE_HOSTER
+            export ROS_IP=$ROS_P51_LENOVO_PC_IP
+            export ROS_HOSTNAME=$ROS_P51_LENOVO_PC_HOSTNAME
+        fi
+        export ROS_MASTER_URI=$ROS_PC_MASTER_URI
         export ROS_DISTRO=$ROS_P51_LENOVO_PC_DISTRO
         export DISPLAY=$DISPLAY_DEFAULT
+        
 
     elif [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_P50s_LENOVO_PC_IP" ]]; then
         ic_wrn " - NON-Robot PC User [UWARL Laptop 4] detected!"
@@ -455,8 +463,6 @@ function source_ros() {
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
-
-
     
     ### TEMPLATE:
     # elif [[ $USER = "{define-here}" ]] && [[ $LOCAL_PC_IP = "${define-here}" ]]; then
