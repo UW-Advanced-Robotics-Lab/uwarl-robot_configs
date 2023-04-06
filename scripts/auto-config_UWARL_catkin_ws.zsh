@@ -6,23 +6,21 @@ source "$HOME/uwarl-robot_configs/scripts/git_functions.sh"
 ## Pre-req Check ##
 ic_title  "Checking ROS Pre-requisite ..."
 ic  " >>> {Checking your Ubuntu version} "
-version=`lsb_release -sc`
-relesenum=`grep DISTRIB_DESCRIPTION /etc/*-release | awk -F 'Ubuntu ' '{print $2}' | awk -F ' LTS' '{print $1}'`
-ic  " >>> {Your Ubuntu version is: [Ubuntu $version $relesenum]}"
+ic  " >>> {Your Ubuntu version is: [Ubuntu $LOCAL_LSB_VERSION $LOCAL_LSB_RELEASENUMBER]}"
 if [[ -x "$(command -v rosversion)" ]] ; then
     rosversion='rosversion -d'
     ic_wrn " ROS exists!! [ROS version: $rosversion] Pre-requisite met! Continue ..."
 else
     ic_err " ERROR::ROS does not exist, maybe you have not yet installed ROS?"
     ### Attempt to install ROS:
-    case $version in
+    case $LOCAL_LSB_VERSION in
         "focal" )
             ic_wrn "Attempting to auto-install ROS Noetic for Jetson!"
             install_ros_noetic
             ic "Continue ..."
         ;;
         *)
-        ic_err " >>> {ERROR: Auto-installation of ROS for [Ubuntu $version $relesenum] was not implemented, please install ROS manually.}"
+        ic_err " >>> {ERROR: Auto-installation of ROS for [Ubuntu $LOCAL_LSB_VERSION $LOCAL_LSB_RELEASENUMBER] was not implemented, please install ROS manually.}"
         exit 0
     esac
 fi
@@ -48,58 +46,62 @@ source_all_common_configs
 
 #################################################################
 ## Auto-Install ##
-if [[ $USER = "uwarl" ]] && [[ $LOCAL_PC_IP = "$ROS_SUMMIT_IP" ]]; then
-    ic " - Adlink MXE211 Summit PC detected!" 
-    ic " > Loading SUMMIT workspace submodules:"
-    load_submodules "${SUBMODULES_FOR_SUMMIT[@]}"
-    load_common 
-    # install drivers :
-    install_pcan_if_not
-
-elif [[ $USER = "deck" ]]; then
-    ic " - Steam Deck Controller detected!" 
-    ic " > Loading Deck workspace submodules:"
-    load_submodules "${SUBMODULES_FOR_DECK[@]}"
-    load_common 
-    ic " > Create a controller app @ the desktop!"
-    cp $HOME/uwarl-robot_configs/deck/uwarl_controller.desktop $HOME/Desktop
-    cp $HOME/uwarl-robot_configs/deck/uwarl_rviz.desktop $HOME/Desktop
-
-elif [[ $USER = "uwarl-orin" ]] && [[ $LOCAL_PC_IP = "$ROS_WAM_IP" ]]; then
-    ic " - Jetson Orin WAM PC detected!"
-    ic " > Loading WAM workspace submodules:"
-    load_submodules "${SUBMODULES_FOR_WAM[@]}"
-    load_common 
-    # install drivers :
-    install_misc_utilities # misc apt 
-    install_pcan_if_not NETDEV_SUPPORT
-    install_libbarrett_if_not
-    install_librealsense_if_not # for Intel Sensors
-    install_dlink_dongle # for dlink dongle
-
-else
-    ic " - NON-Robot PC User detected! Begin local build:"
-    if [[ $USER = "parallels" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_PARALLEL_PC_IP" ]]; then
-        ic " > Loading parallels workspace submodules:"
+ic_title "Auto-Installation Begin ..."
+case $UWARL_ROBOT_PC_NAME in
+    "ADLINK_MXE211_SUMMIT" )
+        ic " - Adlink MXE211 Summit PC detected!" 
+        ic " > Loading SUMMIT workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_SUMMIT[@]}"
+        # install drivers :
+        install_pcan_if_not
+    ;;
+    "JETSON_ORIN_WAM")
+        ic " - Jetson Orin WAM PC detected!"
+        ic " > Loading WAM workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_WAM[@]}"
+        # install drivers :
+        install_misc_utilities # misc apt 
+        install_pcan_if_not NETDEV_SUPPORT
+        install_libbarrett_if_not
+        install_librealsense_if_not # for Intel Sensors
+        install_dlink_dongle # for dlink dongle
+        install_jetson_utilities # for jetson utilities
+    ;;
+    "STEAM_DECK_CONTROLLER")
+        ic " - Steam Deck Controller detected!" 
+        ic " > Loading Deck workspace submodules:"
+        load_submodules "${SUBMODULES_FOR_DECK[@]}"
+        ic " > Create a controller app @ the desktop!"
+        cp $HOME/uwarl-robot_configs/deck/uwarl_controller.desktop $HOME/Desktop
+        cp $HOME/uwarl-robot_configs/deck/uwarl_rviz.desktop $HOME/Desktop
+    ;;
+    "PARALLELS_VM_JACK")
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
-    elif [[ $USER = "oem" ]] && [[ $LOCAL_PC_IP = "$ROS_JX_OEM_PC_IP" ]]; then
-        ic " > Loading parallels workspace submodules:"
+    ;;
+    "OEM_PC_JACK")
+        load_submodules "${SUBMODULES_FOR_JX_OEM[@]}"
         install_misc_utilities # misc apt 
         install_libbarrett_if_not
         install_librealsense_if_not # for Intel Sensors
-        load_submodules "${SUBMODULES_FOR_JX_OEM[@]}"
-    elif [[ $USER = "uwarl-laptop-4" ]] && [[ $LOCAL_PC_IP = "$ROS_P51_LENOVO_PC_IP" ]]; then
-        ic " > Loading parallels workspace submodules:"
+    ;;
+    "UWARL_LAPTOP_4_JEONGWOO")
         load_submodules "${SUBMODULES_FOR_P51_LENOVO[@]}"
-    elif [[ $USER = "uwarl-laptop-3" ]] && [[ $LOCAL_PC_IP = "$ROS_P50s_LENOVO_PC_IP" ]]; then
-        ic " > Loading parallels workspace submodules:"
+    ;;
+    "UWARL_LAPTOP_3_SIMON")
         load_submodules "${SUBMODULES_FOR_P50s_LENOVO[@]}"
-    else
-        ic " > Loading default workspace submodules:"
-        load_submodules "${SUBMODULES_FOR_PC_DEFAULT[@]}"
-    fi
-    load_common 
-fi
+    ;;
+    # [DEFAULT]:
+    *)
+        ic_err " >>> ERROR: Auto-installation Is Empty, Unknown PC!"
+        ic_wrn "       (1) Please Manually Register your PC in the \"common.sh\" script."
+        ic_wrn "       (2) Please Manually Register your PC in the \"auto-config_UWARL_catkin_ws.zsh\" script."
+        ic_err " >>> ERROR: Abort Workspace Setup!"
+        ic_wrn "       (3) Please reattempt with \"update_ws\" after the configurations are done."
+        # END
+esac
+
+ic_title "Auto-Installation End ..."
+load_common
 
 #################################################################
 ## Auto-Source ##

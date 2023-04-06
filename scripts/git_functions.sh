@@ -254,7 +254,11 @@ function install_librealsense_if_not(){
     local candidate_path="$JX_LINUX/librealsense"
     if [[ -d "$candidate_path" ]]; then
         ic_err " [!] librealsense Areadly Installed!"
+        ic " [!] librealsense Version: $(dpkg -l | grep 'realsense')"
     else
+        ic_wrn ">-- Remove any previously installed `realsense`:"
+        dpkg -l | grep "realsense" | cut -d " " -f 3 | xargs sudo dpkg --purge
+        
         ic_wrn ">-- Pre-req:"
         sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade
         echo Installing Librealsense-required dev packages
@@ -281,8 +285,14 @@ function install_librealsense_if_not(){
 
         ic_wrn ">-- Prepare librealsense cmake files:"
         mkdir $candidate_path/build && cd $candidate_path/build
-        cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
-        
+        if [[ $USER = "uwarl-orin" ]]; then
+            # FYI: https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_jetson.md
+            ic_wrn "[Detected :: Jetson Orin] Building with native kernel backend, and with CUDA !!"
+            cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DBUILD_WITH_CUDA=true  -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true
+        else
+            ic_wrn "[Detected :: Not Jetson Orin] Building without native kernel, but with RSUSB backend, and without CUDA !!"
+            cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
+        fi
         ic_wrn ">-- Build librealsense"
         make -j$(($(nproc)-1)) 
 
@@ -312,6 +322,19 @@ function install_dlink_dongle(){
 
         ic "x--- Done installling librealsense! "
         ic_err "[Reboot Required] Please reboot !"
+    fi
+}
+function install_jetson_utilities(){
+    ic_title "Installing Jetson Utilities into $JX_LINUX ..."
+    local candidate_path="$JX_LINUX/jetsonUtilities"
+    if [[ -d "$candidate_path" ]]; then
+        ic_err " [!] jetsonUtilities Areadly Installed!"
+    else
+        ic_wrn ">-- Cloning jetsonUtilities"
+        cd $JX_LINUX
+        git clone https://github.com/jetsonhacks/jetsonUtilities.git
+        cd $candidate_path
+        ic "x--- Done installling jetsonUtilities! "
     fi
 }
 

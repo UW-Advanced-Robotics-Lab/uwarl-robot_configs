@@ -1,0 +1,331 @@
+/cam_EE/accel/imu_info
+/cam_EE/color/camera_info
+/cam_EE/color/image_raw
+/cam_EE/color/image_raw/compressed
+/cam_EE/color/image_raw/compressed/parameter_descriptions
+/cam_EE/color/image_raw/compressed/parameter_updates
+/cam_EE/color/image_raw/compressedDepth
+/cam_EE/color/image_raw/compressedDepth/parameter_descriptions
+/cam_EE/color/image_raw/compressedDepth/parameter_updates
+/cam_EE/color/image_raw/theora
+/cam_EE/color/image_raw/theora/parameter_descriptions
+/cam_EE/color/image_raw/theora/parameter_updates
+/cam_EE/color/metadata
+/cam_EE/confidence/camera_info
+/cam_EE/confidence/image_rect_raw
+/cam_EE/confidence/image_rect_raw/compressed
+/cam_EE/confidence/image_rect_raw/compressed/parameter_descriptions
+/cam_EE/confidence/image_rect_raw/compressed/parameter_updates
+/cam_EE/confidence/image_rect_raw/compressedDepth
+/cam_EE/confidence/image_rect_raw/compressedDepth/parameter_descriptions
+/cam_EE/confidence/image_rect_raw/compressedDepth/parameter_updates
+/cam_EE/confidence/image_rect_raw/theora
+/cam_EE/confidence/image_rect_raw/theora/parameter_descriptions
+/cam_EE/confidence/image_rect_raw/theora/parameter_updates
+/cam_EE/confidence/metadata
+/cam_EE/depth/camera_info
+/cam_EE/depth/image_rect_raw
+/cam_EE/depth/image_rect_raw/compressed
+/cam_EE/depth/image_rect_raw/compressed/parameter_descriptions
+/cam_EE/depth/image_rect_raw/compressed/parameter_updates
+/cam_EE/depth/image_rect_raw/compressedDepth
+/cam_EE/depth/image_rect_raw/compressedDepth/parameter_descriptions
+/cam_EE/depth/image_rect_raw/compressedDepth/parameter_updates
+/cam_EE/depth/image_rect_raw/theora
+/cam_EE/depth/image_rect_raw/theora/parameter_descriptions
+/cam_EE/depth/image_rect_raw/theora/parameter_updates
+/cam_EE/depth/metadata
+/cam_EE/extrinsics/depth_to_color
+/cam_EE/gyro/imu_info
+/cam_EE/imu
+/cam_EE/l500_depth_sensor/parameter_descriptions
+/cam_EE/l500_depth_sensor/parameter_updates
+/cam_EE/motion_module/parameter_descriptions
+/cam_EE/motion_module/parameter_updates
+/cam_EE/realsense2_camera_manager/bond
+/cam_EE/rgb_camera/parameter_descriptions
+/cam_EE/rgb_camera/parameter_updates
+/diagnostics
+/rosout
+/rosout_agg
+/tf
+/tf_static
+/uwarl/amcl/parameter_descriptions
+/uwarl/amcl/parameter_updates
+/uwarl/amcl_pose
+/uwarl/cmd_vel
+/uwarl/deck_teleop/cmd_vel
+/uwarl/imu/data
+/uwarl/imu/data_raw
+/uwarl/imu/rpy/filtered
+/uwarl/initialpose
+/uwarl/joint_states
+/uwarl/map
+/uwarl/map_metadata
+/uwarl/mavlink/from
+/uwarl/mavlink/gcs_ip
+/uwarl/mavlink/to
+/uwarl/mavros/actuator_control
+/uwarl/mavros/adsb/send
+/uwarl/mavros/adsb/vehicle
+/uwarl/mavros/altitude
+/uwarl/mavros/cam_imu_sync/cam_imu_stamp
+/uwarl/mavros/camera/image_captured
+/uwarl/mavros/companion_process/status
+/uwarl/mavros/debug_value/debug
+/uwarl/mavros/debug_value/debug_vector
+/uwarl/mavros/debug_value/named_value_float
+/uwarl/mavros/debug_value/named_value_int
+/uwarl/mavros/debug_value/send
+/uwarl/mavros/esc_info
+/uwarl/mavros/esc_status
+/uwarl/mavros/esc_telemetry
+/uwarl/mavros/fake_gps/mocap/tf
+/uwarl/mavros/geofence/waypoints
+/uwarl/mavros/gps_input/gps_input
+/uwarl/mavros/gps_rtk/rtk_baseline
+/uwarl/mavros/gps_rtk/send_rtcm
+/uwarl/mavros/gpsstatus/gps1/raw
+/uwarl/mavros/gpsstatus/gps1/rtk
+/uwarl/mavros/gpsstatus/gps2/raw
+/uwarl/mavros/gpsstatus/gps2/rtk
+/uwarl/mavros/hil/actuator_controls
+/uwarl/mavros/hil/controls
+/uwarl/mavros/hil/gps
+/uwarl/mavros/hil/imu_ned
+/uwarl/mavros/hil/optical_flow
+/uwarl/mavros/hil/rc_inputs
+/uwarl/mavros/hil/state
+/uwarl/mavros/imu/data
+/uwarl/mavros/imu/data_raw
+/uwarl/mavros/imu/diff_pressure
+/uwarl/mavros/imu/mag
+/uwarl/mavros/imu/static_pressure
+/uwarl/mavros/imu/temperature_baro
+/uwarl/mavros/imu/temperature_imu
+/uwarl/mavros/landing_target/lt_marker
+/uwarl/mavros/landing_target/pose
+/uwarl/mavros/landing_target/pose_in
+/uwarl/mavros/log_transfer/raw/log_data
+/uwarl/mavros/log_transfer/raw/log_entry
+/uwarl/mavros/mag_calibration/report
+/uwarl/mavros/mag_calibration/status
+/uwarl/mavros/mount_control/command
+/uwarl/mavros/mount_control/orientation
+/uwarl/mavros/mount_control/status
+/uwarl/mavros/nav_controller_output
+/uwarl/mavros/obstacle/send
+/uwarl/mavros/odometry/in
+/uwarl/mavros/odometry/out
+/uwarl/mavros/onboard_computer/status
+/uwarl/mavros/param/param_value
+/uwarl/mavros/play_tune
+/uwarl/mavros/rallypoint/waypoints
+/uwarl/mavros/rangefinder/rangefinder
+/uwarl/mavros/setpoint_trajectory/desired
+/uwarl/mavros/setpoint_trajectory/local
+/uwarl/mavros/target_actuator_control
+/uwarl/mavros/terrain/report
+/uwarl/mavros/trajectory/desired
+/uwarl/mavros/trajectory/generated
+/uwarl/mavros/trajectory/path
+/uwarl/mavros/tunnel/in
+/uwarl/mavros/tunnel/out
+/uwarl/mavros/vfr_hud
+/uwarl/mavros/vision_pose/pose
+/uwarl/mavros/vision_pose/pose_cov
+/uwarl/mavros/vision_speed/speed_vector
+/uwarl/mavros/wind_estimation
+/uwarl/move/cmd_vel
+/uwarl/move_base/EBandPlannerROS/eband_visualization
+/uwarl/move_base/EBandPlannerROS/eband_visualization_array
+/uwarl/move_base/EBandPlannerROS/global_plan
+/uwarl/move_base/EBandPlannerROS/local_plan
+/uwarl/move_base/EBandPlannerROS/parameter_descriptions
+/uwarl/move_base/EBandPlannerROS/parameter_updates
+/uwarl/move_base/GlobalPlanner/parameter_descriptions
+/uwarl/move_base/GlobalPlanner/parameter_updates
+/uwarl/move_base/GlobalPlanner/plan
+/uwarl/move_base/GlobalPlanner/potential
+/uwarl/move_base/cancel
+/uwarl/move_base/cmd_vel
+/uwarl/move_base/current_goal
+/uwarl/move_base/feedback
+/uwarl/move_base/global_costmap/costmap
+/uwarl/move_base/global_costmap/costmap_updates
+/uwarl/move_base/global_costmap/footprint
+/uwarl/move_base/global_costmap/inflation_layer/parameter_descriptions
+/uwarl/move_base/global_costmap/inflation_layer/parameter_updates
+/uwarl/move_base/global_costmap/obstacle_laser_layer/parameter_descriptions
+/uwarl/move_base/global_costmap/obstacle_laser_layer/parameter_updates
+/uwarl/move_base/global_costmap/parameter_descriptions
+/uwarl/move_base/global_costmap/parameter_updates
+/uwarl/move_base/global_costmap/static_map/parameter_descriptions
+/uwarl/move_base/global_costmap/static_map/parameter_updates
+/uwarl/move_base/goal
+/uwarl/move_base/local_costmap/costmap
+/uwarl/move_base/local_costmap/costmap_updates
+/uwarl/move_base/local_costmap/footprint
+/uwarl/move_base/local_costmap/inflation_layer/parameter_descriptions
+/uwarl/move_base/local_costmap/inflation_layer/parameter_updates
+/uwarl/move_base/local_costmap/obstacle_laser_layer/parameter_descriptions
+/uwarl/move_base/local_costmap/obstacle_laser_layer/parameter_updates
+/uwarl/move_base/local_costmap/parameter_descriptions
+/uwarl/move_base/local_costmap/parameter_updates
+/uwarl/move_base/parameter_descriptions
+/uwarl/move_base/parameter_updates
+/uwarl/move_base/result
+/uwarl/move_base/status
+/uwarl/move_base_simple/goal
+/uwarl/pad_teleop/cmd_vel
+/uwarl/particlecloud
+/uwarl/rear_laser/scan
+/uwarl/robotnik_base_control/cmd_vel
+/uwarl/robotnik_base_control/odom
+/uwarl/robotnik_base_hw/emergency_stop
+/uwarl/robotnik_base_hw/io
+/uwarl/robotnik_base_hw/state
+/uwarl/robotnik_base_hw/status
+/uwarl/robotnik_base_hw/voltage
+/uwarl/scan
+/uwarl/system_monitor/diagnostics
+/uwarl/twist_marker
+/uwarl/uwarl_front_laser_link_nodelet_manager/bond
+/uwarl/uwarl_front_laser_link_nodelet_manager_cloud/parameter_descriptions
+/uwarl/uwarl_front_laser_link_nodelet_manager_cloud/parameter_updates
+/uwarl/uwarl_front_laser_link_nodelet_manager_driver/parameter_descriptions
+/uwarl/uwarl_front_laser_link_nodelet_manager_driver/parameter_updates
+/uwarl/uwarl_front_laser_link_nodelet_manager_laserscan/parameter_descriptions
+/uwarl/uwarl_front_laser_link_nodelet_manager_laserscan/parameter_updates
+/uwarl/velodyne_packets
+/uwarl/velodyne_points
+
+
+===== BEFORE: =====
+path:        0_DEMO_12_recording_2023-02-03-10-05-10.bag
+version:     2.0
+duration:    38.8s
+start:       Feb 03 2023 10:05:12.33 (1675436712.33)
+end:         Feb 03 2023 10:05:51.10 (1675436751.10)
+size:        7.9 GB
+messages:    178626
+compression: none [3269/3269 chunks]
+types:       bond/Status                              [eacc84bf5d65b6777d4c50f463dfb9c8]
+             diagnostic_msgs/DiagnosticArray          [60810da900de1dd6ddd437c3503511da]
+             dynamic_reconfigure/Config               [958f16a05573709014982821e6822580]
+             dynamic_reconfigure/ConfigDescription    [757ce9d44ba8ddd801bb30bc456f946f]
+             geometry_msgs/PoseStamped                [d3812c3cbc69362b77dc0b19b345f8f5]
+             geometry_msgs/TransformStamped           [b5764a33bfeb3588febc2682852579b0]
+             geometry_msgs/Twist                      [9f195f881246fdfa2798d1d3eebca84a]
+             geometry_msgs/TwistWithCovarianceStamped [8927a1a12fb2607ceea095b2dc440a96]
+             geometry_msgs/Wrench                     [4f539cf138b23283b520fd271b567936]
+             mavros_msgs/ActuatorControl              [9eea0a80c88944fe2fb67f3b3768854b]
+             mavros_msgs/Altitude                     [1296a05dc5b6160be0ae04ba9ed3a3fa]
+             mavros_msgs/Mavlink                      [41093e1fd0f3eea1da2aa33a177e5ba6]
+             mavros_msgs/VFR_HUD                      [1f55e210c3d39fe105d44d8dc963655f]
+             nav_msgs/Odometry                        [cd5e73d190d741a2f92e81eda573aca7]
+             realsense2_camera/Extrinsics             [3627b43073f4cd5dd6dc179a49eda2ad]
+             realsense2_camera/IMUInfo                [a02adb3a99530b11ba18a16f40f9512a]
+             realsense2_camera/Metadata               [4966ca002be16ee67fe4dbfb2f354787]
+             robotnik_msgs/RobotnikMotorsStatus       [40f5305ac2c33d213d54d21bf9ba7fc9]
+             robotnik_msgs/State                      [b3a486e7c5d573e5d1475cd7c02a518b]
+             robotnik_msgs/inputs_outputs             [219be75bd56b8ebdca0dfa526c3803be]
+             rosgraph_msgs/Log                        [acffd30cd6b6de30f120938c17c593fb]
+             sensor_msgs/CameraInfo                   [c9a58c1b0b154e0e6da7578cb991d214]
+             sensor_msgs/FluidPressure                [804dc5cea1c5306d6a2eb80b9833befe]
+             sensor_msgs/Image                        [060021388200f6f0f447d0fcd9c64743]
+             sensor_msgs/Imu                          [6a62c6daae103f4ff57a132d6f95cec2]
+             sensor_msgs/JointState                   [3066dcd76a6cfaef579bd0f34173e9fd]
+             sensor_msgs/Joy                          [5a9ea5f83505693b71e785041e67a8bb]
+             sensor_msgs/LaserScan                    [90c7ef2dc6895d81024acba2ac42f369]
+             sensor_msgs/MagneticField                [2f3b0b43eed0c9501de0fa3ff89a45aa]
+             sensor_msgs/PointCloud2                  [1158d486dd51d683ce2f1be655c3c181]
+             sensor_msgs/Temperature                  [ff71b307acdbe7c871a5a6d7ed359100]
+             std_msgs/Bool                            [8b94c1b53db61fb6aed406028ad6332a]
+             std_msgs/Float32                         [73fcbf46b49191e672908e50842a83d4]
+             std_msgs/Int8                            [27ffa0c9c4b8fb8492252bcad9e5c57b]
+             system_monitor/Diagnostic                [588f02ed6122974a83abb40dde682102]
+             tf2_msgs/TFMessage                       [94810edda583a504dfda3829e70d7eec]
+             velodyne_msgs/VelodyneScan               [50804fc9533a0e579e6322c04ae70566]
+             vicon_bridge/Markers                     [579f0637989aa8139ce6bf98cf7aabda]
+             visualization_msgs/Marker                [4048c9de2a16f4ae8e0538085ebf1b97]
+topics:      /cam_EE/accel/imu_info                                                               1 msg     : realsense2_camera/IMUInfo               
+             /cam_EE/color/camera_info                                                         1178 msgs    : sensor_msgs/CameraInfo                  
+             /cam_EE/color/image_raw                                                           1192 msgs    : sensor_msgs/Image                       
+             /cam_EE/color/metadata                                                            1182 msgs    : realsense2_camera/Metadata              
+             /cam_EE/depth/camera_info                                                         1184 msgs    : sensor_msgs/CameraInfo                  
+             /cam_EE/depth/image_rect_raw                                                      1191 msgs    : sensor_msgs/Image                       
+             /cam_EE/depth/metadata                                                            1177 msgs    : realsense2_camera/Metadata              
+             /cam_EE/extrinsics/depth_to_color                                                    1 msg     : realsense2_camera/Extrinsics            
+             /cam_EE/gyro/imu_info                                                                1 msg     : realsense2_camera/IMUInfo               
+             /cam_EE/imu                                                                       3875 msgs    : sensor_msgs/Imu                         
+             /cam_EE/l500_depth_sensor/parameter_descriptions                                     1 msg     : dynamic_reconfigure/ConfigDescription   
+             /cam_EE/l500_depth_sensor/parameter_updates                                          1 msg     : dynamic_reconfigure/Config              
+             /cam_EE/motion_module/parameter_descriptions                                         1 msg     : dynamic_reconfigure/ConfigDescription   
+             /cam_EE/motion_module/parameter_updates                                              1 msg     : dynamic_reconfigure/Config              
+             /cam_EE/realsense2_camera_manager/bond                                              78 msgs    : bond/Status                              (2 connections)
+             /cam_EE/rgb_camera/parameter_descriptions                                            1 msg     : dynamic_reconfigure/ConfigDescription   
+             /cam_EE/rgb_camera/parameter_updates                                                 1 msg     : dynamic_reconfigure/Config              
+             /cam_base/accel/imu_info                                                             1 msg     : realsense2_camera/IMUInfo               
+             /cam_base/color/camera_info                                                       1196 msgs    : sensor_msgs/CameraInfo                  
+             /cam_base/color/image_raw                                                         1199 msgs    : sensor_msgs/Image                       
+             /cam_base/color/metadata                                                          1192 msgs    : realsense2_camera/Metadata              
+             /cam_base/depth/camera_info                                                       1202 msgs    : sensor_msgs/CameraInfo                  
+             /cam_base/depth/image_rect_raw                                                    1196 msgs    : sensor_msgs/Image                       
+             /cam_base/depth/metadata                                                          1185 msgs    : realsense2_camera/Metadata              
+             /cam_base/extrinsics/depth_to_color                                                  1 msg     : realsense2_camera/Extrinsics            
+             /cam_base/gyro/imu_info                                                              1 msg     : realsense2_camera/IMUInfo               
+             /cam_base/imu                                                                     3981 msgs    : sensor_msgs/Imu                         
+             /cam_base/l500_depth_sensor/parameter_descriptions                                   1 msg     : dynamic_reconfigure/ConfigDescription   
+             /cam_base/l500_depth_sensor/parameter_updates                                        1 msg     : dynamic_reconfigure/Config              
+             /cam_base/motion_module/parameter_descriptions                                       1 msg     : dynamic_reconfigure/ConfigDescription   
+             /cam_base/motion_module/parameter_updates                                            1 msg     : dynamic_reconfigure/Config              
+             /cam_base/realsense2_camera_manager/bond                                            79 msgs    : bond/Status                              (2 connections)
+             /cam_base/rgb_camera/parameter_descriptions                                          1 msg     : dynamic_reconfigure/ConfigDescription   
+             /cam_base/rgb_camera/parameter_updates                                               1 msg     : dynamic_reconfigure/Config              
+             /diagnostics                                                                       517 msgs    : diagnostic_msgs/DiagnosticArray          (13 connections)
+             /rosout                                                                            399 msgs    : rosgraph_msgs/Log                        (13 connections)
+             /rosout_agg                                                                        359 msgs    : rosgraph_msgs/Log                       
+             /tf                                                                               8247 msgs    : tf2_msgs/TFMessage                       (3 connections)
+             /tf_static                                                                           4 msgs    : tf2_msgs/TFMessage                       (4 connections)
+             /uwarl/cmd_vel                                                                     202 msgs    : geometry_msgs/Twist                     
+             /uwarl/joint_states                                                               3970 msgs    : sensor_msgs/JointState                  
+             /uwarl/joy                                                                        9062 msgs    : sensor_msgs/Joy                         
+             /uwarl/mavlink/from                                                              12236 msgs    : mavros_msgs/Mavlink                     
+             /uwarl/mavros/altitude                                                             399 msgs    : mavros_msgs/Altitude                    
+             /uwarl/mavros/imu/data                                                            1939 msgs    : sensor_msgs/Imu                         
+             /uwarl/mavros/imu/data_raw                                                        1955 msgs    : sensor_msgs/Imu                         
+             /uwarl/mavros/imu/mag                                                             2003 msgs    : sensor_msgs/MagneticField               
+             /uwarl/mavros/imu/static_pressure                                                 1825 msgs    : sensor_msgs/FluidPressure               
+             /uwarl/mavros/imu/temperature_imu                                                 1886 msgs    : sensor_msgs/Temperature                 
+             /uwarl/mavros/target_actuator_control                                             1180 msgs    : mavros_msgs/ActuatorControl             
+             /uwarl/mavros/vfr_hud                                                              782 msgs    : mavros_msgs/VFR_HUD                     
+             /uwarl/mavros/wind_estimation                                                      392 msgs    : geometry_msgs/TwistWithCovarianceStamped
+             /uwarl/robotnik_base_control/cmd_vel                                               202 msgs    : geometry_msgs/Twist                     
+             /uwarl/robotnik_base_control/odom                                                 2955 msgs    : nav_msgs/Odometry                       
+             /uwarl/robotnik_base_hw/emergency_stop                                            5916 msgs    : std_msgs/Bool                           
+             /uwarl/robotnik_base_hw/io                                                        5915 msgs    : robotnik_msgs/inputs_outputs            
+             /uwarl/robotnik_base_hw/state                                                     5883 msgs    : robotnik_msgs/State                     
+             /uwarl/robotnik_base_hw/status                                                    5849 msgs    : robotnik_msgs/RobotnikMotorsStatus      
+             /uwarl/robotnik_base_hw/voltage                                                   5864 msgs    : std_msgs/Float32                        
+             /uwarl/scan                                                                        384 msgs    : sensor_msgs/LaserScan                   
+             /uwarl/system_monitor/diagnostics                                                  504 msgs    : system_monitor/Diagnostic               
+             /uwarl/twist_marker                                                                203 msgs    : visualization_msgs/Marker               
+             /uwarl/uwarl_front_laser_link_nodelet_manager/bond                                 238 msgs    : bond/Status                              (4 connections)
+             /uwarl/uwarl_front_laser_link_nodelet_manager_cloud/parameter_descriptions           1 msg     : dynamic_reconfigure/ConfigDescription   
+             /uwarl/uwarl_front_laser_link_nodelet_manager_cloud/parameter_updates                1 msg     : dynamic_reconfigure/Config              
+             /uwarl/uwarl_front_laser_link_nodelet_manager_driver/parameter_descriptions          1 msg     : dynamic_reconfigure/ConfigDescription   
+             /uwarl/uwarl_front_laser_link_nodelet_manager_driver/parameter_updates               1 msg     : dynamic_reconfigure/Config              
+             /uwarl/uwarl_front_laser_link_nodelet_manager_laserscan/parameter_descriptions       1 msg     : dynamic_reconfigure/ConfigDescription   
+             /uwarl/uwarl_front_laser_link_nodelet_manager_laserscan/parameter_updates            1 msg     : dynamic_reconfigure/Config              
+             /uwarl/velodyne_packets                                                            385 msgs    : velodyne_msgs/VelodyneScan              
+             /uwarl/velodyne_points                                                             396 msgs    : sensor_msgs/PointCloud2                 
+             /vicon/markers                                                                    3750 msgs    : vicon_bridge/Markers                    
+             /vicon/summit_base/summit_base                                                    3839 msgs    : geometry_msgs/TransformStamped          
+             /vicon/wam_EE/wam_EE                                                              3806 msgs    : geometry_msgs/TransformStamped          
+             /vicon/wam_base/wam_base                                                          3728 msgs    : geometry_msgs/TransformStamped          
+             /wam/fts/fts_states                                                                391 msgs    : geometry_msgs/Wrench                    
+             /wam/joint_states                                                                19480 msgs    : sensor_msgs/JointState                  
+             /wam/move_is_done                                                                19479 msgs    : std_msgs/Bool                           
+             /wam/pose                                                                        19486 msgs    : geometry_msgs/PoseStamped               
+             /waterloo_steel/stage                                                              305 msgs    : std_msgs/Int8
