@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/simulation_pkg"
+export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-april-2023"
 
 #################################################################
 #    ## SUMMIT Side:
