@@ -252,9 +252,14 @@ function ic_source () {
 #################################################################
 ### AUTO SYSTEM CONFIG: ###
 ic_title "Auto System Config:"
-export LOCAL_PC_IP=`hostname -I | cut -d' ' -f1` # <--- fetch local IP from LINUX Env.
-export LOCAL_LSB_VERSION=`lsb_release -sc` # <--- fetch local LSB Version from LINUX Env.
-export LOCAL_LSB_RELEASENUMBER=`grep DISTRIB_DESCRIPTION /etc/*-release | awk -F 'Ubuntu ' '{print $2}' | awk -F ' LTS' '{print $1}'` # <--- fetch local LSB Version from LINUX Env.
+source /etc/lsb-release # <--- sourcing distribution versions
+export LOCAL_DISTRIB_CODENAME=$DISTRIB_CODENAME # <--- fetch local LSB Version from LINUX Env.
+export LOCAL_DISTRIB_DESCRIPTION=$DISTRIB_DESCRIPTION # <--- fetch local LSB Version from LINUX Env.
+if [[ $LOCAL_DISTRIB_CODENAME = 'Holo' ]]; then
+    export LOCAL_PC_IP=`ip -json route get 8.8.8.8 | jq -r '.[].prefsrc'` # <--- fetch local IP from Archlinx Env.
+else
+    export LOCAL_PC_IP=`hostname -I | cut -d' ' -f1` # <--- fetch local IP from LINUX Env.
+fi
 
 #################################################################
 ## FUNCTIONS ##
@@ -287,8 +292,8 @@ function cat_ros_env() {
     ic_wrn " [OS REPORT ($USER)]: "
     ic     "    - IP                      : $LOCAL_PC_IP"
     ic     "    - DISPLAY                 : $DISPLAY"
-    ic     "    - LSB_Version             : $LOCAL_LSB_VERSION"
-    ic     "    - LSB_RELEASE#            : $LOCAL_LSB_RELEASENUMBER"
+    ic     "    - DISTRIB_CODENAME        : $LOCAL_DISTRIB_CODENAME"
+    ic     "    - DISTRIB_DESCRIPTION#    : $LOCAL_DISTRIB_DESCRIPTION"
     ic     "    - PYTHONPATH              : $PYTHONPATH"
     ic     "    - KERNEL                  : $(uname -a)"
 }
@@ -337,7 +342,7 @@ function ros_core_sync() {
 function sync_ros_core_if_in_robot_network_else_localhost() {
     in_network_ip=$1
     if [[ $LOCAL_PC_IP = "$in_network_ip" ]]; then
-        ic_wrn " > We have detected a registered in-network PC, now applying configs from common.sh !"
+        ic_wrn " > We have detected a registered in-network PC, now syncing ros core as $ROS_CORE_HOSTER !"
         ros_core_sync $ROS_CORE_HOSTER
         export ROS_IP=$in_network_ip
         export ROS_HOSTNAME=$in_network_ip
