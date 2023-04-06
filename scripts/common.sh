@@ -423,7 +423,7 @@ function source_ros() {
         sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
     
     elif [[ $USER = "uwarl-laptop-4" ]]; then
-        local UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_4_JEONGWOO"
+        export UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_4_JEONGWOO"
         # manual config:
         export ROS_DISTRO=melodic
         export DISPLAY=$DISPLAY_DEFAULT
@@ -435,7 +435,7 @@ function source_ros() {
         sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
 
     elif [[ $USER = "uwarl" ]]; then
-        local UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_3_SIMON"
+        export UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_3_SIMON"
         # manual config:
         export ROS_DISTRO=noetic
         export DISPLAY=$DISPLAY_DEFAULT
@@ -448,7 +448,7 @@ function source_ros() {
 
     ### TEMPLATE:
     # elif [[ $USER = "{$USER}" ]]; then
-    #     local UWARL_ROBOT_PC_NAME="{ENTER HERE}"
+    #     export UWARL_ROBOT_PC_NAME="{ENTER HERE}"
     #     # manual config:
     #     export ROS_DISTRO=noetic
     #     export DISPLAY=$DISPLAY_DEFAULT
