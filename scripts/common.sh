@@ -251,7 +251,7 @@ function ic_source () {
 
 #################################################################
 ### AUTO SYSTEM CONFIG: ###
-ic_title "Auto System Config:"
+# ic_title "Auto System Config:"
 source /etc/lsb-release # <--- sourcing distribution versions
 export LOCAL_DISTRIB_CODENAME=$DISTRIB_CODENAME # <--- fetch local LSB Version from LINUX Env.
 export LOCAL_DISTRIB_DESCRIPTION=$DISTRIB_DESCRIPTION # <--- fetch local LSB Version from LINUX Env.
@@ -478,6 +478,7 @@ function source_ros() {
 
 function print_ascii_title() {
     echo -e "${BLUE} \n██╗    ██╗ █████╗ ████████╗███████╗██████╗ ██╗      ██████╗  ██████╗    \n██║    ██║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██║     ██╔═══██╗██╔═══██╗   \n██║ █╗ ██║███████║   ██║   █████╗  ██████╔╝██║     ██║   ██║██║   ██║   \n██║███╗██║██╔══██║   ██║   ██╔══╝  ██╔══██╗██║     ██║   ██║██║   ██║   \n╚███╔███╔╝██║  ██║   ██║   ███████╗██║  ██║███████╗╚██████╔╝╚██████╔╝   \n ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═════╝    \n                                                                        \n███████╗████████╗███████╗███████╗██╗                   ██╗   ██╗██████╗ \n██╔════╝╚══██╔══╝██╔════╝██╔════╝██║                   ██║   ██║╚════██╗\n███████╗   ██║   █████╗  █████╗  ██║         █████╗    ██║   ██║ █████╔╝\n╚════██║   ██║   ██╔══╝  ██╔══╝  ██║         ╚════╝    ╚██╗ ██╔╝██╔═══╝ \n███████║   ██║   ███████╗███████╗███████╗               ╚████╔╝ ███████╗\n╚══════╝   ╚═╝   ╚══════╝╚══════╝╚══════╝                ╚═══╝  ╚══════╝ ${NC}" 
+    echo "\n==="
 }
 
 function tmux_custom() {

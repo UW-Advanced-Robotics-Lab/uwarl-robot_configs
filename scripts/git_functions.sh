@@ -505,3 +505,90 @@ function install_ros_noetic(){
     apt_install ros-noetic-rosbash
     apt_install ros-noetic-rviz
 }
+
+function install_roscore_systemctl_service(){
+    ic_title "Install Roscore Systemctl Services"
+
+    ic_wrn "  + guarant user for dialout permissions:"
+    sudo usermod -a -G dialout $USER 
+    ic_wrn "  + guarant user for root permissions:"
+    sudo usermod -a -G root $USER
+
+    cd ~
+    # load system services:
+    #[OPTIONAL] roscore only:
+    ic "  + roscore only"
+    sudo cp ~/uwarl-robot_configs/summit/user_services/roscore.service /usr/lib/systemd/user
+    #[this one] roscore and roslaunch:
+    ic "  + roscore and roslaunch"
+    sudo cp ~/uwarl-robot_configs/summit/user_services/roscorelaunch@.service /usr/lib/systemd/user
+    #[OPTIONAL] depends on remote roscore:
+    ic "  + roslaunch w/o roscore"
+    sudo cp ~/uwarl-robot_configs/summit/user_services/roslaunch@.service /usr/lib/systemd/user 
+    
+    ic_wrn "  ... relaunching systemctl ..."
+    systemctl --user daemon-reload
+    
+    # Start at bootup instead of graphical login
+    ic_wrn "  + start at bootup:"
+    sudo loginctl enable-linger $USER
+}
+function reinstall_roscorelaunch_autolaunch() {
+    if [ $# -lt 3 ]; then
+        echo "Usage: $0 [service_type: roscpre/roscorelaunch/roslaunch] [ros_pkg: waterloo_steel_summit_bringup] [ros_launch_file: waterloo_steel_summit]"
+        exit 1
+    fi 
+    local service_type=$1
+    local ros_pkg=$2
+    local ros_launch_file=$3
+    ic_wrn "   > Print $service_type services:"
+    systemctl --user --type service | grep -F "$service_type"
+    
+    ic_title "Reinstall [$service_type] Services for [$ros_pkg] [$ros_launch_file.launch]"
+    ic_wrn "   > Disabling old service"
+    systemctl disable --user $service_type@$ros_pkg:$ros_launch_file.launch
+    ic_wrn "   > Enable new service"
+    systemctl enable --user $service_type@$ros_pkg:$ros_launch_file.launch
+    
+    ic_wrn "   > Reload Daemon:"
+    systemctl daemon-reload
+    systemctl reset-failed
+    ic_wrn "   > Print $service_type services:"
+    systemctl --user --type service | grep -F "$service_type"
+}
+function ros_systemctl() {
+    local service_type=$1
+    local ros_pkg=$2
+    local ros_launch_file=$3
+    local mode=$4
+
+    ic_title "($ros_pkg:$ros_launch_file) $service_type/$mode"
+    case $mode in
+        "reinstall" )
+            reinstall_roscorelaunch_autolaunch $service_type $ros_pkg $ros_launch_file 
+            ;;
+        "status" )
+            systemctl --user status $service_type@$ros_pkg:$ros_launch_file.launch
+            ;;
+        "restart" )
+            systemctl --user restart $service_type@$ros_pkg:$ros_launch_file.launch
+            ;;
+        "restart" )
+            systemctl --user stop $service_type@$ros_pkg:$ros_launch_file.launch
+            ;;
+        "history" )
+            journalctl --user --user-unit=$service_type@$ros_pkg:$ros_launch_file.launch.service
+            ;;
+        "follow" )
+            journalctl --follow --user --user-unit=$service_type@$ros_pkg:$ros_launch_file.launch.service
+            ;;
+        *)
+            ic_err " >>> ERROR: Unknown Service!"
+            ic_wrn "     + Usage: $0 \
+                            [service_type: roscpre/roscorelaunch/roslaunch] 
+                            [ros_pkg: waterloo_steel_summit_bringup] 
+                            [ros_launch_file: waterloo_steel_summit] 
+                            [mode: reinstall, status, restart, stop, history, follow] "
+            # END
+    esac
+}
