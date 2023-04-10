@@ -93,8 +93,8 @@ SUBMODULES_FOR_JX_PARALLEL=(
     ## Simulation:
     "velodyne_simulator"
 )
-# $USER = "oem":
-SUBMODULES_FOR_JX_OEM=(
+# $USER = "jx":
+SUBMODULES_FOR_JX_DESKTOP=(
     ## SUMMIT Side:
     "multimap_server_msgs"
     "system_monitor"
@@ -279,11 +279,12 @@ function cat_summit_env() {
     ic     "    - ROBOT_FRONT_LASER_PORT  : $ROBOT_FRONT_LASER_PORT"
     ic     "    - ROBOT_FRONT_LASER_IP    : $ROBOT_FRONT_LASER_IP"
     ic     "    - ROBOT_PAD_MODEL         : $ROBOT_PAD_MODEL"
-    ic_wrn " [COMMON SH CONFIG]: "
-    ic     "    - ROBOT_PC_NAME           : $UWARL_ROBOT_PC_NAME"
-    ic     "    - ROS_CORE_HOSTER         : $ROS_CORE_HOSTER"
 }
 function cat_ros_env() {
+    ic_wrn " [COMMON SH CONFIG ($USER)]: "
+    ic     "    - ROBOT_PC_NAME           : $UWARL_ROBOT_PC_NAME"
+    ic     "    - ROS_CORE_HOSTER         : $ROS_CORE_HOSTER"
+    ic     "    - IN_ROBOT_NETWORK        : $IN_ROBOT_NETWORK"
     ic_wrn " [ROS CONFIG ($USER)]: "
     ic     "    - ROS ROS_DISTRO          : $ROS_DISTRO"
     ic     "    - ROS HOST                : $ROS_HOSTNAME"
@@ -348,11 +349,11 @@ function sync_ros_core_if_in_robot_network_else_localhost() {
         ros_core_sync $ROS_CORE_HOSTER
         export ROS_IP=$in_network_ip
         export ROS_HOSTNAME=$in_network_ip
-        export IN_ROBOT_NETWORK=1
+        export IN_ROBOT_NETWORK="YES"
     else # when out-of-network
         ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
         ros_core_sync "LOCAL-HOSTS"
-        export IN_ROBOT_NETWORK=0
+        export IN_ROBOT_NETWORK="NOPE, Local Host Only!"
     fi
 }
 
@@ -417,11 +418,11 @@ function source_ros() {
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
     
-    elif [[ $USER = "oem" ]]; then
+    elif [[ $USER = "jx" ]]; then
         # manual config:
-        export UWARL_ROBOT_PC_NAME="OEM_PC_JACK"
+        export UWARL_ROBOT_PC_NAME="JX_DESKTOP_JACK"
         export ROS_DISTRO=noetic
-        export DISPLAY=$DISPLAY_DEFAULT
+        export DISPLAY=:1
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
         # welcome:

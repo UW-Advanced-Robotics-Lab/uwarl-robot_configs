@@ -78,8 +78,8 @@ case $UWARL_ROBOT_PC_NAME in
     "PARALLELS_VM_JACK")
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
     ;;
-    "OEM_PC_JACK")
-        load_submodules "${SUBMODULES_FOR_JX_OEM[@]}"
+    "JX_DESKTOP_JACK")
+        load_submodules "${SUBMODULES_FOR_JX_DESKTOP[@]}"
         install_misc_utilities # misc apt 
         install_libbarrett_if_not
         install_librealsense_if_not # for Intel Sensors
