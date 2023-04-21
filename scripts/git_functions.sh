@@ -247,6 +247,12 @@ function install_libbarrett_if_not(){
         ic "x--- Done installling libbarrett! "
         ic_err "[Reboot Required] Please reboot !"
     fi
+    if [[ -d "$HOME/.barrett" ]]; then
+        ic_err " [!] ~/.barrett local configurations link exists"
+    else
+        ic ">-- linking $JX_LINUX/wam/.barrett >---> ~/.barrett"
+        ln -s $JX_LINUX/wam/.barrett $HOME/.barrett
+    fi
 }
 
 function install_librealsense_if_not(){
@@ -323,6 +329,8 @@ function install_dlink_dongle(){
         ic "x--- Done installling librealsense! "
         ic_err "[Reboot Required] Please reboot !"
     fi
+
+    # NOTE: To uninstall, please cd into the rtl88x2bu and `$ sudo make uninstall`
 }
 function install_jetson_utilities(){
     ic_title "Installing Jetson Utilities into $JX_LINUX ..."

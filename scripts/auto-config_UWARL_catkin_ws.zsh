@@ -64,7 +64,7 @@ case $UWARL_ROBOT_PC_NAME in
         install_pcan_if_not NETDEV_SUPPORT
         install_libbarrett_if_not
         install_librealsense_if_not # for Intel Sensors
-        install_dlink_dongle # for dlink dongle
+        # install_dlink_dongle # for dlink dongle # [April 21, 2022] No need, as we already have internal wifi card working
         install_jetson_utilities # for jetson utilities
     ;;
     "STEAM_DECK_CONTROLLER")

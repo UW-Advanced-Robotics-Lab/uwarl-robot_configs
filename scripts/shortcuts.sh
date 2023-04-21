@@ -57,7 +57,7 @@ case $UWARL_ROBOT_PC_NAME in
     "JETSON_ORIN_WAM")
         ## Only in Jetson:
         if [[ -d "$JX_LINUX/jetsonUtilities" ]]; then
-            ic_bind_cmd jetson_info "./$JX_LINUX/jetsonUtilities/jetsonInfo.py" # Jetson Info
+            ic_bind_cmd jetson_info "cd $JX_LINUX/jetsonUtilities && ./jetsonInfo.py && cd -" # Jetson Info
         fi
     ;;
     # [DEFAULT]:
