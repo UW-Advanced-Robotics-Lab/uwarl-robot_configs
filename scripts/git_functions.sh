@@ -284,21 +284,27 @@ function install_librealsense_if_not(){
             ic_wrn "No swapon - setting up 1Gb swap file"
             sudo fallocate -l 2G /swapfile
             sudo chmod 600 /swapfile
-            sudo mkswap /swapfile
+            sudo mkswap /swapfilesudo 
             sudo swapon /swapfile
             sudo swapon --show
         fi
 
         ic_wrn ">-- Prepare librealsense cmake files:"
         mkdir $candidate_path/build && cd $candidate_path/build
-        if [[ $USER = "uwarl-orin" ]]; then
+        if [[ $UWARL_ROBOT_PC_NAME = "JETSON_ORIN_WAM" ]]; then
             # FYI: https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_jetson.md
             ic_wrn "[Detected :: Jetson Orin] Building with native kernel backend, and with CUDA !!"
             cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DBUILD_WITH_CUDA=true  -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true
+        elif [[ $UWARL_ROBOT_PC_NAME = "JX_DESKTOP_JACK" ]]; then
+            ic_wrn "[Detected :: JX Computer] Building with native kernel backend, and without CUDA !!"
+            cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true
         else
-            ic_wrn "[Detected :: Not Jetson Orin] Building without native kernel, but with RSUSB backend, and without CUDA !!"
-            cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
+            ic_err "[Librealsense installation NOT defined for [$UWARL_ROBOT_PC_NAME] computer] please specify in \`git_functions\`"
         fi
+        ### Build RSUSB instead of CUDA with native kernel backend:
+        # ic_wrn "[Detected :: Not Jetson Orin] Building without native kernel, but with RSUSB backend, and without CUDA !!"
+        # cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
+        
         ic_wrn ">-- Build librealsense"
         make -j$(($(nproc)-1)) 
 
