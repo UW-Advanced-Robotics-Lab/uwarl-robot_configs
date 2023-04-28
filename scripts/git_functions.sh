@@ -248,10 +248,14 @@ function install_libbarrett_if_not(){
         ic_err "[Reboot Required] Please reboot !"
     fi
     if [[ -d "$HOME/.barrett" ]]; then
-        ic_err " [!] ~/.barrett local configurations link exists"
+        ic_wrn " [!] ~/.barrett local configurations link exists, skipping link configs ..."
     else
-        ic ">-- linking $JX_LINUX/wam/.barrett >---> ~/.barrett"
-        ln -s $JX_LINUX/wam/.barrett $HOME/.barrett
+        ic_err " [X] ~/.barrett local configurations link is missing"
+        ## NOTE: linking may be dangerous, TODO: need to investigate if linked config folder will crash 
+        ic_wrn ">-- Linking $UWARL_CONFIGS/wam/.barrett >---> ~/.barrett"
+        ln -s $UWARL_CONFIGS/wam/.barrett $HOME/.barrett
+        # ALERT: grant this folder all permissions!!
+        chmod -R 777 $HOME/.barrett 
     fi
 }
 
