@@ -28,6 +28,10 @@ ic_bind_cmd cd_config    "cd $UWARL_CONFIGS"
 ic_bind_cmd clean_ws     "cd $ROS_CATKIN_WS/src && catkin clean"
 ## Linux:
 ic_bind_cmd cd_linux     "cd $JX_LINUX" # to access libraries installed automatically or manually
+## Ubuntu Specific:
+if [[ "$LOCAL_DISTRIB_DESCRIPTION" == *"Ubuntu"* ]]; then
+    ic_bind_cmd open         xdg-open
+fi
 
 ## ROS launch in tmux:
 ic_bind_cmd tmux_sync    tmux_sync # [session name] [cmd_1] **...
