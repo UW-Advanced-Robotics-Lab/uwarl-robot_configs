@@ -63,6 +63,11 @@ case $UWARL_ROBOT_PC_NAME in
         if [[ -d "$JX_LINUX/jetsonUtilities" ]]; then
             ic_bind_cmd jetson_info "cd $JX_LINUX/jetsonUtilities && ./jetsonInfo.py && cd -" # Jetson Info
         fi
+        ## shortcuts for jetson:
+        # need to call udev to reload usb dev rules for librealsense cameras 
+        # - needed everytime relaunching the camera with ros node !!
+        # - FIXME: ideally they should have kernel patch later 2023 for jetson orin
+        ic_bind_cmd restart_udev "sudo service systemd-udevd --full-restart"
     ;;
     # [DEFAULT]:
     *)
