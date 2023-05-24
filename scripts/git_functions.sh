@@ -591,8 +591,11 @@ function ros_systemctl() {
         "restart" )
             systemctl --user restart $service_type@$ros_pkg:$ros_launch_file.launch
             ;;
-        "restart" )
+        "stop" )
             systemctl --user stop $service_type@$ros_pkg:$ros_launch_file.launch
+            ;;
+        "start" )
+            systemctl --user start $service_type@$ros_pkg:$ros_launch_file.launch
             ;;
         "history" )
             journalctl --user --user-unit=$service_type@$ros_pkg:$ros_launch_file.launch.service
@@ -606,7 +609,7 @@ function ros_systemctl() {
                             [service_type: roscpre/roscorelaunch/roslaunch] 
                             [ros_pkg: waterloo_steel_summit_bringup] 
                             [ros_launch_file: waterloo_steel_summit] 
-                            [mode: reinstall, status, restart, stop, history, follow] "
+                            [mode: install, reinstall, status, restart, start, stop, history, follow] "
             # END
     esac
 }

@@ -371,6 +371,8 @@ function source_ros() {
         export DISPLAY=$DISPLAY_DEFAULT
         # export PYTHONPATH_ROS=/usr/bin/python3
         # export PYTHONPATH=$PYTHONPATH_ROS
+        # ===> update environment files in .ros:
+        sudo cp $UWARL_CONFIGS/summit/user_services/environment $HOME/.ros/environment
         # welcome:
         ic_wrn " - Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
