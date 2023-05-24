@@ -186,7 +186,7 @@ export ROS_EXTERNAL_PC_IN_NETWORK_IP=$ROS_JX_IN_NETWORK_PARALLEL_PC_IP
 #################################################################
 ## VAR ##
 # assign to DISPLAY param:
-export DISPLAY_WAM=:1
+export DISPLAY_WAM=:0
 export DISPLAY_DEFAULT=:0
 
 ## FILE PATH ##
