@@ -71,7 +71,7 @@ function load_submodules(){
         ic_err ">-- Aborting Updating Workspace!"
         ic_wrn ">-- List of available remote branches:"
         git ls-remote --heads
-        exit 0 
+        return 
     else
         # checkout branch:
         ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
@@ -381,22 +381,65 @@ function load_common() {
 }
 
 function check_submodule_status(){
-    ic_title "Checking Submodule Status ..."
+    # [2023-05-24]: now it is generic for any directory
+    if [ $# -lt 1 ]; then
+        echo "Usage: $0 [folder: full_folder_dir] *[sub: sub_dir]"
+        return
+    elif [ $# -gt 2 ]; then
+        echo "Usage: $0 [folder: full_folder_dir] *[sub: sub_dir]"
+        return
+    fi 
+    change_counter=0
+    local base_directory=$1
+    local base_directory_old=$1
+    if [ $2 ]; then
+        base_directory=$base_directory/$2
+    fi
+    
+    ic_title "Checking Status @ $base_directory ..."
     # start a new log:
     ic_wrn "[Git Status Lastly Updated on $(date) by $USER]"
     # update submodules:
-    ic "Indexing Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src "
     echo "------------------------------------------------------------------------------------------------"
-    
-    cd "$ROS_CATKIN_WS/src"
-    local i=0
-    local change_counter=0
-    for dir in */ ; do
-        i=$(( i + 1 ))
+    cd "$base_directory"
+    if [ -f ".gitmodules" ]; then
+        ic "-> .gitmodules exists."
+        ic "-> Indexing Submodules Recursively@ $base_directory "
+        echo "------------------------------------------------------------------------------------------------"
+        local i=0
+        local dir=$base_directory
+        for dir in */ ; do
+            i=$(( i + 1 ))
+            if [ "$(ls -A $dir)" ]; then
+                ic "[$i] $dir is loaded: "
+                cd "$base_directory/$dir"
+                # now check changes
+                local git_stats=$(git status --porcelain)
+                local git_remote=$(git remote -v)
+                local git_head=$(git rev-parse --abbrev-ref HEAD)
+                local git_head_ver=$(git rev-parse --short HEAD)
+                ic "   > $dir on branch @ [$git_head_ver] $git_head"
+                ic "   > $dir remote version: \n$git_remote"
+                if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
+                    ic_err "   > [!] $dir has changes: \n $git_stats"
+                    change_counter=$(( change_counter + 1 ))
+                else   
+                    ic "   > [OK] $dir is up-to-date"
+                fi 
+
+                # git status
+                #
+                cd "$base_directory"
+            else
+                ic_wrn "[$i] $dir submodule is not loaded! "
+            fi
+            echo "------------------------------------------------------------------------------------------------"
+        done
+    else
+        ic "x- No submodules"
+        # now check changes
+        local dir=$base_directory
         if [ "$(ls -A $dir)" ]; then
-            ic "[$i] $dir is loaded: "
-            cd "$ROS_CATKIN_WS/src/$dir"
-            # now check changes
             local git_stats=$(git status --porcelain)
             local git_remote=$(git remote -v)
             local git_head=$(git rev-parse --abbrev-ref HEAD)
@@ -405,19 +448,16 @@ function check_submodule_status(){
             ic "   > $dir remote version: \n$git_remote"
             if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
                 ic_err "   > [!] $dir has changes: \n $git_stats"
-                change_counter=$(( change_counter + 1 ))
+                change_counter=1
             else   
                 ic "   > [OK] $dir is up-to-date"
             fi 
-
-            # git status
-            #
-            cd "$ROS_CATKIN_WS/src"
         else
             ic_wrn "[$i] $dir submodule is not loaded! "
         fi
+        cd $base_directory_old # step out
         echo "------------------------------------------------------------------------------------------------"
-    done
+    fi
     
     ic_wrn "x- There are $change_counter Submodules with uncommited changes"
     ic "x- Done indexing submodules."
@@ -487,7 +527,7 @@ function install_ros_noetic(){
     #Checking file added or not
     if [ ! -e /etc/apt/sources.list.d/ros-latest.list ]; then
         ic_err ">>> {Error: Unable to add sources.list, exiting}"
-        exit 0
+        return
     else
         ic_wrn ">>> ROS Noetic Package is now in the list!"
     fi
@@ -503,7 +543,7 @@ function install_ros_noetic(){
         ;;
         *)
             echo ">>> {ERROR: Unable to add ROS keys}"
-            exit 0
+            return
     esac
 
     ic "> Updating ..."
@@ -612,4 +652,26 @@ function ros_systemctl() {
                             [mode: install, reinstall, status, restart, start, stop, history, follow] "
             # END
     esac
+}
+
+function sync_latest(){
+    ic_title " Synchronization Begin !! "
+    sleep 0.2
+    ic_title "1/4 Check Config Tools ..."
+    check_submodule_status $UWARL_CONFIGS
+    if [ $change_counter -gt 0 ]; then
+        echo " There are uncommitted configs, aborted!"
+        return
+    fi
+    ic_title "2/4 Update Config Tools ..."
+    git pull
+    ic_title "3/4 Check Workspace Tools ..."
+    check_submodule_status $ROS_CATKIN_WS/src
+    if [ $change_counter -gt 0 ]; then
+        echo " There are uncommitted configs, aborted!"
+        return
+    fi
+    ic_title "4/4 Update Workspace ..."
+    zsh $UWARL_CONFIGS/scripts/auto-config_UWARL_catkin_ws.zsh
+    ic_title " COMPLETED! "
 }

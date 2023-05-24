@@ -215,6 +215,10 @@ $ source_ws
 ```
 
 ## 3.5 Shortcuts:
+```bash
+# sync all toolchain and workspace:
+$ sync_latest
+```
 ### 3.5.1 Short for ROS workspace:
 ```bash
 ### ROS Workspace Specific:
@@ -252,6 +256,8 @@ $ commit_ws
 ```bash
 # cd into robot_configs from anywhere
 $ cd_config
+# check robot_configs from anywhere
+$ check_config_status
 # source ~/.zshrc from anywhere and then source 'ws/devel/.zsh'
 $ source_all
 # update the workspace with toolwchain
@@ -265,6 +271,9 @@ $ update_ws
 $ git_log
 # ...  and include line changes:
 $ git_log -p
+# check status of the directory and its submodules if any.
+$ check_status 
+$ check_status [some-subdirectory]
 ```
 
 ### 3.5.6 Short Generation Tool for Markdown .md files:
