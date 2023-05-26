@@ -129,7 +129,7 @@ SUBMODULES_FOR_P51_LENOVO=(
     "waterloo_steel"           # [universal/ros1/main]
 #    ## WAM Side:
 #       "uwarl-barrett_wam_hw"     # [x86_64, aarch64/arm64]
-#       "uwarl-barrett_wam_msgs"
+    "uwarl-barrett_wam_msgs"
 #       "uwarl-realsense_ros"      # [L515 Support]
 #       "uwarl-barrett-ros-pkg"    # [DEPRECATED]
 #       "uwarl-zed_ros_wrapper"    # [No longer used]
