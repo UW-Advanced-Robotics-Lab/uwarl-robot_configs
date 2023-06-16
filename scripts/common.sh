@@ -50,7 +50,7 @@ SUBMODULES_FOR_SUMMIT=(
     "uwarl-robotnik_base_hw"
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    # "uwarl-summit_xl_common" # TODO: need to deal with mapping
+    "uwarl-summit_xl_common" # TODO: need to deal with mapping
     "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
