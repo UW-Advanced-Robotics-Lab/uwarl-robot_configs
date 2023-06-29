@@ -6,21 +6,21 @@ source "$HOME/uwarl-robot_configs/scripts/git_functions.sh"
 ## Pre-req Check ##
 ic_title  "Checking ROS Pre-requisite ..."
 ic  " >>> {Checking your Ubuntu version} "
-ic  " >>> {Your Ubuntu version is: [Ubuntu $LOCAL_LSB_VERSION $LOCAL_LSB_RELEASENUMBER]}"
+ic  " >>> {Your Ubuntu version is: [Ubuntu $LOCAL_DISTRIB_CODENAME $LOCAL_DISTRIB_DESCRIPTION]}"
 if [[ -x "$(command -v rosversion)" ]] ; then
     rosversion='rosversion -d'
     ic_wrn " ROS exists!! [ROS version: $rosversion] Pre-requisite met! Continue ..."
 else
     ic_err " ERROR::ROS does not exist, maybe you have not yet installed ROS?"
     ### Attempt to install ROS:
-    case $LOCAL_LSB_VERSION in
+    case $LOCAL_DISTRIB_CODENAME in
         "focal" )
             ic_wrn "Attempting to auto-install ROS Noetic for Jetson!"
             install_ros_noetic
             ic "Continue ..."
         ;;
         *)
-        ic_err " >>> {ERROR: Auto-installation of ROS for [Ubuntu $LOCAL_LSB_VERSION $LOCAL_LSB_RELEASENUMBER] was not implemented, please install ROS manually.}"
+        ic_err " >>> {ERROR: Auto-installation of ROS for [Ubuntu $LOCAL_DISTRIB_CODENAME $LOCAL_DISTRIB_DESCRIPTION] was not implemented, please install ROS manually.}"
         exit 0
     esac
 fi
