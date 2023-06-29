@@ -71,7 +71,7 @@ function load_submodules(){
         ic_err ">-- Aborting Updating Workspace!"
         ic_wrn ">-- List of available remote branches:"
         git ls-remote --heads
-        exit 0 
+        return 
     else
         # checkout branch:
         ic_wrn ">-- Checking out $ROS_CATKIN_WS/src @ branch [$UWARL_catkin_ws_branch]"
@@ -247,6 +247,16 @@ function install_libbarrett_if_not(){
         ic "x--- Done installling libbarrett! "
         ic_err "[Reboot Required] Please reboot !"
     fi
+    if [[ -d "$HOME/.barrett" ]]; then
+        ic_wrn " [!] ~/.barrett local configurations link exists, skipping link configs ..."
+    else
+        ic_err " [X] ~/.barrett local configurations link is missing"
+        ## NOTE: linking may be dangerous, TODO: need to investigate if linked config folder will crash 
+        ic_wrn ">-- Linking $UWARL_CONFIGS/wam/.barrett >---> ~/.barrett"
+        ln -s $UWARL_CONFIGS/wam/.barrett $HOME/.barrett
+        # ALERT: grant this folder all permissions!!
+        chmod -R 777 $HOME/.barrett 
+    fi
 }
 
 function install_librealsense_if_not(){
@@ -278,21 +288,27 @@ function install_librealsense_if_not(){
             ic_wrn "No swapon - setting up 1Gb swap file"
             sudo fallocate -l 2G /swapfile
             sudo chmod 600 /swapfile
-            sudo mkswap /swapfile
+            sudo mkswap /swapfilesudo 
             sudo swapon /swapfile
             sudo swapon --show
         fi
 
         ic_wrn ">-- Prepare librealsense cmake files:"
         mkdir $candidate_path/build && cd $candidate_path/build
-        if [[ $USER = "uwarl-orin" ]]; then
+        if [[ $UWARL_ROBOT_PC_NAME = "JETSON_ORIN_WAM" ]]; then
             # FYI: https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_jetson.md
             ic_wrn "[Detected :: Jetson Orin] Building with native kernel backend, and with CUDA !!"
             cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DBUILD_WITH_CUDA=true  -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true
+        elif [[ $UWARL_ROBOT_PC_NAME = "JX_DESKTOP_JACK" ]]; then
+            ic_wrn "[Detected :: JX Computer] Building with native kernel backend, and without CUDA !!"
+            cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true
         else
-            ic_wrn "[Detected :: Not Jetson Orin] Building without native kernel, but with RSUSB backend, and without CUDA !!"
-            cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
+            ic_err "[Librealsense installation NOT defined for [$UWARL_ROBOT_PC_NAME] computer] please specify in \`git_functions\`"
         fi
+        ### Build RSUSB instead of CUDA with native kernel backend:
+        # ic_wrn "[Detected :: Not Jetson Orin] Building without native kernel, but with RSUSB backend, and without CUDA !!"
+        # cmake ../ -DFORCE_LIBUVC=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DFORCE_RSUSB_BACKEND=true -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true  -DBUILD_WITH_CUDA=false  -DPYTHON_EXECUTABLE=/usr/bin/python3
+        
         ic_wrn ">-- Build librealsense"
         make -j$(($(nproc)-1)) 
 
@@ -323,6 +339,8 @@ function install_dlink_dongle(){
         ic "x--- Done installling librealsense! "
         ic_err "[Reboot Required] Please reboot !"
     fi
+
+    # NOTE: To uninstall, please cd into the rtl88x2bu and `$ sudo make uninstall`
 }
 function install_jetson_utilities(){
     ic_title "Installing Jetson Utilities into $JX_LINUX ..."
@@ -363,22 +381,65 @@ function load_common() {
 }
 
 function check_submodule_status(){
-    ic_title "Checking Submodule Status ..."
+    # [2023-05-24]: now it is generic for any directory
+    if [ $# -lt 1 ]; then
+        echo "Usage: $0 [folder: full_folder_dir] *[sub: sub_dir]"
+        return
+    elif [ $# -gt 2 ]; then
+        echo "Usage: $0 [folder: full_folder_dir] *[sub: sub_dir]"
+        return
+    fi 
+    change_counter=0
+    local base_directory=$1
+    local base_directory_old=$1
+    if [ $2 ]; then
+        base_directory=$base_directory/$2
+    fi
+    
+    ic_title "Checking Status @ $base_directory ..."
     # start a new log:
     ic_wrn "[Git Status Lastly Updated on $(date) by $USER]"
     # update submodules:
-    ic "Indexing Submodules Recursively uwarl-robot_configs @ $ROS_CATKIN_WS/src "
     echo "------------------------------------------------------------------------------------------------"
-    
-    cd "$ROS_CATKIN_WS/src"
-    local i=0
-    local change_counter=0
-    for dir in */ ; do
-        i=$(( i + 1 ))
+    cd "$base_directory"
+    if [ -f ".gitmodules" ]; then
+        ic "-> .gitmodules exists."
+        ic "-> Indexing Submodules Recursively@ $base_directory "
+        echo "------------------------------------------------------------------------------------------------"
+        local i=0
+        local dir=$base_directory
+        for dir in */ ; do
+            i=$(( i + 1 ))
+            if [ "$(ls -A $dir)" ]; then
+                ic "[$i] $dir is loaded: "
+                cd "$base_directory/$dir"
+                # now check changes
+                local git_stats=$(git status --porcelain)
+                local git_remote=$(git remote -v)
+                local git_head=$(git rev-parse --abbrev-ref HEAD)
+                local git_head_ver=$(git rev-parse --short HEAD)
+                ic "   > $dir on branch @ [$git_head_ver] $git_head"
+                ic "   > $dir remote version: \n$git_remote"
+                if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
+                    ic_err "   > [!] $dir has changes: \n $git_stats"
+                    change_counter=$(( change_counter + 1 ))
+                else   
+                    ic "   > [OK] $dir is up-to-date"
+                fi 
+
+                # git status
+                #
+                cd "$base_directory"
+            else
+                ic_wrn "[$i] $dir submodule is not loaded! "
+            fi
+            echo "------------------------------------------------------------------------------------------------"
+        done
+    else
+        ic "x- No submodules"
+        # now check changes
+        local dir=$base_directory
         if [ "$(ls -A $dir)" ]; then
-            ic "[$i] $dir is loaded: "
-            cd "$ROS_CATKIN_WS/src/$dir"
-            # now check changes
             local git_stats=$(git status --porcelain)
             local git_remote=$(git remote -v)
             local git_head=$(git rev-parse --abbrev-ref HEAD)
@@ -387,19 +448,16 @@ function check_submodule_status(){
             ic "   > $dir remote version: \n$git_remote"
             if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then 
                 ic_err "   > [!] $dir has changes: \n $git_stats"
-                change_counter=$(( change_counter + 1 ))
+                change_counter=1
             else   
                 ic "   > [OK] $dir is up-to-date"
             fi 
-
-            # git status
-            #
-            cd "$ROS_CATKIN_WS/src"
         else
             ic_wrn "[$i] $dir submodule is not loaded! "
         fi
+        cd $base_directory_old # step out
         echo "------------------------------------------------------------------------------------------------"
-    done
+    fi
     
     ic_wrn "x- There are $change_counter Submodules with uncommited changes"
     ic "x- Done indexing submodules."
@@ -469,7 +527,7 @@ function install_ros_noetic(){
     #Checking file added or not
     if [ ! -e /etc/apt/sources.list.d/ros-latest.list ]; then
         ic_err ">>> {Error: Unable to add sources.list, exiting}"
-        exit 0
+        return
     else
         ic_wrn ">>> ROS Noetic Package is now in the list!"
     fi
@@ -485,7 +543,7 @@ function install_ros_noetic(){
         ;;
         *)
             echo ">>> {ERROR: Unable to add ROS keys}"
-            exit 0
+            return
     esac
 
     ic "> Updating ..."
@@ -504,4 +562,116 @@ function install_ros_noetic(){
     # additional toolsets:
     apt_install ros-noetic-rosbash
     apt_install ros-noetic-rviz
+}
+
+function install_roscore_systemctl_service(){
+    ic_title "Install Roscore Systemctl Services"
+
+    ic_wrn "  + guarant user for dialout permissions:"
+    sudo usermod -a -G dialout $USER 
+    ic_wrn "  + guarant user for root permissions:"
+    sudo usermod -a -G root $USER
+
+    cd ~
+    # load system services:
+    #[OPTIONAL] roscore only:
+    ic "  + roscore only"
+    sudo cp ~/uwarl-robot_configs/summit/user_services/roscore.service /usr/lib/systemd/user
+    #[this one] roscore and roslaunch:
+    ic "  + roscore and roslaunch"
+    sudo cp ~/uwarl-robot_configs/summit/user_services/roscorelaunch@.service /usr/lib/systemd/user
+    #[OPTIONAL] depends on remote roscore:
+    ic "  + roslaunch w/o roscore"
+    sudo cp ~/uwarl-robot_configs/summit/user_services/roslaunch@.service /usr/lib/systemd/user 
+    
+    ic_wrn "  ... relaunching systemctl ..."
+    systemctl --user daemon-reload
+    
+    # Start at bootup instead of graphical login
+    ic_wrn "  + start at bootup:"
+    sudo loginctl enable-linger $USER
+}
+function reinstall_roscorelaunch_autolaunch() {
+    if [ $# -lt 3 ]; then
+        echo "Usage: $0 [service_type: roscpre/roscorelaunch/roslaunch] [ros_pkg: waterloo_steel_summit_bringup] [ros_launch_file: waterloo_steel_summit]"
+        exit 1
+    fi 
+    local service_type=$1
+    local ros_pkg=$2
+    local ros_launch_file=$3
+    ic_wrn "   > Print $service_type services:"
+    systemctl --user --type service | grep -F "$service_type"
+    
+    ic_title "Reinstall [$service_type] Services for [$ros_pkg] [$ros_launch_file.launch]"
+    ic_wrn "   > Disabling old service"
+    systemctl disable --user $service_type@$ros_pkg:$ros_launch_file.launch
+    ic_wrn "   > Enable new service"
+    systemctl enable --user $service_type@$ros_pkg:$ros_launch_file.launch
+    
+    ic_wrn "   > Reload Daemon:"
+    systemctl daemon-reload
+    systemctl reset-failed
+    ic_wrn "   > Print $service_type services:"
+    systemctl --user --type service | grep -F "$service_type"
+}
+function ros_systemctl() {
+    local service_type=$1
+    local ros_pkg=$2
+    local ros_launch_file=$3
+    local mode=$4
+
+    ic_title "($ros_pkg:$ros_launch_file) $service_type/$mode"
+    case $mode in
+        "reinstall" )
+            reinstall_roscorelaunch_autolaunch $service_type $ros_pkg $ros_launch_file 
+            ;;
+        "status" )
+            systemctl --user status $service_type@$ros_pkg:$ros_launch_file.launch
+            ;;
+        "restart" )
+            systemctl --user restart $service_type@$ros_pkg:$ros_launch_file.launch
+            ;;
+        "stop" )
+            systemctl --user stop $service_type@$ros_pkg:$ros_launch_file.launch
+            ;;
+        "start" )
+            systemctl --user start $service_type@$ros_pkg:$ros_launch_file.launch
+            ;;
+        "history" )
+            journalctl --user --user-unit=$service_type@$ros_pkg:$ros_launch_file.launch.service
+            ;;
+        "follow" )
+            journalctl --follow --user --user-unit=$service_type@$ros_pkg:$ros_launch_file.launch.service
+            ;;
+        *)
+            ic_err " >>> ERROR: Unknown Service!"
+            ic_wrn "     + Usage: $0 \
+                            [service_type: roscpre/roscorelaunch/roslaunch] 
+                            [ros_pkg: waterloo_steel_summit_bringup] 
+                            [ros_launch_file: waterloo_steel_summit] 
+                            [mode: install, reinstall, status, restart, start, stop, history, follow] "
+            # END
+    esac
+}
+
+function sync_latest(){
+    ic_title " Synchronization Begin !! "
+    sleep 0.2
+    ic_title "1/4 Check Config Tools ..."
+    check_submodule_status $UWARL_CONFIGS
+    if [ $change_counter -gt 0 ]; then
+        echo " There are uncommitted configs, aborted!"
+        return
+    fi
+    ic_title "2/4 Update Config Tools ..."
+    git pull
+    ic_title "3/4 Check Workspace Tools ..."
+    check_submodule_status $ROS_CATKIN_WS/src
+    if [ $change_counter -gt 0 ]; then
+        echo " There are uncommitted configs, aborted!"
+        return
+    fi
+    ic_title "4/4 Update Workspace ..."
+    zsh $UWARL_CONFIGS/scripts/auto-config_UWARL_catkin_ws.zsh
+    ic_title " COMPLETED! "
 }

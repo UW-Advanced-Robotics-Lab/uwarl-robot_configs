@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/simulation_pkg"
+export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-april-2023"
 
 #################################################################
 #    ## SUMMIT Side:
@@ -50,7 +50,7 @@ SUBMODULES_FOR_SUMMIT=(
     "uwarl-robotnik_base_hw"
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
-    # "uwarl-summit_xl_common" # TODO: need to deal with mapping
+    "uwarl-summit_xl_common" # TODO: need to deal with mapping
     "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
@@ -93,8 +93,8 @@ SUBMODULES_FOR_JX_PARALLEL=(
     ## Simulation:
     "velodyne_simulator"
 )
-# $USER = "oem":
-SUBMODULES_FOR_JX_OEM=(
+# $USER = "jx":
+SUBMODULES_FOR_JX_DESKTOP=(
     ## SUMMIT Side:
     "multimap_server_msgs"
     "system_monitor"
@@ -129,7 +129,7 @@ SUBMODULES_FOR_P51_LENOVO=(
     "waterloo_steel"           # [universal/ros1/main]
 #    ## WAM Side:
 #       "uwarl-barrett_wam_hw"     # [x86_64, aarch64/arm64]
-#       "uwarl-barrett_wam_msgs"
+    "uwarl-barrett_wam_msgs"
 #       "uwarl-realsense_ros"      # [L515 Support]
 #       "uwarl-barrett-ros-pkg"    # [DEPRECATED]
 #       "uwarl-zed_ros_wrapper"    # [No longer used]
@@ -186,7 +186,7 @@ export ROS_EXTERNAL_PC_IN_NETWORK_IP=$ROS_JX_IN_NETWORK_PARALLEL_PC_IP
 #################################################################
 ## VAR ##
 # assign to DISPLAY param:
-export DISPLAY_WAM=:1
+export DISPLAY_WAM=:0
 export DISPLAY_DEFAULT=:0
 
 ## FILE PATH ##
@@ -251,7 +251,7 @@ function ic_source () {
 
 #################################################################
 ### AUTO SYSTEM CONFIG: ###
-ic_title "Auto System Config:"
+# ic_title "Auto System Config:"
 source /etc/lsb-release # <--- sourcing distribution versions
 export LOCAL_DISTRIB_CODENAME=$DISTRIB_CODENAME # <--- fetch local LSB Version from LINUX Env.
 export LOCAL_DISTRIB_DESCRIPTION=$DISTRIB_DESCRIPTION # <--- fetch local LSB Version from LINUX Env.
@@ -279,11 +279,12 @@ function cat_summit_env() {
     ic     "    - ROBOT_FRONT_LASER_PORT  : $ROBOT_FRONT_LASER_PORT"
     ic     "    - ROBOT_FRONT_LASER_IP    : $ROBOT_FRONT_LASER_IP"
     ic     "    - ROBOT_PAD_MODEL         : $ROBOT_PAD_MODEL"
-    ic_wrn " [COMMON SH CONFIG]: "
-    ic     "    - ROBOT_PC_NAME           : $UWARL_ROBOT_PC_NAME"
-    ic     "    - ROS_CORE_HOSTER         : $ROS_CORE_HOSTER"
 }
 function cat_ros_env() {
+    ic_wrn " [COMMON SH CONFIG ($USER)]: "
+    ic     "    - ROBOT_PC_NAME           : $UWARL_ROBOT_PC_NAME"
+    ic     "    - ROS_CORE_HOSTER         : $ROS_CORE_HOSTER"
+    ic     "    - IN_ROBOT_NETWORK        : $IN_ROBOT_NETWORK"
     ic_wrn " [ROS CONFIG ($USER)]: "
     ic     "    - ROS ROS_DISTRO          : $ROS_DISTRO"
     ic     "    - ROS HOST                : $ROS_HOSTNAME"
@@ -301,10 +302,12 @@ function cat_ros_env() {
 function cat_sensor_status() {
     if [[ -d "$JX_LINUX/librealsense" ]]; then
         ic_wrn " [SENSOR Driver STATUS]: "
-        ic     "  Serials:\n$(rs-enumerate-devices | grep '  Serial Number' )"
-        ic     "  Firmware:\n$(rs-enumerate-devices | grep '  Firmware Version' )"
-        ic     "  Types:\n$(rs-enumerate-devices | grep 'Usb Type Descriptor' )"
-        ic     "  Port:\n$(rs-enumerate-devices | grep 'Physical Port' )"
+        ic     "  \n$( rs-enumerate-devices -s )"
+        # ic     "  \n$(rs-enumerate-devices | grep -E '  Serial Number|  Firmware Version|Usb Type Descriptor|Physical Port' )"
+        # rs-enumerate-devices -c # calibration information
+        # rs-enumerate-devices -m # stream profiles
+        # rs-enumerate-devices -o # device options
+        # rs-enumerate-devices -s # summary
     else
         ic     "  Unable to Find Sensor Drivers! [librealsense]"
     fi
@@ -346,11 +349,11 @@ function sync_ros_core_if_in_robot_network_else_localhost() {
         ros_core_sync $ROS_CORE_HOSTER
         export ROS_IP=$in_network_ip
         export ROS_HOSTNAME=$in_network_ip
-        export IN_ROBOT_NETWORK=1
+        export IN_ROBOT_NETWORK="YES"
     else # when out-of-network
         ic_wrn " > We have detected a registered out-of-network PC, now forcing local host for ROS_MASTER_URI !"
         ros_core_sync "LOCAL-HOSTS"
-        export IN_ROBOT_NETWORK=0
+        export IN_ROBOT_NETWORK="NOPE, Local Host Only!"
     fi
 }
 
@@ -368,6 +371,8 @@ function source_ros() {
         export DISPLAY=$DISPLAY_DEFAULT
         # export PYTHONPATH_ROS=/usr/bin/python3
         # export PYTHONPATH=$PYTHONPATH_ROS
+        # ===> update environment files in .ros:
+        sudo cp $UWARL_CONFIGS/summit/user_services/environment $HOME/.ros/environment
         # welcome:
         ic_wrn " - Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
@@ -415,11 +420,11 @@ function source_ros() {
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
     
-    elif [[ $USER = "oem" ]]; then
+    elif [[ $USER = "jx" ]]; then
         # manual config:
-        export UWARL_ROBOT_PC_NAME="OEM_PC_JACK"
+        export UWARL_ROBOT_PC_NAME="JX_DESKTOP_JACK"
         export ROS_DISTRO=noetic
-        export DISPLAY=$DISPLAY_DEFAULT
+        export DISPLAY=:1
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
         # welcome:
@@ -476,6 +481,7 @@ function source_ros() {
 
 function print_ascii_title() {
     echo -e "${BLUE} \n██╗    ██╗ █████╗ ████████╗███████╗██████╗ ██╗      ██████╗  ██████╗    \n██║    ██║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██║     ██╔═══██╗██╔═══██╗   \n██║ █╗ ██║███████║   ██║   █████╗  ██████╔╝██║     ██║   ██║██║   ██║   \n██║███╗██║██╔══██║   ██║   ██╔══╝  ██╔══██╗██║     ██║   ██║██║   ██║   \n╚███╔███╔╝██║  ██║   ██║   ███████╗██║  ██║███████╗╚██████╔╝╚██████╔╝   \n ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═════╝    \n                                                                        \n███████╗████████╗███████╗███████╗██╗                   ██╗   ██╗██████╗ \n██╔════╝╚══██╔══╝██╔════╝██╔════╝██║                   ██║   ██║╚════██╗\n███████╗   ██║   █████╗  █████╗  ██║         █████╗    ██║   ██║ █████╔╝\n╚════██║   ██║   ██╔══╝  ██╔══╝  ██║         ╚════╝    ╚██╗ ██╔╝██╔═══╝ \n███████║   ██║   ███████╗███████╗███████╗               ╚████╔╝ ███████╗\n╚══════╝   ╚═╝   ╚══════╝╚══════╝╚══════╝                ╚═══╝  ╚══════╝ ${NC}" 
+    echo "\n==="
 }
 
 function tmux_custom() {
@@ -578,7 +584,7 @@ function tmux_usync () {
     shift
     tmux start-server
     tmux new -d -s $session
-    tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
+    # tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
     on_error() {
         tmux kill-session -t $session
     }

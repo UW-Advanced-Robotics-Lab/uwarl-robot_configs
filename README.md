@@ -1,7 +1,7 @@
 <toc>
 
 # Table of Contents
-[*Last generated: Mon 20 Mar 2023 08:46:46 PM EDT*]
+[*Last generated: Wed May 24 16:04:32 EDT 2023*]
 - [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
   - [1.1 How to Setup Workstation:](#11-How-to-Setup-Workstation)
   - [1.2 How to Setup Platform Hardware:](#12-How-to-Setup-Platform-Hardware)
@@ -25,9 +25,10 @@
     - [3.5.6 Short Generation Tool for Markdown .md files:](#356-Short-Generation-Tool-for-Markdown-md-files)
     - [3.5.7 Short for Tmux Multi-pane Session:](#357-Short-for-Tmux-Multi-pane-Session)
       - [3.5.7.a) tmux configuration file:](#357a-tmux-configuration-file)
-- [**3. Tools:**](#3-Tools)
-  - [3.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:](#31-Remote-Desktop-Auto-Sleep-and-Auto-Wake-Scheduling)
-  - [3.2 Remote Desktop without physical monitor (Headless Monitor):](#32-Remote-Desktop-without-physical-monitor-Headless-Monitor)
+    - [3.5.8 SUMMIT Systemctl Service:](#358-SUMMIT-Systemctl-Service)
+- [**4. Tools:**](#4-Tools)
+  - [4.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:](#41-Remote-Desktop-Auto-Sleep-and-Auto-Wake-Scheduling)
+  - [4.2 Remote Desktop without physical monitor (Headless Monitor):](#42-Remote-Desktop-without-physical-monitor-Headless-Monitor)
 - [**A. Appendix:**](#A-Appendix)
   - [A.1 File Tree:](#A1-File-Tree)
   - [A.2 ZSHRC Terminal Output After Installing:](#A2-ZSHRC-Terminal-Output-After-Installing)
@@ -214,6 +215,10 @@ $ source_ws
 ```
 
 ## 3.5 Shortcuts:
+```bash
+# sync all toolchain and workspace:
+$ sync_latest
+```
 ### 3.5.1 Short for ROS workspace:
 ```bash
 ### ROS Workspace Specific:
@@ -251,6 +256,8 @@ $ commit_ws
 ```bash
 # cd into robot_configs from anywhere
 $ cd_config
+# check robot_configs from anywhere
+$ check_config_status
 # source ~/.zshrc from anywhere and then source 'ws/devel/.zsh'
 $ source_all
 # update the workspace with toolwchain
@@ -264,6 +271,9 @@ $ update_ws
 $ git_log
 # ...  and include line changes:
 $ git_log -p
+# check status of the directory and its submodules if any.
+$ check_status 
+$ check_status [some-subdirectory]
 ```
 
 ### 3.5.6 Short Generation Tool for Markdown .md files:
@@ -308,8 +318,34 @@ $ tmux_kill
 6. [CMD + B] + p : previous window
 7. Mouse is on, history limit: [5000]
 
-# 3. Tools:
-## 3.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:
+### 3.5.8 SUMMIT Systemctl Service:
+```bash
+## Automated Instruction [May 24, 2023]:
+# modify summitxl_params.env, and update env with:
+$ source_all 
+
+### How to build and install summit workspace:
+# 1. build:
+$ build_ws
+# 2. stop system:
+$ summit_systemctl stop
+$ summit_systemctl status
+# 3. source
+$ source_all
+# 4. reinstall service
+$ summit_systemctl reinstall
+# 5. start new system:
+$ summit_systemctl start
+$ summit_systemctl status
+# check status:
+$ summit_systemctl status
+# now, it will autolaunch the summit in the backend.
+
+### For any other workspace, please use similar idea based on the given scripts for summit workspace.
+```
+
+# 4. Tools:
+## 4.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:
 
 ```bash
 $ sudo cp ~/uwarl-robot_configs/desktop/suspend_until $HOME
@@ -329,7 +365,7 @@ $ sudo crontab -e
 30 23 * * * /home/myhomefolder/suspend_until 07:30 
 ```
 
-## 3.2 Remote Desktop without physical monitor (Headless Monitor):
+## 4.2 Remote Desktop without physical monitor (Headless Monitor):
 ```bash
 $ sudo apt-get install xserver-xorg-video-dummy -y 
 $ sudo cp ~/uwarl-robot_configs/desktop/etc/X11/xorg.conf /etc/X11/xorg.conf
@@ -414,6 +450,7 @@ Robot Configuration Description:
  
      - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
 ```
+
 
 
 

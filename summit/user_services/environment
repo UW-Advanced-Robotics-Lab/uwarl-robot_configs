@@ -1,3 +1,5 @@
+# MODIFY @ "$UWARL_CONFIGS/summit/user_services/environment" 
+# '~/.ros/environment' will be overriden by any changes from '$UWARL_CONFIGS'
 ROS_SETUP="/home/uwarl/UWARL_catkin_ws/devel/setup.bash"
 ROS_IP="192.168.1.11"
 ROS_HOSTNAME="192.168.1.11"
