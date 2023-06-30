@@ -1,7 +1,7 @@
 <toc>
 
 # Table of Contents
-[*Last generated: Wed May 24 16:04:32 EDT 2023*]
+[*Last generated: Fri 30 Jun 2023 13:14:35 EDT*]
 - [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
   - [1.1 How to Setup Workstation:](#11-How-to-Setup-Workstation)
   - [1.2 How to Setup Platform Hardware:](#12-How-to-Setup-Platform-Hardware)
@@ -11,6 +11,7 @@
 - [**2. ⭐ Unified Development :construction:  [Local PC / Summit / WAM] (Melodic/Noetic):**](#2-Unified-Development-construction-Local-PC-Summit-WAM-MelodicNoetic)
   - [2.1 How to commit:](#21-How-to-commit)
   - [2.2 How to Add a new modules under workspace/src:](#22-How-to-Add-a-new-modules-under-workspacesrc)
+  - [2.3 [The Branching Strategy] How to branch for modifications:](#23-The-Branching-Strategy-How-to-branch-for-modifications)
 - [**3. ROS UWARL_catkin_ws Usage Guide:**](#3-ROS-UWARL_catkin_ws-Usage-Guide)
   - [3.1 Modifications:](#31-Modifications)
   - [3.2 Commit and Push:](#32-Commit-and-Push)
@@ -21,11 +22,12 @@
     - [3.5.2 Short for OS Env.:](#352-Short-for-OS-Env)
     - [3.5.3 Short for UWARL_catkin_ws/src Commit:](#353-Short-for-UWARL_catkin_wssrc-Commit)
     - [3.5.4 Short for Robot Config Toolchain:](#354-Short-for-Robot-Config-Toolchain)
-    - [3.5.5 Short for Git (Pretty)](#355-Short-for-Git-Pretty)
+    - [3.5.5 Shorts for Git (Pretty)](#355-Shorts-for-Git-Pretty)
     - [3.5.6 Short Generation Tool for Markdown .md files:](#356-Short-Generation-Tool-for-Markdown-md-files)
     - [3.5.7 Short for Tmux Multi-pane Session:](#357-Short-for-Tmux-Multi-pane-Session)
       - [3.5.7.a) tmux configuration file:](#357a-tmux-configuration-file)
     - [3.5.8 SUMMIT Systemctl Service:](#358-SUMMIT-Systemctl-Service)
+    - [3.5.9 JETSON Service:](#359-JETSON-Service)
 - [**4. Tools:**](#4-Tools)
   - [4.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:](#41-Remote-Desktop-Auto-Sleep-and-Auto-Wake-Scheduling)
   - [4.2 Remote Desktop without physical monitor (Headless Monitor):](#42-Remote-Desktop-without-physical-monitor-Headless-Monitor)
@@ -178,6 +180,92 @@ Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-
    $ build_ws
    ```
 
+## 2.3 [The Branching Strategy] How to branch for modifications:
+1. [Optional] Make sure the current 'workspace' and 'config' is clean, no local modifications:
+   ```bash
+   $ check_ws_status
+   $ check_config_status
+   ```
+
+2. [Recommended] Makre sure the current 'workspace' and 'config' is the latest:
+   ```bash
+   $ sync_latest
+   ```
+
+3. Branch out your 'workspace':
+   ```bash
+   # cd:
+   $ cd_ws
+   
+   # branching strategy:
+   # [Main branch:] `waterloo_steel/universal/ros1/main`
+   # [A common session branch: ]
+   $ git checkout -b universal/{node}/session-{month}-{year}
+   # OR:
+   # [A user defined sub-feature branch, derived from a specific session branch: ]
+   $ git checkout -b {node}/session-{month}-{year}/{feature}
+   # OR:
+   # [A general user defined branch: ]
+   $ git checkout -b usr/{name}/{node}/{feature}
+   
+   ### NOTE:
+   # {node}: ros1, ros1/robohub, main, checkpoint, ...
+   # {feature}: demo, fix, fix-numerical-err, ...
+   ```
+
+4. [Optional] Publish your 'workspace':
+   ```bash
+   $ cd_ws
+   $ git push -u origin {your-branch-name-defined-above}
+   ```
+
+5. Branch out your 'config':
+   ```bash
+   $ cd_config
+   $ git checkout -b {your-branch-name-defined-above}
+   ```
+
+6. Targeting your config to the new branch:
+   ```bash
+   $ cd_config scripts
+   $ vim common.sh
+   
+   # edit:
+   2| #################################################################
+   3| ## USER PARAM: ##
+   4| export UWARL_catkin_ws_branch="{your-branch-name-defined-above}"
+   ```
+
+7. [Optional] Publish your 'config':
+   ```bash
+   $ cd_config
+   $ git push -u origin {your-branch-name-defined-above}
+   ```
+
+8. Branching submodules:
+   ```bash
+   $ cd_ws
+   $ cd {a-specific-submodule}
+   # Branching:
+   $ git checkout -b usr/{name}/{node}/{feature}
+   # OR:
+   $ git checkout -b {your-branch-name-defined-above}
+   ```
+   
+9.  Modify and Publish changes of your submodules:
+   ```bash
+   # Commit:
+   $ git commit 
+   
+   # Publish:
+   $ git push -u origin {...}
+   ```
+   
+10. Publish All Your Changes as A Checkpoint in Workspace:
+   ```bash
+   $ commit_ws
+   ```
+
 # 3. ROS UWARL_catkin_ws Usage Guide:
 
 ## 3.1 Modifications:
@@ -185,7 +273,7 @@ Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-
 1. switch workspace : `git checkout {branch-name}`
 2. add modules: `$ git submodule add {git-repo}`
 3. remove submodules: `$ git submodule deinit {git-repo}` and you may need delete the submodules in `.gitmodules` file
-4. Create a new branch of workspace: `git checkout -b waterloo_steel/adlink-mxe211-melodic/{node}/{feature}`
+4. Create a new branch of workspace: `git checkout -b universal/{node}/{feature}`
 
 ## 3.2 Commit and Push:
 
@@ -241,6 +329,11 @@ $ source_all
 ```bash
 # source ~/.zshrc from anywhere
 $ source_zsh
+
+# open directory:
+$ open . 
+# open file:
+$ open [file-name]
 ```
 
 ### 3.5.3 Short for UWARL_catkin_ws/src Commit:
@@ -260,17 +353,22 @@ $ cd_config
 $ check_config_status
 # source ~/.zshrc from anywhere and then source 'ws/devel/.zsh'
 $ source_all
-# update the workspace with toolwchain
+# update the workspace with toolchain
 $ update_ws
+
+# cd into installation libraries by configs toolchain:
+$ cd_linux
 ```
 
-### 3.5.5 Short for Git (Pretty) 
+### 3.5.5 Shorts for Git (Pretty) 
 ```bash
-### Git Related:
+## Git History:
 # pretty compact git log tree:
 $ git_log
 # ...  and include line changes:
 $ git_log -p
+
+## Git Status Recursive:
 # check status of the directory and its submodules if any.
 $ check_status 
 $ check_status [some-subdirectory]
@@ -309,6 +407,8 @@ $ tmux_src # see configuration file from `uwarl-robot_configs/desktop/tmux.conf`
 # kill all session:
 $ tmux_kill
 ```
+- Example of bash automation launching multiple programs iterating through rosbags: `waterloo_steel/waterloo_steel_demo/waterloo_steel_analyzer/shortcuts/batch_tmux_vins.sh`
+
 #### 3.5.7.a) tmux configuration file:
 1. [CMD + B] + [SHIFT + |] : vertical split
 2. [CMD + B] + [SHIFT + -] : horizontal split
@@ -343,6 +443,16 @@ $ summit_systemctl status
 
 ### For any other workspace, please use similar idea based on the given scripts for summit workspace.
 ```
+
+### 3.5.9 JETSON Service:
+```bash
+## Jetson info:
+jetson_info
+
+## Restart Udev:
+restart_udev
+```
+
 
 # 4. Tools:
 ## 4.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:
@@ -450,6 +560,7 @@ Robot Configuration Description:
  
      - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
 ```
+
 
 
 
