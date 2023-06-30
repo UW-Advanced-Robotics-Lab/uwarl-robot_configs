@@ -275,7 +275,19 @@ Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-
 **On your local machine:**
 1. Make sure you do not have any changes:
    ```bash
+   # [1] basic:
+   $ cd {git-folder}
+   $ git status
+   
+   # [2] Workspace with submodules:
    $ check_ws_status
+   
+   # [3] Config:
+   $ check_config_status
+   
+   # [4] Folder contains submodules:
+   $ cd {git-folder}
+   $ check_status
    ```
 2. Check out the main branch:
    ```bash
