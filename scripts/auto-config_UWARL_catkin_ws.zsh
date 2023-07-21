@@ -78,6 +78,13 @@ case $UWARL_ROBOT_PC_NAME in
     "PARALLELS_VM_JACK")
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
     ;;
+    "ARL_DESKTOP_ARNAB")
+        load_submodules "${SUBMODULES_FOR_AJ_DESKTOP[@]}"
+        # install drivers :
+        install_misc_utilities # misc apt
+        install_pcan_if_not NETDEV_SUPPORT
+        install_libbarrett_if_not
+    ;;
     "JX_DESKTOP_JACK")
         load_submodules "${SUBMODULES_FOR_JX_DESKTOP[@]}"
         install_misc_utilities # misc apt 

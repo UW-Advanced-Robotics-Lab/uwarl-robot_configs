@@ -93,6 +93,29 @@ SUBMODULES_FOR_JX_PARALLEL=(
     ## Simulation:
     "velodyne_simulator"
 )
+# $USER = "arnab":
+SUBMODULES_FOR_AJ_DESKTOP=(
+    ## SUMMIT Side:
+    "multimap_server_msgs"
+    "system_monitor"
+    "uwarl-multimap_server"
+    "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    ## WAM Side:
+    "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    # "uwarl-realsense_ros"       # [L515 Support]
+    ## Research:
+    # "vins-research-pkg"
+    # "uwarl-sensor_calibr"
+    ## Simulation:
+    # "velodyne_simulator"
+)
 # $USER = "jx":
 SUBMODULES_FOR_JX_DESKTOP=(
     ## SUMMIT Side:
@@ -166,7 +189,7 @@ SUBMODULES_FOR_P50s_LENOVO=(
 #################################################################
 ## NETWORK PARAM: ##
 ### User Defined: ###
-export ROS_CORE_HOSTER="SUMMIT-PC"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+export ROS_CORE_HOSTER="LOCAL-HOSTS"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
 
 ### Manually Registered: ###
 ### [ Robot Network: UWARL-171102A_5G Wired ] ###
@@ -176,6 +199,7 @@ export ROS_DECK_IN_NETWORK_IP=192.168.1.15 # MAC Binded
 ### [ Robot Network: UWARL-171102A_5G Wifi ] ###
 # DHCP , may change:
 export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.100
+# export ROS_AJ_IN_NETWORK_DESKTOP_PC_IP=192.168.1.x
 # export ROS_P51_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
 # export ROS_JX_IN_NETWORK_OEM_PC_IP=192.168.1.x
 # export ROS_P50s_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
@@ -413,6 +437,18 @@ function source_ros() {
         export UWARL_ROBOT_PC_NAME="PARALLELS_VM_JACK"
         export ROS_DISTRO=noetic
         export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+    
+    elif [[ $USER = "arnab" ]]; then
+        # manual config:
+        export UWARL_ROBOT_PC_NAME="ARL_DESKTOP_ARNAB"
+        export ROS_DISTRO=noetic
+        export DISPLAY=:1 # <-- if you get an error like 'Invalid MIT-MAGIC-COOKIE-1 key', change the display value.
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
         # welcome:

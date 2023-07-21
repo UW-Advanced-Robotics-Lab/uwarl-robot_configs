@@ -153,13 +153,15 @@ function load_submodules(){
     local default_rosdep_file="/etc/ros/rosdep/sources.list.d/20-default.list"
     if test -f $default_rosdep_file; then
         ic_wrn "> $default_rosdep_file already exists!"
+        # Adding `rosdep' update line for new installation for incomplete update source list
+        cd $ROS_CATKIN_WS && rosdep update
     else
         ic_wrn "> Now, initing rosdep!"
         sudo rosdep init
         ic_wrn "> Updating rosdep ..."
         cd $ROS_CATKIN_WS && rosdep update
     fi
-    ic_wrn "> Instaling rosdep fron $ROS_CATKIN_WS/src ..."
+    ic_wrn "> Installing rosdep fron $ROS_CATKIN_WS/src ..."
     cd $ROS_CATKIN_WS && rosdep install --from-paths src --ignore-src -r -y
     ic "x--- Done loading submodules."
 }
