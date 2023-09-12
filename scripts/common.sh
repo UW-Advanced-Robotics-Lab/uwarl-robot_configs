@@ -106,6 +106,8 @@ SUBMODULES_FOR_AJ_DESKTOP=(
     "uwarl-summit_xl_common"
     "uwarl-summit_xl_robot"
     "waterloo_steel"
+    ## Cart Side:
+    "wagon_tf_publisher"
     ## WAM Side:
     "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
@@ -114,7 +116,7 @@ SUBMODULES_FOR_AJ_DESKTOP=(
     # "vins-research-pkg"
     # "uwarl-sensor_calibr"
     ## Simulation:
-    # "velodyne_simulator"
+    "velodyne_simulator"
 )
 # $USER = "jx":
 SUBMODULES_FOR_JX_DESKTOP=(
