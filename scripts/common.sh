@@ -108,6 +108,8 @@ SUBMODULES_FOR_AJ_DESKTOP=(
     "waterloo_steel"
     ## Cart Side:
     "wagon_tf_publisher"
+    ## WAM Trajectory controller tutorial (pilz)
+    "pilz_tutorial"
     ## WAM Side:
     "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
