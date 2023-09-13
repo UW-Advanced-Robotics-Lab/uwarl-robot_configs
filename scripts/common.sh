@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
+export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/tim/sep-2023"
 
 #################################################################
 #    ## SUMMIT Side:
@@ -162,6 +162,28 @@ SUBMODULES_FOR_P50s_LENOVO=(
     "vins-research-pkg"
     "uwarl-sensor_calibr"
 )
+# $USER = "tim":
+SUBMODULES_FOR_TIM=(
+    ## SUMMIT Side:
+    "multimap_server_msgs"
+    "system_monitor"
+    "uwarl-multimap_server"
+    "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    ## WAM Side:
+    # "uwarl-barrett_wam_hw"    # not needed for simulation :  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    #"uwarl-realsense_ros"      # [L515 Support]
+    ## Research:
+    #"vins-research-pkg"
+    #"uwarl-sensor_calibr"
+)
+
 
 #################################################################
 ## NETWORK PARAM: ##
@@ -456,7 +478,19 @@ function source_ros() {
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
 
-    ### TEMPLATE:
+    elif [[ $USER = "tim" ]]; then
+        export UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_3_TIM"
+        # manual config:
+        export ROS_DISTRO=noetic
+        export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP
+
+    ## TEMPLATE:
     # elif [[ $USER = "{$USER}" ]]; then
     #     export UWARL_ROBOT_PC_NAME="{ENTER HERE}"
     #     # manual config:
