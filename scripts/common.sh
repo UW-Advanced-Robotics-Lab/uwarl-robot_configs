@@ -191,6 +191,26 @@ SUBMODULES_FOR_P50s_LENOVO=(
 )
 
 #################################################################
+### Manually Registered: ###
+### [ Robot Network: UWARL-171102A_5G Wired ] ###
+#   (Fixed, MAC Binded, through 192.168.1.1 Router Gateway Settings:)
+export ROS_SUMMIT_IN_NETWORK_IP=192.168.1.11 # MAC Binded
+export ROS_WAM_IN_NETWORK_IP=192.168.1.10 # MAC Binded
+export ROS_DECK_IN_NETWORK_IP=192.168.1.15 # MAC Binded
+### [ Robot Network: UWARL-171102A_5G Wifi ] ###
+# - By default, you can use the template, if you are not planning to connect to the robot network:
+export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
+# - But, if you are connecting to the robot network, and tries to listen to the robot network:
+#   (DHCP , may change:)
+# - Known PC IP:
+export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.100
+# - Unknown PC IP:
+#   - Uncomment, and apply the IP, once you connect to the robot network, and `$ ifconfig | grep 192.168.1` to check your IP:
+# export ROS_AJ_IN_NETWORK_DESKTOP_PC_IP=192.168.1.x
+# export ROS_P51_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
+# export ROS_JX_IN_NETWORK_OEM_PC_IP=192.168.1.x
+# export ROS_P50s_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
+
 ## NETWORK PARAM: ##
 ### In-Network ROS Network Target: ###
 export ROS_CORE_HOSTER="SUMMIT-PC" # <--- [APPLY TO IN-NETWORK PCs ONLY] change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
@@ -204,19 +224,7 @@ export ROS_CORE_HOSTER="SUMMIT-PC" # <--- [APPLY TO IN-NETWORK PCs ONLY] change 
 #       - sync_ros_core_if_in_robot_network_else_localhost
 #       - ros_core_sync
 
-### Manually Registered: ###
-### [ Robot Network: UWARL-171102A_5G Wired ] ###
-export ROS_SUMMIT_IN_NETWORK_IP=192.168.1.11 # MAC Binded
-export ROS_WAM_IN_NETWORK_IP=192.168.1.10 # MAC Binded
-export ROS_DECK_IN_NETWORK_IP=192.168.1.15 # MAC Binded
-### [ Robot Network: UWARL-171102A_5G Wifi ] ###
-# DHCP , may change:
-export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.100
-# export ROS_AJ_IN_NETWORK_DESKTOP_PC_IP=192.168.1.x
-# export ROS_P51_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
-# export ROS_JX_IN_NETWORK_OEM_PC_IP=192.168.1.x
-# export ROS_P50s_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
-
+### if ROS_CORE_HOSTER="REMOTE-PC" is selected: ##
 # [USER:] please change this one if you want to direct it to your own PC to host ROSCORE:
 export ROS_EXTERNAL_PC_IN_NETWORK_IP=$ROS_JX_IN_NETWORK_PARALLEL_PC_IP 
 
@@ -455,7 +463,7 @@ function source_ros() {
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
-        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_JX_IN_NETWORK_PARALLEL_PC_IP 
     
     elif [[ $USER = "arnab" ]]; then
         # manual config:
@@ -467,7 +475,7 @@ function source_ros() {
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
-        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED 
     
     elif [[ $USER = "jx" ]]; then
         # manual config:
@@ -479,7 +487,7 @@ function source_ros() {
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
-        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED 
     
     elif [[ $USER = "uwarl-laptop-4" ]]; then
         export UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_4_JEONGWOO"
@@ -491,7 +499,7 @@ function source_ros() {
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
-        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED 
 
     elif [[ $USER = "uwarl" ]]; then
         export UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_3_SIMON"
@@ -503,7 +511,7 @@ function source_ros() {
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
-        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED 
 
     ### TEMPLATE:
     # elif [[ $USER = "{$USER}" ]]; then
@@ -516,7 +524,7 @@ function source_ros() {
     #     # welcome:
     #     ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
     #     # ros core:
-    #     sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP 
+    #     sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED 
 
     else
         ic_err " - UNREGISTERED PC detected!"
