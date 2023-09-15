@@ -2,7 +2,7 @@
 # TIPS: to debug the script, append first line with: `#!/usr/bin/zsh -x` (in specific zsh or in common.sh)
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/tim/sep-2023"
+export UWARL_catkin_ws_branch="universal/ros1/tim/sep-2023"
 
 #################################################################
 #    ## SUMMIT Side:
