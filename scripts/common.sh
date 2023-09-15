@@ -192,8 +192,17 @@ SUBMODULES_FOR_P50s_LENOVO=(
 
 #################################################################
 ## NETWORK PARAM: ##
-### User Defined: ###
-export ROS_CORE_HOSTER="LOCAL-HOSTS"  # <--- change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+### In-Network ROS Network Target: ###
+export ROS_CORE_HOSTER="SUMMIT-PC" # <--- [APPLY TO IN-NETWORK PCs ONLY] change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
+# NOTES:
+#   - Do not change, only if you know what you are doing. 
+#   - By default, ros-core is hosted by "SUMMIT-PC" (Adlink), and Adlink launches Roscore and roslaunch summit base node at the boot-up. ==> ROS_SUMMIT_IN_NETWORK_IP
+#   - "LOCAL-HOSTS" will enforce all on-board PC to create its own Roscoe and talk in an isolated network
+#   - "WAM-PC" will direct all traffic to WAM PC (Jetson), and requires roscore in WAM to be ran ==> ROS_WAM_IN_NETWORK_IP
+#   - "REMOTE-PC" will direct all traffic to an external PC in-network but not-on-robot physically. ==> ROS_EXTERNAL_PC_IN_NETWORK_IP
+#   - related topics: 
+#       - sync_ros_core_if_in_robot_network_else_localhost
+#       - ros_core_sync
 
 ### Manually Registered: ###
 ### [ Robot Network: UWARL-171102A_5G Wired ] ###
