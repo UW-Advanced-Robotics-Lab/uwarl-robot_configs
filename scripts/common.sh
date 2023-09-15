@@ -201,11 +201,17 @@ export ROS_DECK_IN_NETWORK_IP=192.168.1.15 # MAC Binded
 # - By default, you can use the template, if you are not planning to connect to the robot network:
 export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
 # - But, if you are connecting to the robot network, and tries to listen to the robot network:
-#   (DHCP , may change:)
+#   (DHCP , may change.)
+#   (USE CASE: if you want to listen to the robot ROS network, apply known PC IP instead of blocked IP.)
+#   - Then, the PC will automatically set the ROS_CORE to ROS_CORE_HOSTER specified, when connecting to the robot network.
+#   - And, remain localhost, when not connected to the robot network.
 # - Known PC IP:
 export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.100
-# - Unknown PC IP:
-#   - Uncomment, and apply the IP, once you connect to the robot network, and `$ ifconfig | grep 192.168.1` to check your IP:
+# - Unknown PC IP, to register into the robot network:
+#   - Once you connect to the robot network, and `$ ifconfig | grep 192.168.1` to check your IP
+#   - Uncomment, and apply the IP
+#   - Move to the Known PC IP section, once you have confirmed your IP.
+#   - And replace the ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED with your IP:
 # export ROS_AJ_IN_NETWORK_DESKTOP_PC_IP=192.168.1.x
 # export ROS_P51_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
 # export ROS_JX_IN_NETWORK_OEM_PC_IP=192.168.1.x

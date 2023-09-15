@@ -1,44 +1,44 @@
 <toc>
 
 # Table of Contents
-[*Last generated: Fri 30 Jun 2023 15:16:07 EDT*]
-- [Table of Contents](#table-of-contents)
-- [1. A brief about `uwarl-robot_configs`](#1-a-brief-about-uwarl-robot_configs)
-  - [1.1 How to Setup Workstation:](#11-how-to-setup-workstation)
-  - [1.2 How to Setup Platform Hardware:](#12-how-to-setup-platform-hardware)
-  - [1.3 How to Use Platform Toolchain and Maintain Workspace:](#13-how-to-use-platform-toolchain-and-maintain-workspace)
-  - [1.4 How to Launch the Robot:](#14-how-to-launch-the-robot)
-  - [1.5 How to Modify and Commit to Config Toolchains:](#15-how-to-modify-and-commit-to-config-toolchains)
-- [2. ⭐ Unified Development :construction:  \[Local PC / Summit / WAM\] (Melodic/Noetic):](#2--unified-development-construction--local-pc--summit--wam-melodicnoetic)
-  - [2.1 How to commit:](#21-how-to-commit)
-  - [2.2 How to Add a new modules under workspace/src:](#22-how-to-add-a-new-modules-under-workspacesrc)
-  - [2.3 \[The Branching Strategy\] How to branch for modifications:](#23-the-branching-strategy-how-to-branch-for-modifications)
-  - [2.4 Rebasing Branches:](#24-rebasing-branches)
-  - [2.5 Merging Your Branch:](#25-merging-your-branch)
-- [3. ROS UWARL\_catkin\_ws Usage Guide:](#3-ros-uwarl_catkin_ws-usage-guide)
-  - [3.1 Modifications:](#31-modifications)
-  - [3.2 Commit and Push:](#32-commit-and-push)
-  - [3.3 Pull latest repo:](#33-pull-latest-repo)
-  - [3.4 Restart over the catkin workspace:](#34-restart-over-the-catkin-workspace)
-  - [3.5 Shortcuts:](#35-shortcuts)
-    - [3.5.1 Short for ROS workspace:](#351-short-for-ros-workspace)
-    - [3.5.2 Short for OS Env.:](#352-short-for-os-env)
-    - [3.5.3 Short for UWARL\_catkin\_ws/src Commit:](#353-short-for-uwarl_catkin_wssrc-commit)
-    - [3.5.4 Short for Robot Config Toolchain:](#354-short-for-robot-config-toolchain)
-    - [3.5.5 Shorts for Git (Pretty)](#355-shorts-for-git-pretty)
-    - [3.5.6 Short Generation Tool for Markdown .md files:](#356-short-generation-tool-for-markdown-md-files)
-    - [3.5.7 Short for Tmux Multi-pane Session:](#357-short-for-tmux-multi-pane-session)
+[*Last generated: Fri 15 Sep 2023 10:10:30 EDT*]
+- [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
+  - [1.1 How to Setup Workstation:](#11-How-to-Setup-Workstation)
+    - [1.1.1 How to register your PC in common:](#111-How-to-register-your-PC-in-common)
+  - [1.2 How to Setup Platform Hardware:](#12-How-to-Setup-Platform-Hardware)
+  - [1.3 How to Use Platform Toolchain and Maintain Workspace:](#13-How-to-Use-Platform-Toolchain-and-Maintain-Workspace)
+  - [1.4 How to Launch the Robot:](#14-How-to-Launch-the-Robot)
+  - [1.5 How to Modify and Commit to Config Toolchains:](#15-How-to-Modify-and-Commit-to-Config-Toolchains)
+- [**2. ⭐ Unified Development :construction:  [Local PC / Summit / WAM] (Melodic/Noetic):**](#2-Unified-Development-construction-Local-PC-Summit-WAM-MelodicNoetic)
+  - [2.1 How to commit:](#21-How-to-commit)
+  - [2.2 How to Add a new modules under workspace/src:](#22-How-to-Add-a-new-modules-under-workspacesrc)
+  - [2.3 [The Branching Strategy] How to branch for modifications:](#23-The-Branching-Strategy-How-to-branch-for-modifications)
+  - [2.4 Rebasing Branches:](#24-Rebasing-Branches)
+  - [2.5 Merging Your Branch:](#25-Merging-Your-Branch)
+- [**3. ROS UWARL_catkin_ws Usage Guide:**](#3-ROS-UWARL_catkin_ws-Usage-Guide)
+  - [3.1 Modifications:](#31-Modifications)
+  - [3.2 Commit and Push:](#32-Commit-and-Push)
+  - [3.3 Pull latest repo:](#33-Pull-latest-repo)
+  - [3.4 Restart over the catkin workspace:](#34-Restart-over-the-catkin-workspace)
+  - [3.5 Shortcuts:](#35-Shortcuts)
+    - [3.5.1 Short for ROS workspace:](#351-Short-for-ROS-workspace)
+    - [3.5.2 Short for OS Env.:](#352-Short-for-OS-Env)
+    - [3.5.3 Short for UWARL_catkin_ws/src Commit:](#353-Short-for-UWARL_catkin_wssrc-Commit)
+    - [3.5.4 Short for Robot Config Toolchain:](#354-Short-for-Robot-Config-Toolchain)
+    - [3.5.5 Shorts for Git (Pretty)](#355-Shorts-for-Git-Pretty)
+    - [3.5.6 Short Generation Tool for Markdown .md files:](#356-Short-Generation-Tool-for-Markdown-md-files)
+    - [3.5.7 Short for Tmux Multi-pane Session:](#357-Short-for-Tmux-Multi-pane-Session)
       - [3.5.7.a) tmux configuration file:](#357a-tmux-configuration-file)
-    - [3.5.8 SUMMIT Systemctl Service:](#358-summit-systemctl-service)
-    - [3.5.9 JETSON Service:](#359-jetson-service)
-- [4. Tools:](#4-tools)
-  - [4.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:](#41-remote-desktop-auto-sleep-and-auto-wake-scheduling)
-  - [4.2 Remote Desktop without physical monitor (Headless Monitor):](#42-remote-desktop-without-physical-monitor-headless-monitor)
-- [A. Appendix:](#a-appendix)
-  - [A.1 File Tree:](#a1-file-tree)
-  - [A.2 ZSHRC Terminal Output After Installing:](#a2-zshrc-terminal-output-after-installing)
-  - [A.3 Environment Configurations:](#a3-environment-configurations)
-    - [A.3.1 summitxl\_params.env](#a31-summitxl_paramsenv)
+    - [3.5.8 SUMMIT Systemctl Service:](#358-SUMMIT-Systemctl-Service)
+    - [3.5.9 JETSON Service:](#359-JETSON-Service)
+- [**4. Tools:**](#4-Tools)
+  - [4.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:](#41-Remote-Desktop-Auto-Sleep-and-Auto-Wake-Scheduling)
+  - [4.2 Remote Desktop without physical monitor (Headless Monitor):](#42-Remote-Desktop-without-physical-monitor-Headless-Monitor)
+- [**A. Appendix:**](#A-Appendix)
+  - [A.1 File Tree:](#A1-File-Tree)
+  - [A.2 ZSHRC Terminal Output After Installing:](#A2-ZSHRC-Terminal-Output-After-Installing)
+  - [A.3 Environment Configurations:](#A3-Environment-Configurations)
+    - [A.3.1 summitxl_params.env](#A31-summitxl_paramsenv)
 
 ---
 </toc>
@@ -52,16 +52,20 @@ This repo will serve as auto-configuration tool to install `~/UWARL_catkin_ws` f
 > :warning: For more/latest setup tips, please refer to the [Lab Wiki Guide](https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Instructions) for details.
 
 ## 1.1 How to Setup Workstation:
-Please go to: https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Workstation-Setup
+Please go to: [> Link to Wiki Page: Platform Workstation Setup <](https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Workstation-Setup)
+
+### 1.1.1 How to register your PC in common:
+
+Please go to: [> Link to Wiki Page : Register your PC in common.sh <](https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Workstation-Setup#143-hot_pepper-register-your-pc--in-commonsh)
 
 ## 1.2 How to Setup Platform Hardware:
-Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Hardware-Setup
+Please go to:  [> Link to Wiki Page: Platform Hardware Setup <](https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Hardware-Setup)
 
 ## 1.3 How to Use Platform Toolchain and Maintain Workspace:
-Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Development
+Please go to:  [> Link to Wiki Page: Platform Development <](https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Development)
 
 ## 1.4 How to Launch the Robot:
-Please go to https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Launch-Instruction
+Please go to:  [> Link to Wiki Page: Platform Launch Instruction <](https://github.com/UW-Advanced-Robotics-Lab/lab-wiki/wiki/Waterloo-Steel%3APlatform-Launch-Instruction)
 
 ## 1.5 How to Modify and Commit to Config Toolchains:
 1. Make sure you checkout your own branch before modifying someone's branch:
@@ -584,7 +588,7 @@ $ sudo cp ~/uwarl-robot_configs/desktop/etc/X11/xorg.conf /etc/X11/xorg.conf
 ### A.3.1 summitxl_params.env
 
 Robot Configuration Description:
-   
+
 ```
      - ROBOT_ID indicates the name of the robot. This is the name of the namespace under all the nodes will be working. This is also used as the prefix of all the subcomponents.(*summit_xl*)
 
@@ -622,6 +626,7 @@ Robot Configuration Description:
  
      - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
 ```
+
 
 
 
