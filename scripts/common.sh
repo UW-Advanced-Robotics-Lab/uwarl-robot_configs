@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/arnab/session-jun-2023"
+export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
 
 #################################################################
 #    ## SUMMIT Side:
