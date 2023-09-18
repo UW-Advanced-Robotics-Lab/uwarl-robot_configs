@@ -122,7 +122,7 @@ Please go to:  [> Link to Wiki Page: Platform Launch Instruction <](https://gith
    # build ws from anywhere
    $ build_ws
    # source ws from anywhere
-   $ src_ws
+   $ source_ws
    ```
 
 5. (*) For hardware platform setup, please refer to [ [Waterloo-Steel:Platform-Setup.md](./Waterloo-Steel:Platform-Setup.md) ]
