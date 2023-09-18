@@ -205,6 +205,8 @@ SUBMODULES_FOR_TIM=(
     "uwarl-summit_xl_common"
     "uwarl-summit_xl_robot"
     "waterloo_steel"
+    ## Cart Side:
+    "wagon_tf_publisher"
     ## WAM Side:
     # "uwarl-barrett_wam_hw"    # not needed for simulation :  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
