@@ -211,6 +211,8 @@ SUBMODULES_FOR_TIM=(
     ## Research:
     #"vins-research-pkg"
     #"uwarl-sensor_calibr"
+    ## Simulation:
+    "velodyne_simulator"
 )
 
 
