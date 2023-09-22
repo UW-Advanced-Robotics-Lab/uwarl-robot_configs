@@ -249,9 +249,14 @@ function install_libbarrett_if_not(){
         ic "x--- Done installling libbarrett! "
         ic_err "[Reboot Required] Please reboot !"
     fi
-    if [[ -d "$HOME/.barrett" ]]; then
+    if [[ -L "$HOME/.barrett" ]]; then
         ic_wrn " [!] ~/.barrett local configurations link exists, skipping link configs ..."
     else
+        if [[ -d "$HOME/.barrett" ]]; then
+            ic_err " [X] ~/.barrett directory exists, backing up as ~/.barrett.bak, replacing with symlink"
+            mv $HOME/.barrett $HOME/.barrett.bak
+        fi
+
         ic_err " [X] ~/.barrett local configurations link is missing"
         ## NOTE: linking may be dangerous, TODO: need to investigate if linked config folder will crash 
         ic_wrn ">-- Linking $UWARL_CONFIGS/wam/.barrett >---> ~/.barrett"
