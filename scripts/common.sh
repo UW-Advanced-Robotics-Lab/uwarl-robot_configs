@@ -487,7 +487,7 @@ function source_ros() {
         # manual config:
         export UWARL_ROBOT_PC_NAME="JX_DESKTOP_JACK"
         export ROS_DISTRO=noetic
-        export DISPLAY=:1
+        export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
         # welcome:
@@ -552,7 +552,6 @@ function tmux_custom() {
         tmux source-file $UWARL_CONFIGS/scripts/.tmux.conf
     then
         ic_wrn "<tmux> could not be found! Please install first."
-        exit
     fi
 }
 
@@ -609,7 +608,7 @@ function tmux_sync () {
     if [ $# -lt 2 ]
     then
         ic_wrn "Tmux Sync Usage: $0 [session_name] [command_1]..."
-        exit 1
+        return 0
     fi
     
     session=$1
@@ -640,7 +639,7 @@ function tmux_usync () {
     if [ $# -lt 2 ]
     then
         ic_wrn "Tmux Unsync Usage: $0 [session_name] [command_1]..."
-        exit 1
+        return 0
     fi
     
     session=$1
