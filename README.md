@@ -1,7 +1,7 @@
 <toc>
 
 # Table of Contents
-[*Last generated: Fri 15 Sep 2023 10:10:30 EDT*]
+[*Last generated: Wed 27 Sep 2023 02:15:06 PM EDT*]
 - [**1. A brief about `uwarl-robot_configs`**](#1-A-brief-about-uwarl-robot_configs)
   - [1.1 How to Setup Workstation:](#11-How-to-Setup-Workstation)
     - [1.1.1 How to register your PC in common:](#111-How-to-register-your-PC-in-common)
@@ -31,6 +31,7 @@
       - [3.5.7.a) tmux configuration file:](#357a-tmux-configuration-file)
     - [3.5.8 SUMMIT Systemctl Service:](#358-SUMMIT-Systemctl-Service)
     - [3.5.9 JETSON Service:](#359-JETSON-Service)
+    - [3.5.10 Debug and Profiling in ROS](#3510-Debug-and-Profiling-in-ROS)
 - [**4. Tools:**](#4-Tools)
   - [4.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:](#41-Remote-Desktop-Auto-Sleep-and-Auto-Wake-Scheduling)
   - [4.2 Remote Desktop without physical monitor (Headless Monitor):](#42-Remote-Desktop-without-physical-monitor-Headless-Monitor)
@@ -519,6 +520,43 @@ jetson_info
 restart_udev
 ```
 
+### 3.5.10 Debug and Profiling in ROS
+1. build with debug: 
+   ```bash
+   $ build_ws_debug 
+   # OR:
+   $ build_ws --cmake-args -DCMAKE_BUILD_TYPE=Debug
+   ```
+2. rosrun with valgrind
+   ```bash
+      # normal program run:
+      $ rosrun vins vins_node $cam_config_file_path
+
+      # run with valgrind:
+      $ rosrun_valgrind vins vins_node $cam_config_file_path
+
+      # -> check error causing memory dump:
+      $ cat $HOME/valgrind_log.txt
+      ##### OUTPUT:
+      # ==134393== Memcheck, a memory error detector
+      # ==134393== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+      # ==134393== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+      # ==134393== Command: /home/parallels/UWARL_catkin_ws/devel/lib/vins/vins_node /home/parallels/UWARL_catkin_ws/src/vins-research-pkg/VINS-Fusion/config/uwarl_d455/mono_rgb_imu_config_dual.yaml
+      # ==134393== Parent PID: 134030
+      # ==134393==
+      # ==134393== Thread 7:
+      # ==134393== Invalid read of size 8
+      # ==134393==    at 0x4936B20: shared_count (shared_count.hpp:433)
+      # ==134393==    by 0x4936B20: shared_ptr (shared_ptr.hpp:422)
+      # ==134393==    by 0x4936B20: FeatureTracker::trackImage(double, cv::Mat const&, cv::Mat const&) (feature_tracker.cpp:199)
+      # ==134393==    by 0x48B184B: Estimator::inputImage(double, cv::Mat const&, cv::Mat const&) (estimator.cpp:167)
+      # ==134393==    by 0x19BCAB: sync_process() (rosNodeTest.cpp:126)
+      # ==134393==    by 0x56B2FAB: ??? (in /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.28)
+      # ==134393==    by 0x4E72623: start_thread (pthread_create.c:477)
+      # ==134393==    by 0x596B49B: thread_start (clone.S:78)
+      # ==134393==  Address 0x8 is not stack'd, malloc'd or (recently) free'd
+      # ==134393==
+   ```
 
 # 4. Tools:
 ## 4.1 Remote Desktop Auto-Sleep and Auto-Wake Scheduling:
@@ -626,6 +664,10 @@ Robot Configuration Description:
  
      - ROBOT_HAS_ARM indicates if the robot has an arm (*true/false*
 ```
+
+
+
+
 
 
 
