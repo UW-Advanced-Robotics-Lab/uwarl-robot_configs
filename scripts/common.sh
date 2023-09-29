@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-sept-2023"
+export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
 
 #################################################################
 #    ## SUMMIT Side:
@@ -470,8 +470,8 @@ function source_ros() {
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_JX_IN_NETWORK_PARALLEL_PC_IP 
-        # debugging:
-        export ROSCONSOLE_CONFIG_FILE=$UWARL_CONFIGS/scripts/uwarl-rosconsole.config # debug level
+        # console config:
+        export ROSCONSOLE_CONFIG_FILE=$UWARL_CONFIGS/scripts/configs/uwarl-rosconsole_jx.config # debug level
     
     elif [[ $USER = "arnab" ]]; then
         # manual config:
