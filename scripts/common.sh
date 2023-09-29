@@ -73,10 +73,10 @@ SUBMODULES_FOR_WAM=(
 # $USER = "parallels":
 SUBMODULES_FOR_JX_PARALLEL=(
     ## SUMMIT Side:
-    "multimap_server_msgs"
-    "system_monitor"
-    "uwarl-multimap_server"
-    "uwarl-robot_localization_utils"
+    # "multimap_server_msgs"
+    # "system_monitor"
+    # "uwarl-multimap_server"
+    # "uwarl-robot_localization_utils"
     # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
@@ -84,14 +84,14 @@ SUBMODULES_FOR_JX_PARALLEL=(
     "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
-    "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    # "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
     "uwarl-realsense_ros"       # [L515 Support]
     ## Research:
-    # "vins-research-pkg"
+    "vins-research-pkg"
     # "uwarl-sensor_calibr"
     ## Simulation:
-    "velodyne_simulator"
+    # "velodyne_simulator"
 )
 # $USER = "arnab":
 SUBMODULES_FOR_AJ_DESKTOP=(
@@ -470,6 +470,8 @@ function source_ros() {
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_JX_IN_NETWORK_PARALLEL_PC_IP 
+        # console config:
+        export ROSCONSOLE_CONFIG_FILE=$UWARL_CONFIGS/scripts/configs/uwarl-rosconsole_jx.config # debug level
     
     elif [[ $USER = "arnab" ]]; then
         # manual config:
@@ -487,7 +489,7 @@ function source_ros() {
         # manual config:
         export UWARL_ROBOT_PC_NAME="JX_DESKTOP_JACK"
         export ROS_DISTRO=noetic
-        export DISPLAY=:1
+        export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
         # welcome:
@@ -552,7 +554,6 @@ function tmux_custom() {
         tmux source-file $UWARL_CONFIGS/scripts/.tmux.conf
     then
         ic_wrn "<tmux> could not be found! Please install first."
-        exit
     fi
 }
 
@@ -609,7 +610,7 @@ function tmux_sync () {
     if [ $# -lt 2 ]
     then
         ic_wrn "Tmux Sync Usage: $0 [session_name] [command_1]..."
-        exit 1
+        return 0
     fi
     
     session=$1
@@ -640,7 +641,7 @@ function tmux_usync () {
     if [ $# -lt 2 ]
     then
         ic_wrn "Tmux Unsync Usage: $0 [session_name] [command_1]..."
-        exit 1
+        return 0
     fi
     
     session=$1

@@ -55,6 +55,14 @@ ic_bind_cmd md_toc_dir   "markdown_toc_directory"
 ## shortcut of shortcuts sequence
 ic_bind_cmd update_all   "cd_config && git pull &&"
 
+## shortcuts of rosrun debug:
+# 1. make sure build with debug: `$ build_ws --cmake-args -DCMAKE_BUILD_TYPE=Debug`
+ic_bind_cmd build_ws_debug  "build_ws -DCMAKE_BUILD_TYPE=Debug"
+# 2.a) rosrun_gdb: program crash with context
+ic_bind_cmd rosrun_gdb      "rosrun --prefix 'gdb -ex=run -ex=bt -ex=quit --args' " # [ros_pkg] [ros_node] [args]
+# 2.a) rosrun_valgrind: memory-related
+ic_bind_cmd rosrun_valgrind "rosrun --prefix 'valgrind --log-file="$HOME/valgrind_log.txt"' " # [ros_pkg] [ros_node] [args]
+
 ## Hardware specific shortcuts:
 ic_title "Hardware Specific Shortcuts: "
 case $UWARL_ROBOT_PC_NAME in
