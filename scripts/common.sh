@@ -73,10 +73,10 @@ SUBMODULES_FOR_WAM=(
 # $USER = "parallels":
 SUBMODULES_FOR_JX_PARALLEL=(
     ## SUMMIT Side:
-    "multimap_server_msgs"
-    "system_monitor"
-    "uwarl-multimap_server"
-    "uwarl-robot_localization_utils"
+    # "multimap_server_msgs"
+    # "system_monitor"
+    # "uwarl-multimap_server"
+    # "uwarl-robot_localization_utils"
     # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
@@ -84,14 +84,14 @@ SUBMODULES_FOR_JX_PARALLEL=(
     "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
-    "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    # "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
     "uwarl-realsense_ros"       # [L515 Support]
     ## Research:
-    # "vins-research-pkg"
+    "vins-research-pkg"
     # "uwarl-sensor_calibr"
     ## Simulation:
-    "velodyne_simulator"
+    # "velodyne_simulator"
 )
 # $USER = "arnab":
 SUBMODULES_FOR_AJ_DESKTOP=(
@@ -470,6 +470,8 @@ function source_ros() {
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_JX_IN_NETWORK_PARALLEL_PC_IP 
+        # debugging:
+        export ROSCONSOLE_CONFIG_FILE=$UWARL_CONFIGS/scripts/uwarl-rosconsole.config # debug level
     
     elif [[ $USER = "arnab" ]]; then
         # manual config:
