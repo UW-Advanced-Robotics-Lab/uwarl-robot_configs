@@ -60,8 +60,12 @@ ic_bind_cmd update_all   "cd_config && git pull &&"
 ic_bind_cmd build_ws_debug  "build_ws -DCMAKE_BUILD_TYPE=Debug"
 # 2.a) rosrun_gdb: program crash with context
 ic_bind_cmd rosrun_gdb      "rosrun --prefix 'gdb -ex=run -ex=bt -ex=quit --args' " # [ros_pkg] [ros_node] [args]
-# 2.a) rosrun_valgrind: memory-related
+# 2.b) rosrun_valgrind: memory-related
 ic_bind_cmd rosrun_valgrind "rosrun --prefix 'valgrind --log-file="$HOME/valgrind_log.txt"' " # [ros_pkg] [ros_node] [args]
+# 2.c) rosrun_valgrind: memory-related with memory leak check
+ic_bind_cmd rosrun_valgrind_leaky "rosrun --prefix 'valgrind --log-file="$HOME/valgrind_log.txt" --leak-check=full' " # [ros_pkg] [ros_node] [args]
+# 3. console out the report:
+ic_bind_cmd valgrind_report "cat $HOME/valgrind_log.txt" 
 
 ## Hardware specific shortcuts:
 ic_title "Hardware Specific Shortcuts: "
