@@ -216,6 +216,8 @@ SUBMODULES_FOR_TIM=(
     #"uwarl-sensor_calibr"
     ## Simulation:
     "velodyne_simulator"
+    # Add submodule for mujoco implementation
+    "uwarl-mujoco-summit-wam-sim" 
 )
 
 
