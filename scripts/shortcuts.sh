@@ -14,6 +14,7 @@ ic_bind_cmd check_status        "source $UWARL_CONFIGS/scripts/git_functions.sh 
 ic_bind_cmd update_ws           "zsh $UWARL_CONFIGS/scripts/auto-config_UWARL_catkin_ws.zsh"
 ic_bind_cmd git_log             "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 ic_bind_cmd sync_latest         "source $UWARL_CONFIGS/scripts/git_functions.sh && sync_latest"
+ic_bind_cmd jack                "zsh $UWARL_CONFIGS/scripts/auto-config_UWARL_catkin_ws.zsh && ic_wrn \" Jack has checked for you, no problem :) X_O \" "
 
 ### catkin build from anywhere:
 if [[ -v PYTHONPATH_ROS ]]; then

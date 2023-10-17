@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-sept-2023"
+export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
+# main: "waterloo_steel/universal/ros1/main", please reset before PR
 
 #################################################################
 #    ## SUMMIT Side:
@@ -139,7 +140,7 @@ SUBMODULES_FOR_JX_DESKTOP=( # [jx-research] Desktop
     "uwarl-realsense_ros"         # [L515 Support]
     ## Research:
     "vins-research-pkg"
-    # "uwarl-sensor_calibr"
+    "uwarl-sensor_calibr"
     ## Simulation:
     # "velodyne_simulator"
 )
