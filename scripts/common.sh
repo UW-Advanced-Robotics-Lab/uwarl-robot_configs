@@ -2,6 +2,7 @@
 #################################################################
 ## USER PARAM: ##
 export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
+# main: "waterloo_steel/universal/ros1/main", please reset before PR
 
 #################################################################
 #    ## SUMMIT Side:
@@ -71,7 +72,7 @@ SUBMODULES_FOR_WAM=(
 )
 #### USER DEFINED PC: ####
 # $USER = "parallels":
-SUBMODULES_FOR_JX_PARALLEL=(
+SUBMODULES_FOR_JX_PARALLEL=( # [jx-research] Virtual Machine
     ## SUMMIT Side:
     # "multimap_server_msgs"
     # "system_monitor"
@@ -121,12 +122,12 @@ SUBMODULES_FOR_AJ_DESKTOP=(
     "velodyne_simulator"
 )
 # $USER = "jx":
-SUBMODULES_FOR_JX_DESKTOP=(
+SUBMODULES_FOR_JX_DESKTOP=( # [jx-research] Desktop
     ## SUMMIT Side:
-    "multimap_server_msgs"
-    "system_monitor"
-    "uwarl-multimap_server"
-    "uwarl-robot_localization_utils"
+    # "multimap_server_msgs"
+    # "system_monitor"
+    # "uwarl-multimap_server"
+    # "uwarl-robot_localization_utils"
     # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
     "uwarl-robotnik_msgs"
     "uwarl-robotnik_sensors"
@@ -134,12 +135,14 @@ SUBMODULES_FOR_JX_DESKTOP=(
     "uwarl-summit_xl_robot"
     "waterloo_steel"
     ## WAM Side:
-    "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
+    # "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
-    "uwarl-realsense_ros"       # [L515 Support]
+    "uwarl-realsense_ros"         # [L515 Support]
     ## Research:
     "vins-research-pkg"
     "uwarl-sensor_calibr"
+    ## Simulation:
+    # "velodyne_simulator"
 )
 # $USER = "uwarl-laptop-4"
 SUBMODULES_FOR_P51_LENOVO=(
