@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
+export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-sept-2023"
 # main: "waterloo_steel/universal/ros1/main", please reset before PR
 
 #################################################################
@@ -609,6 +609,10 @@ function tmux_multi_pane () {
 }
 
 function tmux_sync () {
+    ################ 
+    # Enable multiple tmux panels with given session name, and distribute commands into independent panels,
+    # Sync: panels keyboard input are synchronized, ctrl-C to kill all the panels.
+    ##
     set -e
     if [ $# -lt 2 ]
     then
@@ -628,6 +632,7 @@ function tmux_sync () {
     cmd1=$1
     shift
     tmux send -t $session:0 "$cmd1" C-m
+    tmux set -g mouse on    # enable mouse :P
     for i in "$@"
     do
         tmux splitw -t $session -l 1
@@ -640,6 +645,10 @@ function tmux_sync () {
 }
 
 function tmux_usync () {
+    ################ 
+    # Enable multiple tmux panels with given session name, and distribute commands into independent panels,
+    # Usync: panels input are NOT synchronized
+    ##
     set -e
     if [ $# -lt 2 ]
     then
@@ -659,6 +668,7 @@ function tmux_usync () {
     cmd1=$1
     shift
     tmux send -t $session:0 "$cmd1" C-m
+    tmux set -g mouse on    # enable mouse :P
     for i in "$@"
     do
         tmux splitw -t $session -l 1
