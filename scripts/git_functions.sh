@@ -583,13 +583,13 @@ function install_roscore_systemctl_service(){
     # load system services:
     #[OPTIONAL] roscore only:
     ic "  + roscore only"
-    sudo cp ~/uwarl-robot_configs/summit/user_services/roscore.service /usr/lib/systemd/user
+    ic_copy_su ~/uwarl-robot_configs/summit/user_services/roscore.service /usr/lib/systemd/user
     #[this one] roscore and roslaunch:
     ic "  + roscore and roslaunch"
-    sudo cp ~/uwarl-robot_configs/summit/user_services/roscorelaunch@.service /usr/lib/systemd/user
+    ic_copy_su ~/uwarl-robot_configs/summit/user_services/roscorelaunch@.service /usr/lib/systemd/user
     #[OPTIONAL] depends on remote roscore:
     ic "  + roslaunch w/o roscore"
-    sudo cp ~/uwarl-robot_configs/summit/user_services/roslaunch@.service /usr/lib/systemd/user 
+    ic_copy_su ~/uwarl-robot_configs/summit/user_services/roslaunch@.service /usr/lib/systemd/user 
     
     ic_wrn "  ... relaunching systemctl ..."
     systemctl --user daemon-reload
