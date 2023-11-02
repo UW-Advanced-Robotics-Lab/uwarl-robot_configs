@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# TIPS: to debug the script, append first line with: `#!/usr/bin/zsh -x` (in specific zsh or in common.sh)
 #################################################################
 ## USER PARAM: ##
 export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
@@ -302,6 +303,15 @@ function ic_source () {
     echo -e "${CYAN}[UWARL-Robot_Config]   > Sourcing ${YELLOW} $2 ${BLUE} @ $1 ${NC}"
     source $1
 }
+function ic_copy () {
+    echo -e "${CYAN}[UWARL-Robot_Config]  ${RED} > Copy -> ${YELLOW} \`$2\` ${CYAN} <--- ${BLUE} \`$1\` ${NC}"
+    cp $1 $2
+}
+function ic_copy_su () {
+    # red to indicate its sudo / password may required
+    echo -e "${RED}[UWARL-Robot_Config]    > Copy -> ${YELLOW} \`$2\` ${CYAN} <--- ${BLUE} \`$1\` ${NC}"
+    sudo cp $1 $2
+}
 
 #################################################################
 ### AUTO SYSTEM CONFIG: ###
@@ -426,7 +436,7 @@ function source_ros() {
         # export PYTHONPATH_ROS=/usr/bin/python3
         # export PYTHONPATH=$PYTHONPATH_ROS
         # ===> update environment files in .ros:
-        sudo cp $UWARL_CONFIGS/summit/user_services/environment $HOME/.ros/environment
+        ic_copy $UWARL_CONFIGS/summit/user_services/environment $HOME/.ros/environment
         # welcome:
         ic_wrn " - Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
@@ -609,6 +619,10 @@ function tmux_multi_pane () {
 }
 
 function tmux_sync () {
+    ################ 
+    # Enable multiple tmux panels with given session name, and distribute commands into independent panels,
+    # Sync: panels keyboard input are synchronized, ctrl-C to kill all the panels.
+    ##
     set -e
     if [ $# -lt 2 ]
     then
@@ -628,6 +642,7 @@ function tmux_sync () {
     cmd1=$1
     shift
     tmux send -t $session:0 "$cmd1" C-m
+    tmux set -g mouse on    # enable mouse :P
     for i in "$@"
     do
         tmux splitw -t $session -l 1
@@ -640,6 +655,10 @@ function tmux_sync () {
 }
 
 function tmux_usync () {
+    ################ 
+    # Enable multiple tmux panels with given session name, and distribute commands into independent panels,
+    # Usync: panels input are NOT synchronized
+    ##
     set -e
     if [ $# -lt 2 ]
     then
@@ -659,6 +678,7 @@ function tmux_usync () {
     cmd1=$1
     shift
     tmux send -t $session:0 "$cmd1" C-m
+    tmux set -g mouse on    # enable mouse :P
     for i in "$@"
     do
         tmux splitw -t $session -l 1

@@ -2,8 +2,16 @@ source "$HOME/uwarl-robot_configs/scripts/common.sh"
 
 ic " > Path of ROS Catkin Workspace: $ROS_CATKIN_WS"
 echo "" # empty line
-## kill processor:
+## utilities:
+### kill processor:
 ic_bind_cmd kill-ros            "ps aux  | grep -e ros | awk '{print $2}' | xargs -i -exec kill -9 {}"
+
+### No Machine & Display (tip: disable to free resources):
+ic_bind_cmd stop_display      "sudo systemctl stop display-manager && sudo /etc/NX/nxserver --restart"
+ic_bind_cmd start_display     "sudo systemctl start display-manager && sudo /etc/NX/nxserver --restart"
+
+### CPU profies:
+ic_bind_cmd cpu_stats         "top -i"
 
 ## Catkin Workspace:
 ### Git:
