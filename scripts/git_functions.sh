@@ -249,9 +249,14 @@ function install_libbarrett_if_not(){
         ic "x--- Done installling libbarrett! "
         ic_err "[Reboot Required] Please reboot !"
     fi
-    if [[ -d "$HOME/.barrett" ]]; then
+    if [[ -L "$HOME/.barrett" ]]; then
         ic_wrn " [!] ~/.barrett local configurations link exists, skipping link configs ..."
     else
+        if [[ -d "$HOME/.barrett" ]]; then
+            ic_err " [X] ~/.barrett directory exists, backing up as ~/.barrett.bak, replacing with symlink"
+            mv $HOME/.barrett $HOME/.barrett.bak
+        fi
+
         ic_err " [X] ~/.barrett local configurations link is missing"
         ## NOTE: linking may be dangerous, TODO: need to investigate if linked config folder will crash 
         ic_wrn ">-- Linking $UWARL_CONFIGS/wam/.barrett >---> ~/.barrett"
@@ -578,13 +583,13 @@ function install_roscore_systemctl_service(){
     # load system services:
     #[OPTIONAL] roscore only:
     ic "  + roscore only"
-    sudo cp ~/uwarl-robot_configs/summit/user_services/roscore.service /usr/lib/systemd/user
+    ic_copy_su ~/uwarl-robot_configs/summit/user_services/roscore.service /usr/lib/systemd/user
     #[this one] roscore and roslaunch:
     ic "  + roscore and roslaunch"
-    sudo cp ~/uwarl-robot_configs/summit/user_services/roscorelaunch@.service /usr/lib/systemd/user
+    ic_copy_su ~/uwarl-robot_configs/summit/user_services/roscorelaunch@.service /usr/lib/systemd/user
     #[OPTIONAL] depends on remote roscore:
     ic "  + roslaunch w/o roscore"
-    sudo cp ~/uwarl-robot_configs/summit/user_services/roslaunch@.service /usr/lib/systemd/user 
+    ic_copy_su ~/uwarl-robot_configs/summit/user_services/roslaunch@.service /usr/lib/systemd/user 
     
     ic_wrn "  ... relaunching systemctl ..."
     systemctl --user daemon-reload

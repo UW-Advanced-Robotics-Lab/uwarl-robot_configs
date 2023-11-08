@@ -1,4 +1,6 @@
 #!/usr/bin/env zsh
+# TIPS: to debug the script, append first line with: `#!/usr/bin/zsh -x` (here or in common.sh)
+#################################################################
 source "$HOME/uwarl-robot_configs/scripts/common.sh"
 source "$HOME/uwarl-robot_configs/scripts/git_functions.sh"
 
@@ -72,8 +74,8 @@ case $UWARL_ROBOT_PC_NAME in
         ic " > Loading Deck workspace submodules:"
         load_submodules "${SUBMODULES_FOR_DECK[@]}"
         ic " > Create a controller app @ the desktop!"
-        cp $HOME/uwarl-robot_configs/deck/uwarl_controller.desktop $HOME/Desktop
-        cp $HOME/uwarl-robot_configs/deck/uwarl_rviz.desktop $HOME/Desktop
+        ic_copy $HOME/uwarl-robot_configs/deck/uwarl_controller.desktop $HOME/Desktop
+        ic_copy $HOME/uwarl-robot_configs/deck/uwarl_rviz.desktop $HOME/Desktop
     ;;
     "PARALLELS_VM_JACK")
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"

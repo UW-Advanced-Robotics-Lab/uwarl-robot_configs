@@ -2,8 +2,16 @@ source "$HOME/uwarl-robot_configs/scripts/common.sh"
 
 ic " > Path of ROS Catkin Workspace: $ROS_CATKIN_WS"
 echo "" # empty line
-## kill processor:
+## utilities:
+### kill processor:
 ic_bind_cmd kill-ros            "ps aux  | grep -e ros | awk '{print $2}' | xargs -i -exec kill -9 {}"
+
+### No Machine & Display (tip: disable to free resources):
+ic_bind_cmd stop_display      "sudo systemctl stop display-manager && sudo /etc/NX/nxserver --restart"
+ic_bind_cmd start_display     "sudo systemctl start display-manager && sudo /etc/NX/nxserver --restart"
+
+### CPU profies:
+ic_bind_cmd cpu_stats         "top -i"
 
 ## Catkin Workspace:
 ### Git:
@@ -14,6 +22,7 @@ ic_bind_cmd check_status        "source $UWARL_CONFIGS/scripts/git_functions.sh 
 ic_bind_cmd update_ws           "zsh $UWARL_CONFIGS/scripts/auto-config_UWARL_catkin_ws.zsh"
 ic_bind_cmd git_log             "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 ic_bind_cmd sync_latest         "source $UWARL_CONFIGS/scripts/git_functions.sh && sync_latest"
+ic_bind_cmd jack                "zsh $UWARL_CONFIGS/scripts/auto-config_UWARL_catkin_ws.zsh && ic_wrn \" Jack has checked for you, no problem :) X_O \" "
 
 ### catkin build from anywhere:
 if [[ -v PYTHONPATH_ROS ]]; then
@@ -54,6 +63,18 @@ ic_bind_cmd md_toc_dir   "markdown_toc_directory"
 
 ## shortcut of shortcuts sequence
 ic_bind_cmd update_all   "cd_config && git pull &&"
+
+## shortcuts of rosrun debug:
+# 1. make sure build with debug: `$ build_ws --cmake-args -DCMAKE_BUILD_TYPE=Debug`
+ic_bind_cmd build_ws_debug  "build_ws -DCMAKE_BUILD_TYPE=Debug"
+# 2.a) rosrun_gdb: program crash with context
+ic_bind_cmd rosrun_gdb      "rosrun --prefix 'gdb -ex=run -ex=bt -ex=quit --args' " # [ros_pkg] [ros_node] [args]
+# 2.b) rosrun_valgrind: memory-related
+ic_bind_cmd rosrun_valgrind "rosrun --prefix 'valgrind --log-file="$HOME/valgrind_log.txt"' " # [ros_pkg] [ros_node] [args]
+# 2.c) rosrun_valgrind: memory-related with memory leak check
+ic_bind_cmd rosrun_valgrind_leaky "rosrun --prefix 'valgrind --log-file="$HOME/valgrind_log.txt" --leak-check=full' " # [ros_pkg] [ros_node] [args]
+# 3. console out the report:
+ic_bind_cmd valgrind_report "cat $HOME/valgrind_log.txt" 
 
 ## Hardware specific shortcuts:
 ic_title "Hardware Specific Shortcuts: "
