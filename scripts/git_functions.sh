@@ -529,7 +529,7 @@ function install_ros_noetic(){
     ic_title "Installing ROS Noetic ..."
 
     ic "> Appending the ROS Noetic package list to sources.list"
-    sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu ${version} main\" > /etc/apt/sources.list.d/ros-latest.list"
+    sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $LOCAL_DISTRIB_CODENAME main\" > /etc/apt/sources.list.d/ros-latest.list"
 
     #Checking file added or not
     if [ ! -e /etc/apt/sources.list.d/ros-latest.list ]; then

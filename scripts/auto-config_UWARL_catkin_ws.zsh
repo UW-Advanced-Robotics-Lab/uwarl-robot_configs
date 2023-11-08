@@ -77,7 +77,7 @@ case $UWARL_ROBOT_PC_NAME in
         ic_copy $HOME/uwarl-robot_configs/deck/uwarl_controller.desktop $HOME/Desktop
         ic_copy $HOME/uwarl-robot_configs/deck/uwarl_rviz.desktop $HOME/Desktop
     ;;
-    "PARALLELS_VM_JACK")
+    "PARALLEL_VM_JACK")
         load_submodules "${SUBMODULES_FOR_JX_PARALLEL[@]}"
     ;;
     "ARL_DESKTOP_ARNAB")

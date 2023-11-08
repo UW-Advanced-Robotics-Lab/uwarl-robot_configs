@@ -72,7 +72,7 @@ SUBMODULES_FOR_WAM=(
     "uwarl-vicon_bridge"
 )
 #### USER DEFINED PC: ####
-# $USER = "parallels":
+# $USER = "parallel":
 SUBMODULES_FOR_JX_PARALLEL=( # [jx-research] Virtual Machine
     ## SUMMIT Side:
     # "multimap_server_msgs"
@@ -88,10 +88,10 @@ SUBMODULES_FOR_JX_PARALLEL=( # [jx-research] Virtual Machine
     ## WAM Side:
     # "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
-    "uwarl-realsense_ros"       # [L515 Support]
+    "uwarl-realsense_ros"         # [L515 Support]
     ## Research:
     "vins-research-pkg"
-    # "uwarl-sensor_calibr"
+    "uwarl-sensor_calibr"
     ## Simulation:
     # "velodyne_simulator"
 )
@@ -472,9 +472,9 @@ function source_ros() {
         sync_ros_core_if_in_robot_network_else_localhost $ROS_DECK_IN_NETWORK_IP 
         
     ### user defined out-of-network PC:
-    elif [[ $USER = "parallels" ]]; then
+    elif [[ $USER = "parallel" ]]; then
         # manual config:
-        export UWARL_ROBOT_PC_NAME="PARALLELS_VM_JACK"
+        export UWARL_ROBOT_PC_NAME="PARALLEL_VM_JACK"
         export ROS_DISTRO=noetic
         export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
