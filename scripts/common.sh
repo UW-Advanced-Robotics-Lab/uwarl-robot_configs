@@ -2,7 +2,7 @@
 # TIPS: to debug the script, append first line with: `#!/usr/bin/zsh -x` (in specific zsh or in common.sh)
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
+export UWARL_catkin_ws_branch="universal/ros1/data-analysis/session-sept-2023"
 # main: "waterloo_steel/universal/ros1/main", please reset before PR
 
 #################################################################
@@ -669,7 +669,7 @@ function tmux_usync () {
     session=$1
     shift
     tmux start-server
-    tmux new -d -s $session
+    tmux new -d -s $session     # <--[create a detached session]
     # tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
     on_error() {
         tmux kill-session -t $session
@@ -683,6 +683,42 @@ function tmux_usync () {
     do
         tmux splitw -t $session -l 1
         tmux send -t $session:0.1 "$i" C-m
+        tmux selectp -t $session:0.0
+        tmux selectl -t $session tiled
+    done
+    tmux a -t $session
+}
+
+function tmux_usync_no_run () {
+    ################ 
+    # Enable multiple tmux panels with given session name, and distribute commands into independent panels,
+    # Usync: panels input are NOT synchronized 
+    # no_run: do not run these commands
+    ##
+    set -e
+    if [ $# -lt 2 ]
+    then
+        ic_wrn "Tmux Unsync Usage: $0 [session_name] [command_1]..."
+        return 0
+    fi
+    
+    session=$1
+    shift
+    tmux start-server
+    tmux new -d -s $session     # <--[create a detached session]
+    # tmux source-file $UWARL_CONFIGS/desktop/tmux.conf
+    on_error() {
+        tmux kill-session -t $session
+    }
+    trap on_error ERR
+    cmd1=$1
+    shift
+    tmux send -t $session:0 "$cmd1" #C-m: no run
+    tmux set -g mouse on    # enable mouse :P
+    for i in "$@"
+    do
+        tmux splitw -t $session -l 1
+        tmux send -t $session:0.1 "$i" #C-m: no run
         tmux selectp -t $session:0.0
         tmux selectl -t $session tiled
     done
