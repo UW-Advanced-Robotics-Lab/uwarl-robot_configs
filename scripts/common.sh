@@ -210,7 +210,7 @@ export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
 #   - Then, the PC will automatically set the ROS_CORE to ROS_CORE_HOSTER specified, when connecting to the robot network.
 #   - And, remain localhost, when not connected to the robot network.
 # - Known PC IP:
-export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.100
+export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
 # - Unknown PC IP, to register into the robot network:
 #   - Once you connect to the robot network, and `$ ifconfig | grep 192.168.1` to check your IP
 #   - Uncomment, and apply the IP
