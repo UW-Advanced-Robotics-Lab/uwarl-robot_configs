@@ -70,6 +70,9 @@ SUBMODULES_FOR_WAM=(
     "uwarl-realsense_ros"    # [L515 Support]
     ## Vicon Tracker:
     "uwarl-vicon_bridge"
+    ## [Jack Xu]'s research package:
+    "vins-research-pkg"
+    "uwarl-sensor_calibr"
 )
 #### USER DEFINED PC: ####
 # $USER = "parallel":
