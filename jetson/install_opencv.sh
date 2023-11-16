@@ -22,15 +22,16 @@ fi
 cleanup () {
 # https://stackoverflow.com/questions/226703/how-do-i-prompt-for-yes-no-cancel-input-in-a-linux-shell-script
     while true ; do
-        ic "Do you wish to remove temporary build files in ${JX_LINUX}/build_opencv ?  (yes/no)"
+        ic_wrn "Do you wish to remove temporary build files in ${JX_LINUX}/build_opencv ?  (yes/no)"
         if ! [[ "$1" -eq "--test-warning" ]] ; then
-            ic "(Doing so may make running tests on the build later impossible)"
+            ic_wrn "(Doing so may make running tests on the build later impossible)"
         fi
         read rm_old
 
         if [ "$rm_old" = "yes" ]; then
             ic "** Remove other OpenCV first"
             sudo apt -y purge *libopencv*
+            sudo rm -rf ${JX_LINUX}/build_opencv
             break
         elif [ "$rm_old" = "no" ]; then
             break
@@ -53,7 +54,8 @@ setup () {
 }
 
 git_source () {
-    ic_title "Getting version '$1' of OpenCV (2/4)"
+    local version=$1
+    ic_title "Getting version '$version' of OpenCV (2/4)"
     cd $JX_LINUX/build_opencv
     curl -L https://github.com/opencv/opencv/archive/${version}.zip -o opencv-${version}.zip
     curl -L https://github.com/opencv/opencv_contrib/archive/${version}.zip -o opencv_contrib-${version}.zip
@@ -73,11 +75,12 @@ install_dependencies () {
     sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
     sudo apt-get install -y python3.8-dev python-dev python-numpy python3-numpy
     sudo apt-get install -y libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev
-    sudo apt-get install -y libv4l-dev v4l-utils qv4l2 v4l2ucp
+    sudo apt-get install -y libv4l-dev v4l-utils qv4l2
     sudo apt-get install -y curl
 }
 
 configure () {
+    local version=$1
     local CMAKEFLAGS="
         -D BUILD_EXAMPLES=OFF
         -D BUILD_opencv_python2=ON
@@ -101,7 +104,7 @@ configure () {
         -D WITH_LIBV4L=ON
         -D WITH_OPENGL=ON"
 
-    if [[ "$1" != "test" ]] ; then
+    if [[ "$2" != "test" ]] ; then
         CMAKEFLAGS="
         ${CMAKEFLAGS}
         -D BUILD_PERF_TESTS=OFF
@@ -110,7 +113,7 @@ configure () {
 
     echo "cmake flags: ${CMAKEFLAGS}"
 
-    cd opencv
+    cd $JX_LINUX/build_opencv/opencv-${version}/
     mkdir build
     cd build
     cmake ${CMAKEFLAGS} .. 2>&1 | tee -a configure.log
@@ -134,9 +137,9 @@ main () {
     git_source ${VER}
 
     if [[ ${DO_TEST} ]] ; then
-        configure test
+        configure ${VER} test
     else
-        configure
+        configure ${VER}
     fi
 
     # start the build
