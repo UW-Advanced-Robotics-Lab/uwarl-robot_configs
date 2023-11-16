@@ -72,7 +72,7 @@ SUBMODULES_FOR_WAM=(
     "uwarl-vicon_bridge"
     ## [Jack Xu]'s research package:
     "vins-research-pkg"
-    "uwarl-sensor_calibr"
+    # "uwarl-sensor_calibr"
 )
 #### USER DEFINED PC: ####
 # $USER = "parallel":
