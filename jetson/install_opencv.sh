@@ -6,13 +6,13 @@ set -e
 
 # change default constants here:
 readonly PREFIX=/usr/local  # install prefix, (can be ~/.local for a user install)
-readonly DEFAULT_VERSION=4.5.0  # controls the default version (gets reset by the first argument)
+readonly DEFAULT_VERSION=4.6.0  # controls the default version (gets reset by the first argument)
 readonly CPUS=$(nproc)  # controls the number of jobs
 
 # better board detection. if it has 6 or more cpus, it probably has a ton of ram too
 if [[ $CPUS -gt 5 ]]; then
     # something with a ton of ram
-    JOBS=$CPUS
+    JOBS=$[ $CPUS - 1 ]
     ic "Build with all cpus n:$CPUS"
 else
     JOBS=1  # you can set this to 4 if you have a swap file
@@ -22,23 +22,30 @@ fi
 cleanup () {
 # https://stackoverflow.com/questions/226703/how-do-i-prompt-for-yes-no-cancel-input-in-a-linux-shell-script
     while true ; do
-        echo "Do you wish to remove temporary build files in ${JX_LINUX}/build_opencv ? "
+        ic "Do you wish to remove temporary build files in ${JX_LINUX}/build_opencv ?  (yes/no)"
         if ! [[ "$1" -eq "--test-warning" ]] ; then
-            echo "(Doing so may make running tests on the build later impossible)"
+            ic "(Doing so may make running tests on the build later impossible)"
         fi
-        read -p "Y/N " yn
-        case ${yn} in
-            [Yy]* ) rm -rf $JX_LINUX/build_opencv ; break;;
-            [Nn]* ) exit ;;
-            * ) echo "Please answer yes or no." ;;
-        esac
+        read rm_old
+
+        if [ "$rm_old" = "yes" ]; then
+            ic "** Remove other OpenCV first"
+            sudo apt -y purge *libopencv*
+            break
+        elif [ "$rm_old" = "no" ]; then
+            break
+        else
+            ic_wrn "Please answer yes or no"
+            exit 0
+        fi
     done
 }
 
 setup () {
+    ic_title "Prep (1/4)"
     cd $JX_LINUX
     if [[ -d "build_opencv" ]] ; then
-        echo "It appears an existing build exists in ${JX_LINUX}/build_opencv"
+        ic "It appears an existing build exists in ${JX_LINUX}/build_opencv"
         cleanup
     fi
     mkdir build_opencv
@@ -46,60 +53,28 @@ setup () {
 }
 
 git_source () {
-    echo "Getting version '$1' of OpenCV"
-    git clone --depth 1 --branch "$1" https://github.com/opencv/opencv.git
-    git clone --depth 1 --branch "$1" https://github.com/opencv/opencv_contrib.git
+    ic_title "Getting version '$1' of OpenCV (2/4)"
+    cd $JX_LINUX/build_opencv
+    curl -L https://github.com/opencv/opencv/archive/${version}.zip -o opencv-${version}.zip
+    curl -L https://github.com/opencv/opencv_contrib/archive/${version}.zip -o opencv_contrib-${version}.zip
+    unzip opencv-${version}.zip
+    unzip opencv_contrib-${version}.zip
+    rm opencv-${version}.zip opencv_contrib-${version}.zip
+    cd opencv-${version}/
 }
 
 install_dependencies () {
     # open-cv has a lot of dependencies, but most can be found in the default
     # package repository or should already be installed (eg. CUDA).
-    echo "Installing build dependencies."
+    ic_title "Installing build dependencies. (1/4)"
     sudo apt-get update
     sudo apt-get dist-upgrade -y --autoremove
-    sudo apt-get install -y \
-        build-essential \
-        cmake \
-        git \
-        gfortran \
-        libatlas-base-dev \
-        libavcodec-dev \
-        libavformat-dev \
-        libavresample-dev \
-        libcanberra-gtk3-module \
-        libdc1394-22-dev \
-        libeigen3-dev \
-        libglew-dev \
-        libgstreamer-plugins-base1.0-dev \
-        libgstreamer-plugins-good1.0-dev \
-        libgstreamer1.0-dev \
-        libgtk-3-dev \
-        libjpeg-dev \
-        libjpeg8-dev \
-        libjpeg-turbo8-dev \
-        liblapack-dev \
-        liblapacke-dev \
-        libopenblas-dev \
-        libpng-dev \
-        libpostproc-dev \
-        libswscale-dev \
-        libtbb-dev \
-        libtbb2 \
-        libtesseract-dev \
-        libtiff-dev \
-        libv4l-dev \
-        libxine2-dev \
-        libxvidcore-dev \
-        libx264-dev \
-        pkg-config \
-        python-dev \
-        python-numpy \
-        python3-dev \
-        python3-numpy \
-        python3-matplotlib \
-        qv4l2 \
-        v4l-utils \
-        zlib1g-dev
+    sudo apt-get install -y build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+    sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+    sudo apt-get install -y python3.8-dev python-dev python-numpy python3-numpy
+    sudo apt-get install -y libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev
+    sudo apt-get install -y libv4l-dev v4l-utils qv4l2 v4l2ucp
+    sudo apt-get install -y curl
 }
 
 configure () {
@@ -117,7 +92,7 @@ configure () {
         -D ENABLE_NEON=ON
         -D OPENCV_DNN_CUDA=ON
         -D OPENCV_ENABLE_NONFREE=ON
-        -D OPENCV_EXTRA_MODULES_PATH=${JX_LINUX}/build_opencv/opencv_contrib/modules
+        -D OPENCV_EXTRA_MODULES_PATH=${JX_LINUX}/build_opencv/opencv_contrib-${version}/modules
         -D OPENCV_GENERATE_PKGCONFIG=ON
         -D WITH_CUBLAS=ON
         -D WITH_CUDA=ON
@@ -153,7 +128,6 @@ main () {
     if [[ "$#" -gt 1 ]] && [[ "$2" == "test" ]] ; then
         DO_TEST=1
     fi
-    ic_title "Prep ..."
     # prepare for the build:
     setup
     install_dependencies
@@ -166,24 +140,26 @@ main () {
     fi
 
     # start the build
-    ic_title "Building ..."
+    ic_title "Building ... (3/4)"
     make -j${JOBS} 2>&1 | tee -a build.log
 
-    ic_title "Testing ..."
     if [[ ${DO_TEST} ]] ; then
         make test 2>&1 | tee -a test.log
     fi
 
-    ic_title "Install ..."
+    ic_title "Install ... (4/4)"
+    ic_wrn "This will take a while"
     # avoid a sudo make install (and root owned files in ~) if $PREFIX is writable
     if [[ -w ${PREFIX} ]] ; then
         make install 2>&1 | tee -a install.log
     else
         sudo make install 2>&1 | tee -a install.log
     fi
+    echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ~/.zshrc
+    echo 'export PYTHONPATH=/usr/local/lib/python3.8/site-packages/:$PYTHONPATH' >> ~/.zshrc
 
-    cleanup --test-warning
-
+    ic_title "OpenCV ${VER} ready to be used"
+    ic "Bye :-)"
 }
 
 main "$@"
