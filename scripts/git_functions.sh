@@ -275,7 +275,7 @@ function uninstall_librealsense(){
         rm -rf $candidate_path
     else
         ic_err " [!] No librealsense in $candidate_path"
-    end
+    fi
 }
 
 function install_librealsense_if_not(){
