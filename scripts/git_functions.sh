@@ -266,6 +266,18 @@ function install_libbarrett_if_not(){
     fi
 }
 
+function uninstall_librealsense(){
+    ic_title "Removing librealsense from $JX_LINUX ..."
+    local candidate_path="$JX_LINUX/librealsense"
+    if [[ -d "$candidate_path" ]]; then
+        dpkg -l | grep "realsense" | cut -d " " -f 3 | xargs sudo dpkg --purge
+        ic_wrn " [!] Removing librealsense package!"
+        rm -rf $candidate_path
+    else
+        ic_err " [!] No librealsense in $candidate_path"
+    end
+}
+
 function install_librealsense_if_not(){
     ic_title "Installing librealsense into $JX_LINUX ..."
     local candidate_path="$JX_LINUX/librealsense"

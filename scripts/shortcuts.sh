@@ -76,6 +76,9 @@ ic_bind_cmd rosrun_valgrind_leaky "rosrun --prefix 'valgrind --log-file="$HOME/v
 # 3. console out the report:
 ic_bind_cmd valgrind_report "cat $HOME/valgrind_log.txt" 
 
+## others:
+ic_bind_cmd uninstall_librealsense "source ~/uwarl-robot_configs/scripts/git_functions.sh && uninstall_librealsense"
+
 ## Hardware specific shortcuts:
 ic_title "Hardware Specific Shortcuts: "
 case $UWARL_ROBOT_PC_NAME in
