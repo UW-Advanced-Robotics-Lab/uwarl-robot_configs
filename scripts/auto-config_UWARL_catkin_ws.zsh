@@ -36,6 +36,8 @@ if [[ -d "$ROS_CATKIN_WS/src" ]]; then
 else
     create_catkin_ws
     ic_wrn " [x] $ROS_CATKIN_WS/src has been created"
+    init_catkin_config
+    ic_wrn " [x] $ROS_CATKIN_WS/src has been initialized with catkin configuration"
 fi
 
 if [[ -d "$JX_LINUX" ]]; then
