@@ -2,7 +2,7 @@
 # TIPS: to debug the script, append first line with: `#!/usr/bin/zsh -x` (in specific zsh or in common.sh)
 #################################################################
 ## USER PARAM: ##
-eport UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
+export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
 # main: "waterloo_steel/universal/ros1/main", please reset before PR
 
 #################################################################
@@ -70,6 +70,9 @@ SUBMODULES_FOR_WAM=(
     "uwarl-realsense_ros"    # [L515 Support]
     ## Vicon Tracker:
     "uwarl-vicon_bridge"
+    ## [Jack Xu]'s research package:
+    "vins-research-pkg"
+    # "uwarl-sensor_calibr"
 )
 #### USER DEFINED PC: ####
 # $USER = "parallel":
@@ -238,7 +241,7 @@ export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
 #   - Then, the PC will automatically set the ROS_CORE to ROS_CORE_HOSTER specified, when connecting to the robot network.
 #   - And, remain localhost, when not connected to the robot network.
 # - Known PC IP:
-export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.100
+export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
 # - Unknown PC IP, to register into the robot network:
 #   - Once you connect to the robot network, and `$ ifconfig | grep 192.168.1` to check your IP
 #   - Uncomment, and apply the IP
