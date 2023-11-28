@@ -101,6 +101,10 @@ case $UWARL_ROBOT_PC_NAME in
     "UWARL_LAPTOP_3_SIMON")
         load_submodules "${SUBMODULES_FOR_P50s_LENOVO[@]}"
     ;;
+    "UWARL_LAPTOP_3_TIM")
+        load_submodules "${SUBMODULES_FOR_TIM[@]}"
+        install_misc_utilities # misc apt 
+    ;;
     # [DEFAULT]:
     *)
         ic_err " >>> ERROR: Auto-installation Is Empty, Unknown PC!"
