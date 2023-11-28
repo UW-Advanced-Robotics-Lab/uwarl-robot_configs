@@ -536,6 +536,15 @@ function log_submodule_status(){
     ic "x- Done indexing submodules."
 }
 
+function init_catkin_config(){
+    # pre-req: 
+    ic_title "Initialize Catkin Config ..."
+    cd $ROS_CATKIN_WS
+    catkin init 
+    catkin config --extend /opt/ros/$ROS_DISTRO
+    catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
+    ic "x- Done initing catkin workspace."
+}
 
 function install_ros_noetic(){
     ic_title "Installing ROS Noetic ..."
@@ -569,13 +578,12 @@ function install_ros_noetic(){
     sudo apt update
     ic "> Installing ROS ... (might take a while)"
     apt_install -y ros-noetic-desktop-full
-    source /opt/ros/noetic/setup.zsh
+    ic_source /opt/ros/$ROS_DISTRO/setup.zsh "ROS_DISTRO=$ROS_DISTRO"
     ic_wrn "x- Done ROS installation."
 
     ic "> install Catkin Build tools ... "
     apt_install python3-pip
     sudo pip3 install -U catkin_tools
-    catkin config --extend /opt/ros/noetic
     ic_wrn "x- Done Catkin Tools"
 
     # additional toolsets:
