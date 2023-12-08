@@ -569,7 +569,8 @@ function source_ros() {
         export UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_3_TIM"
         # manual config:
         export ROS_DISTRO=noetic
-        export DISPLAY=$DISPLAY_DEFAULT
+        export DISPLAY=:1 # <-- if you get an error like 'Invalid MIT-MAGIC-COOKIE-1 key', change the display value.
+        # export DISPLAY=$DISPLAY_DEFAULT
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
         # welcome:
