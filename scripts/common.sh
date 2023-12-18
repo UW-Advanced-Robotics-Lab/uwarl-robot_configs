@@ -563,13 +563,13 @@ function source_ros() {
         export PYTHONPATH_ROS=/usr/bin/python3
         export PYTHONPATH=$PYTHONPATH_ROS
         # console config:
-        export ROSCONSOLE_CONFIG_FILE=$UWARL_CONFIGS/scripts/configs/uwarl-rosconsole_{$USER}.config # debug level
+        export ROSCONSOLE_CONFIG_FILE=$UWARL_CONFIGS/scripts/configs/uwarl-rosconsole_$USER.config # debug level
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED
         # ===> Copy configuration files in .ros:
-        ic_copy $UWARL_CONFIGS/scripts/configs/uwarl-rosconsole.config $UWARL_CONFIGS/scripts/configs/uwarl-rosconsole_{$USER}.config
+        ic_copy $UWARL_CONFIGS/scripts/configs/uwarl-rosconsole.config $UWARL_CONFIGS/scripts/configs/uwarl-rosconsole_$USER.config
     
     elif [[ $USER = "jx" ]]; then
         # manual config:
