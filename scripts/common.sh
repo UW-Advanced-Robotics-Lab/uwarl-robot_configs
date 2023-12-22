@@ -71,7 +71,7 @@ SUBMODULES_FOR_WAM=(
     ## Vicon Tracker:
     "uwarl-vicon_bridge"
     ## [Jack Xu]'s research package:
-    "vins-research-pkg"
+    # "vins-research-pkg"
     # "uwarl-sensor_calibr"
 )
 #### USER DEFINED PC: ####
