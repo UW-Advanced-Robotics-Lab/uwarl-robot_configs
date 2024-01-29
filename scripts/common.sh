@@ -2,7 +2,7 @@
 # TIPS: to debug the script, append first line with: `#!/usr/bin/zsh -x` (in specific zsh or in common.sh)
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
+export UWARL_catkin_ws_branch="universal/ros1/arnab/nov-2023"
 # main: "waterloo_steel/universal/ros1/main", please reset before PR
 
 #################################################################
@@ -114,7 +114,7 @@ SUBMODULES_FOR_AJ_DESKTOP=(
     ## Cart Side:
     "wagon_tf_publisher"
     ## WAM Trajectory controller tutorial (pilz)
-    "pilz_tutorial"
+    # "pilz_tutorial"
     ## WAM Side:
     "uwarl-barrett_wam_hw"      # : Enabled for local dev.  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
@@ -124,6 +124,8 @@ SUBMODULES_FOR_AJ_DESKTOP=(
     # "uwarl-sensor_calibr"
     ## Simulation:
     "velodyne_simulator"
+    # Add submodule for mujoco implementation
+    "uwarl-mujoco-summit-wam-sim"
 )
 # $USER = "arnabx17":
 SUBMODULES_FOR_AJ_X17=(
