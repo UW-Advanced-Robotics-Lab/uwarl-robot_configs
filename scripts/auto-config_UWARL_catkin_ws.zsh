@@ -89,10 +89,6 @@ case $UWARL_ROBOT_PC_NAME in
         install_pcan_if_not NETDEV_SUPPORT
         install_libbarrett_if_not
     ;;
-    "arnabx17-Alienware-x17-R2")
-        load_submodules "${SUBMODULES_FOR_AJ_X17[@]}"
-        install_misc_utilities # misc apt
-    ;;
     "JX_DESKTOP_JACK")
         load_submodules "${SUBMODULES_FOR_JX_DESKTOP[@]}"
         install_misc_utilities # misc apt 
