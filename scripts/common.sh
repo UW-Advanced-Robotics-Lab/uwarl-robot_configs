@@ -43,6 +43,7 @@ SUBMODULES_FOR_DECK=(
     "uwarl-barrett_wam_msgs"
 )
 # $USER = "uwarl":
+# test comment
 SUBMODULES_FOR_SUMMIT=(
     ## SUMMIT Side:
     "multimap_server_msgs"
