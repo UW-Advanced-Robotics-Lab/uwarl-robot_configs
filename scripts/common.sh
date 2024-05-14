@@ -99,6 +99,34 @@ SUBMODULES_FOR_JX_PARALLEL=( # [jx-research] Virtual Machine
     ## Simulation:
     # "velodyne_simulator"
 )
+
+SUBMODULES_FOR_Koda_Laptop=(
+   ## SUMMIT Side:
+    "multimap_server_msgs"
+    "system_monitor"
+    "uwarl-multimap_server"
+    "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    ## Cart Side:
+    "wagon_tf_publisher"
+    ## WAM Side:
+    # "uwarl-barrett_wam_hw"    # not needed for simulation :  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    #"uwarl-realsense_ros"      # [L515 Support]
+    ## Research:
+    #"vins-research-pkg"
+    #"uwarl-sensor_calibr"
+    ## Simulation:
+    "velodyne_simulator"
+    # Add submodule for mujoco implementation
+    "uwarl-mujoco-summit-wam-sim" 
+)
+
 # $USER = "arnab":
 SUBMODULES_FOR_AJ_DESKTOP=(
     ## SUMMIT Side:
