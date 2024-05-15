@@ -263,7 +263,7 @@ export ROS_WAM_IN_NETWORK_IP=192.168.1.10 # MAC Binded
 export ROS_DECK_IN_NETWORK_IP=192.168.1.15 # MAC Binded
 ### [ Robot Network: UWARL-171102A_5G Wifi ] ###
 # - By default, you can use the template, if you are not planning to connect to the robot network:
-export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
+export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.100
 # - But, if you are connecting to the robot network, and tries to listen to the robot network:
 #   (DHCP , may change.)
 #   (USE CASE: if you want to listen to the robot ROS network, apply known PC IP instead of blocked IP.)
