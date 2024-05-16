@@ -16,7 +16,7 @@ else
     ic_err " ERROR::ROS does not exist, maybe you have not yet installed ROS?"
     ### Attempt to install ROS:
     case $LOCAL_DISTRIB_CODENAME in
-        "focal" )
+        "bionic" )
             ic_wrn "Attempting to auto-install ROS melodic for Jetson!"
             install_ros_melodic
             ic "Continue ..."
