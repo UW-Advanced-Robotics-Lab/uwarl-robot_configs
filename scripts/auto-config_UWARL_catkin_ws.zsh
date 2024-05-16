@@ -17,8 +17,8 @@ else
     ### Attempt to install ROS:
     case $LOCAL_DISTRIB_CODENAME in
         "focal" )
-            ic_wrn "Attempting to auto-install ROS Noetic for Jetson!"
-            install_ros_noetic
+            ic_wrn "Attempting to auto-install ROS melodic for Jetson!"
+            install_ros_melodic
             ic "Continue ..."
         ;;
         *)
