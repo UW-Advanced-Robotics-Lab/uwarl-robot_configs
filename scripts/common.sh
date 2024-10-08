@@ -74,6 +74,9 @@ SUBMODULES_FOR_WAM=(
     ## [Jack Xu]'s research package:
     "vins-research-pkg"
     # "uwarl-sensor_calibr"
+    #
+    # #[Corey Cazes]'s research package:
+    "aruco_ros"
 )
 #### USER DEFINED PC: ####
 # $USER = "parallel":
