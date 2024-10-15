@@ -2,7 +2,7 @@
 # TIPS: to debug the script, append first line with: `#!/usr/bin/zsh -x` (in specific zsh or in common.sh)
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="waterloo_steel/universal/ros1/main"
+export UWARL_catkin_ws_branch="universal/ros1/corey/may-2024"
 # main: "waterloo_steel/universal/ros1/main", please reset before PR
 
 #################################################################
@@ -43,6 +43,7 @@ SUBMODULES_FOR_DECK=(
     "uwarl-barrett_wam_msgs"
 )
 # $USER = "uwarl":
+# test comment
 SUBMODULES_FOR_SUMMIT=(
     ## SUMMIT Side:
     "multimap_server_msgs"
@@ -73,6 +74,9 @@ SUBMODULES_FOR_WAM=(
     ## [Jack Xu]'s research package:
     "vins-research-pkg"
     # "uwarl-sensor_calibr"
+    #
+    # #[Corey Cazes]'s research package:
+    "aruco_ros"
 )
 #### USER DEFINED PC: ####
 # $USER = "parallel":
@@ -98,6 +102,34 @@ SUBMODULES_FOR_JX_PARALLEL=( # [jx-research] Virtual Machine
     ## Simulation:
     # "velodyne_simulator"
 )
+
+SUBMODULES_FOR_Koda_Laptop=(
+   ## SUMMIT Side:
+    "multimap_server_msgs"
+    "system_monitor"
+    "uwarl-multimap_server"
+    "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    ## Cart Side:
+    "wagon_tf_publisher"
+    ## WAM Side:
+    # "uwarl-barrett_wam_hw"    # not needed for simulation :  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    #"uwarl-realsense_ros"      # [L515 Support]
+    ## Research:
+    #"vins-research-pkg"
+    #"uwarl-sensor_calibr"
+    ## Simulation:
+    "velodyne_simulator"
+    # Add submodule for mujoco implementation
+    "uwarl-mujoco-summit-wam-sim" 
+)
+
 # $USER = "arnab":
 SUBMODULES_FOR_AJ_DESKTOP=(
     ## SUMMIT Side:
@@ -234,7 +266,7 @@ export ROS_WAM_IN_NETWORK_IP=192.168.1.10 # MAC Binded
 export ROS_DECK_IN_NETWORK_IP=192.168.1.15 # MAC Binded
 ### [ Robot Network: UWARL-171102A_5G Wifi ] ###
 # - By default, you can use the template, if you are not planning to connect to the robot network:
-export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
+export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.100
 # - But, if you are connecting to the robot network, and tries to listen to the robot network:
 #   (DHCP , may change.)
 #   (USE CASE: if you want to listen to the robot ROS network, apply known PC IP instead of blocked IP.)
@@ -577,6 +609,18 @@ function source_ros() {
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP
+    
+    elif [[ $USER = "corey" ]]; then
+        # manual config:
+        export UWARL_ROBOT_PC_NAME="corey-ThinkPad"
+        export ROS_DISTRO=noetic
+        export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED 
 
     ## TEMPLATE:
     # elif [[ $USER = "{$USER}" ]]; then
