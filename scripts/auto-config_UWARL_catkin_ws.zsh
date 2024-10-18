@@ -105,6 +105,13 @@ case $UWARL_ROBOT_PC_NAME in
         load_submodules "${SUBMODULES_FOR_TIM[@]}"
         install_misc_utilities # misc apt 
     ;;
+    "UWARL_LAPTOP_SIMON")
+        load_submodules "${SUBMODULES_FOR_SIMON[@]}"
+        install_misc_utilities # misc apt 
+        install_librealsense_if_not # for Intel Sensors
+    ;;
+
+
     # [DEFAULT]:
     *)
         ic_err " >>> ERROR: Auto-installation Is Empty, Unknown PC!"

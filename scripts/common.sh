@@ -224,6 +224,35 @@ SUBMODULES_FOR_TIM=(
     "uwarl-mujoco-summit-wam-sim" 
 )
 
+# $USER = "ubuntu":
+SUBMODULES_FOR_SIMON=(
+    ## SUMMIT Side:
+    "multimap_server_msgs"
+    "system_monitor"
+    "uwarl-multimap_server"
+    "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    ## Cart Side:
+    "wagon_tf_publisher"
+    ## WAM Side:
+    "uwarl-barrett_wam_hw"    # not needed for simulation :  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    "uwarl-realsense_ros"      # [L515 Support]
+    ## Research:
+    #"vins-research-pkg"
+    #"uwarl-sensor_calibr"
+    ## Simulation:
+    "velodyne_simulator"
+    # Add submodule for mujoco implementation
+    "uwarl-mujoco-summit-wam-sim" 
+)
+
+
 
 #################################################################
 ### Manually Registered: ###
@@ -577,6 +606,20 @@ function source_ros() {
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP
+
+    elif [[ $USER = "ubuntu" ]]; then
+        export UWARL_ROBOT_PC_NAME="UWARL_LAPTOP_SIMON"
+        # manual config:
+        export ROS_DISTRO=noetic
+        export DISPLAY=:1 # <-- if you get an error like 'Invalid MIT-MAGIC-COOKIE-1 key', change the display value.
+        # export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP
+
 
     ## TEMPLATE:
     # elif [[ $USER = "{$USER}" ]]; then
