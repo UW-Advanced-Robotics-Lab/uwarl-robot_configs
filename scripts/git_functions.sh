@@ -321,6 +321,12 @@ function install_librealsense_if_not(){
         elif [[ $UWARL_ROBOT_PC_NAME = "JX_DESKTOP_JACK" ]]; then
             ic_wrn "[Detected :: JX Computer] Building with native kernel backend, and without CUDA !!"
             cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true
+        elif [[ $UWARL_ROBOT_PC_NAME = "UWARL_LAPTOP_SIMON" ]]; then
+            ic_wrn "[Detected :: JX Computer] Building with native kernel backend, and without CUDA !!"
+            cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true     
+        elif [[ $UWARL_ROBOT_PC_NAME = "UWARL_LAPTOP_SIMON_JX_DESKTOP" ]]; then
+            ic_wrn "[Detected :: JX Computer] Building with native kernel backend, and without CUDA !!"
+            cmake ../ -DBUILD_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=false -DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_PYTHON_BINDINGS=true  -DBUILD_GRAPHICAL_EXAMPLES=true     
         else
             ic_err "[Librealsense installation NOT defined for [$UWARL_ROBOT_PC_NAME] computer] please specify in \`git_functions\`"
         fi

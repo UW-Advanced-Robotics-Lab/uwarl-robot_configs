@@ -110,7 +110,12 @@ case $UWARL_ROBOT_PC_NAME in
         install_misc_utilities # misc apt 
         install_librealsense_if_not # for Intel Sensors
     ;;
-
+    "UWARL_LAPTOP_SIMON_JX_DESKTOP")
+        load_submodules "${SUBMODULES_FOR_JX_DESKTOP[@]}"
+        install_misc_utilities # misc apt 
+        install_libbarrett_if_not
+        install_librealsense_if_not # for Intel Sensors
+    ;;
 
     # [DEFAULT]:
     *)
