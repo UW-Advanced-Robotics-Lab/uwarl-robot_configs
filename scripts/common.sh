@@ -140,6 +140,7 @@ SUBMODULES_FOR_AJ_X17=(
     "uwarl-summit_xl_common"
     "uwarl-summit_xl_robot"
     "waterloo_steel"
+    "uwarl_mujoco_ros_msgs"
     ## Cart Side:
     "wagon_tf_publisher"
     "cart_mpc" # For maneuvering cart
