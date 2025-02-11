@@ -128,6 +128,8 @@ SUBMODULES_FOR_Koda_Laptop=(
     "velodyne_simulator"
     # Add submodule for mujoco implementation
     "uwarl-mujoco-summit-wam-sim" 
+    # #[Corey Cazes]'s research package:
+    "aruco_ros"
 )
 
 # $USER = "arnab":
