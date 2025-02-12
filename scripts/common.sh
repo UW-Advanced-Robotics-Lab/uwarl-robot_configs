@@ -130,6 +130,7 @@ SUBMODULES_FOR_Koda_Laptop=(
     "uwarl-mujoco-summit-wam-sim" 
     # #[Corey Cazes]'s research package:
     "aruco_ros"
+    "Bottle_Segmentation"
 )
 
 # $USER = "arnab":
