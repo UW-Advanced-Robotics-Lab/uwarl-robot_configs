@@ -287,6 +287,8 @@ export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
 # export ROS_JX_IN_NETWORK_OEM_PC_IP=192.168.1.x
 # export ROS_P50s_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
 
+export ROS_CC_IN_NETWORK_PARALLEL_PC_IP=192.168.1.100
+
 ## NETWORK PARAM: ##
 ### In-Network ROS Network Target: ###
 export ROS_CORE_HOSTER="SUMMIT-PC" # <--- [APPLY TO IN-NETWORK PCs ONLY] change it to localhost \in ["SUMMIT-PC", "WAM-PC", "REMOTE-PC", "LOCAL-HOSTS"]
@@ -623,7 +625,7 @@ function source_ros() {
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
-        sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED 
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_CC_IN_NETWORK_PARALLEL_PC_IP
 
     ## TEMPLATE:
     # elif [[ $USER = "{$USER}" ]]; then
