@@ -131,6 +131,7 @@ SUBMODULES_FOR_Koda_Laptop=(
     # #[Corey Cazes]'s research package:
     "aruco_ros"
     "Bottle_Segmentation"
+    "barrett-wam-arm"
 )
 
 # $USER = "arnab":
