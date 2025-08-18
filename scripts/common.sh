@@ -113,6 +113,7 @@ SUBMODULES_FOR_AJ_DESKTOP=(
     ## Cart Side:
     "wagon_tf_publisher"
     "cart_mpc" # For maneuvering cart
+    "oa_mpc"    # Occlusion-aware path planning
     ## WAM Trajectory controller tutorial (pilz)
     # "pilz_tutorial"
     ## WAM Side:
