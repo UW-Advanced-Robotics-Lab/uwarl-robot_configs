@@ -2,7 +2,7 @@
 # TIPS: to debug the script, append first line with: `#!/usr/bin/zsh -x` (in specific zsh or in common.sh)
 #################################################################
 ## USER PARAM: ##
-export UWARL_catkin_ws_branch="universal/ros1/arnab/nov-2023"
+export UWARL_catkin_ws_branch="universal/ros1/arnab/feb-2025"
 # main: "waterloo_steel/universal/ros1/main", please reset before PR
 
 #################################################################
@@ -145,6 +145,7 @@ SUBMODULES_FOR_AJ_X17=(
     ## Cart Side:
     "wagon_tf_publisher"
     "cart_mpc" # For maneuvering cart
+    "oa_mpc"    # Occlusion-aware path planning
     ## WAM Side:
     "uwarl-barrett_wam_hw"    # not needed for simulation :  # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
