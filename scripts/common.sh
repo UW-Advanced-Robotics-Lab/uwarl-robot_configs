@@ -127,6 +127,8 @@ SUBMODULES_FOR_AJ_DESKTOP=(
     "velodyne_simulator"
     # Add submodule for mujoco implementation
     "uwarl-mujoco-summit-wam-sim"
+    ## Vicon Tracker:
+    "uwarl-vicon_bridge"
 )
 # $USER = "arnabx17":
 SUBMODULES_FOR_AJ_X17=(
