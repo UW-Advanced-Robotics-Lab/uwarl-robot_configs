@@ -68,6 +68,9 @@ SUBMODULES_FOR_WAM=(
     "uwarl-barrett_wam_hw"   # [x86_64, aarch64/arm64]
     "uwarl-barrett_wam_msgs"
     "uwarl-realsense_ros"    # [L515 Support]
+    ## Cart Side:
+    "cart_mpc" # For maneuvering cart
+    "oa_mpc"    # Occlusion-aware path planning
     ## Vicon Tracker:
     "uwarl-vicon_bridge"
     # "uwarl-sensor_calibr"
