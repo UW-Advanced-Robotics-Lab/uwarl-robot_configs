@@ -71,6 +71,7 @@ SUBMODULES_FOR_WAM=(
     ## Cart Side:
     "cart_mpc" # For maneuvering cart
     "oa_mpc"    # Occlusion-aware path planning
+    "uwarl_mujoco_ros_msgs"
     ## Vicon Tracker:
     "uwarl-vicon_bridge"
     # "uwarl-sensor_calibr"
