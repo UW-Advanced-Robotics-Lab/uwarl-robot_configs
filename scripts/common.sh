@@ -133,6 +133,7 @@ SUBMODULES_FOR_Koda_Laptop=(
     "Bottle_Segmentation"
     "barrett-wam-arm"
     "uwarl-barrett_wam_hw"
+    "CDCVS_HQP"
 )
 
 # $USER = "arnab":
