@@ -77,6 +77,9 @@ SUBMODULES_FOR_WAM=(
     #
     # #[Corey Cazes]'s research package:
     "aruco_ros"
+    "Bottle_Segmentation"
+    "CDCVS_HQP"
+
 )
 #### USER DEFINED PC: ####
 # $USER = "parallel":
