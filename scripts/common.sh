@@ -283,6 +283,7 @@ export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
 #   - And, remain localhost, when not connected to the robot network.
 # - Known PC IP:
 export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
+export ROS_AJ_X17_IN_NETWORK_DESKTOP_PC_IP=192.168.1.102
 # - Unknown PC IP, to register into the robot network:
 #   - Once you connect to the robot network, and `$ ifconfig | grep 192.168.1` to check your IP
 #   - Uncomment, and apply the IP
@@ -581,7 +582,7 @@ function source_ros() {
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
-        sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_AJ_X17_IN_NETWORK_DESKTOP_PC_IP
         # ===> Copy configuration files in .ros:
         ic_copy $UWARL_CONFIGS/scripts/configs/uwarl-rosconsole.config $UWARL_CONFIGS/scripts/configs/uwarl-rosconsole_$USER.config
     
