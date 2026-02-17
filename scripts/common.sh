@@ -137,6 +137,8 @@ SUBMODULES_FOR_Koda_Laptop=(
     "barrett-wam-arm"
     "uwarl-barrett_wam_hw"
     "CDCVS_HQP"
+    "uwarl-vicon_bridge"
+    
 )
 
 # $USER = "arnab":
@@ -293,7 +295,7 @@ export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
 # export ROS_JX_IN_NETWORK_OEM_PC_IP=192.168.1.x
 # export ROS_P50s_IN_NETWORK_LENOVO_PC_IP=192.168.1.x
 
-export ROS_CC_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
+export ROS_CC_IN_NETWORK_PARALLEL_PC_IP=192.168.1.103
 
 ## NETWORK PARAM: ##
 ### In-Network ROS Network Target: ###
