@@ -284,6 +284,7 @@ export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
 # - Known PC IP:
 export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
 export ROS_AJ_X17_IN_NETWORK_DESKTOP_PC_IP=192.168.1.102
+export ROS_AJ_DESKTOP_IN_NETWORK_IP=192.168.1.100
 # - Unknown PC IP, to register into the robot network:
 #   - Once you connect to the robot network, and `$ ifconfig | grep 192.168.1` to check your IP
 #   - Uncomment, and apply the IP
@@ -569,7 +570,7 @@ function source_ros() {
         # welcome:
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
-        sync_ros_core_if_in_robot_network_else_localhost $ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED 
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_AJ_DESKTOP_IN_NETWORK_IP 
     elif [[ $USER = "arnabx17" ]]; then
         # manual config:
         export UWARL_ROBOT_PC_NAME="arnabx17-Alienware-x17-R2"
