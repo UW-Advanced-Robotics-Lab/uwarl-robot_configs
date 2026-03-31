@@ -95,6 +95,12 @@ case $UWARL_ROBOT_PC_NAME in
         install_libbarrett_if_not
         install_librealsense_if_not # for Intel Sensors
     ;;
+    "corey-ThinkPad")
+        load_submodules "${SUBMODULES_FOR_Koda_Laptop[@]}"
+        install_misc_utilities # misc apt 
+        install_libbarrett_if_not
+        install_librealsense_if_not # for Intel Sensors
+    ;;
     "UWARL_LAPTOP_4_JEONGWOO")
         load_submodules "${SUBMODULES_FOR_P51_LENOVO[@]}"
     ;;
