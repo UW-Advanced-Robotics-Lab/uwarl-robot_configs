@@ -100,6 +100,38 @@ SUBMODULES_FOR_JX_PARALLEL=( # [jx-research] Virtual Machine
     ## Simulation:
     # "velodyne_simulator"
 )
+# $USER = "corey":
+SUBMODULES_FOR_Koda_Laptop=(
+   ## SUMMIT Side:
+    "multimap_server_msgs"
+    "system_monitor"
+    "uwarl-multimap_server"
+    "uwarl-robot_localization_utils"
+    # "uwarl-robotnik_base_hw"  # not needed for simulation !  # [x86_64 only]
+    "uwarl-robotnik_msgs"
+    "uwarl-robotnik_sensors"
+    "uwarl-summit_xl_common"
+    "uwarl-summit_xl_robot"
+    "waterloo_steel"
+    "uwarl_mujoco_ros_msgs"
+    ## Cart Side:
+    "wagon_tf_publisher"
+    "cart_mpc" # For maneuvering cart
+    "oa_mpc"    # Occlusion-aware path planning
+    ## WAM Side:
+    "uwarl-barrett_wam_hw"    # not needed for simulation :  # [x86_64, aarch64/arm64]
+    "uwarl-barrett_wam_msgs"
+    #"uwarl-realsense_ros"      # [L515 Support]
+    ## Research:
+    #"vins-research-pkg"
+    #"uwarl-sensor_calibr"
+    ## Simulation:
+    "velodyne_simulator"
+    # Add submodule for mujoco implementation
+    "uwarl-mujoco-summit-wam-sim" 
+    ## Vicon Tracker:
+    "uwarl-vicon_bridge"
+)
 # $USER = "arnab":
 SUBMODULES_FOR_AJ_DESKTOP=(
     ## SUMMIT Side:
@@ -285,6 +317,7 @@ export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
 export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
 export ROS_AJ_X17_IN_NETWORK_DESKTOP_PC_IP=192.168.1.102
 export ROS_AJ_DESKTOP_IN_NETWORK_IP=192.168.1.100
+export ROS_CC_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
 # - Unknown PC IP, to register into the robot network:
 #   - Once you connect to the robot network, and `$ ifconfig | grep 192.168.1` to check your IP
 #   - Uncomment, and apply the IP
@@ -635,6 +668,18 @@ function source_ros() {
         ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
         # ros core:
         sync_ros_core_if_in_robot_network_else_localhost $ROS_EXTERNAL_PC_IN_NETWORK_IP
+    
+    elif [[ $USER = "corey" ]]; then
+        # manual config:
+        export UWARL_ROBOT_PC_NAME="corey-ThinkPad"
+        export ROS_DISTRO=noetic
+        export DISPLAY=$DISPLAY_DEFAULT
+        export PYTHONPATH_ROS=/usr/bin/python3
+        export PYTHONPATH=$PYTHONPATH_ROS
+        # welcome:
+        ic_wrn " - NON-Robot PC User [$UWARL_ROBOT_PC_NAME] detected!"
+        # ros core:
+        sync_ros_core_if_in_robot_network_else_localhost $ROS_CC_IN_NETWORK_PARALLEL_PC_IP
 
     ## TEMPLATE:
     # elif [[ $USER = "{$USER}" ]]; then
