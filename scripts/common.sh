@@ -315,7 +315,7 @@ export ROS_IN_NETWORK_EXTERNAL_PC_IP_BLOCKED=192.168.1.0
 #   - And, remain localhost, when not connected to the robot network.
 # - Known PC IP:
 export ROS_JX_IN_NETWORK_PARALLEL_PC_IP=192.168.1.101
-export ROS_AJ_X17_IN_NETWORK_DESKTOP_PC_IP=192.168.1.100
+export ROS_AJ_X17_IN_NETWORK_DESKTOP_PC_IP=192.168.1.101
 export ROS_AJ_DESKTOP_IN_NETWORK_IP=192.168.1.102
 export ROS_CC_IN_NETWORK_PARALLEL_PC_IP=192.168.1.102
 # - Unknown PC IP, to register into the robot network:
